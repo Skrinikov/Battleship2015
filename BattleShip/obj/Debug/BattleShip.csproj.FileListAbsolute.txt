@@ -40,3 +40,11 @@ C:\Users\1430468\Desktop\BattleShip\BattleShip\obj\Debug\MainWindow.baml
 C:\Users\1430468\Desktop\BattleShip\BattleShip\obj\Debug\BattleShip.g.resources
 C:\Users\1430468\Desktop\BattleShip\BattleShip\obj\Debug\BattleShip.Properties.Resources.resources
 C:\Users\1430468\Desktop\BattleShip\BattleShip\obj\Debug\BattleShip.csproj.GenerateResource.Cache
+C:\Users\1430468\Source\Repos\Battleship20153\BattleShip\bin\Debug\BattleShip.exe.config
+C:\Users\1430468\Source\Repos\Battleship20153\BattleShip\obj\Debug\BattleShip.exe
+C:\Users\1430468\Source\Repos\Battleship20153\BattleShip\obj\Debug\BattleShip.pdb
+C:\Users\1430468\Source\Repos\Battleship20153\BattleShip\obj\Debug\BattleShip.csprojResolveAssemblyReference.cache
+C:\Users\1430468\Source\Repos\Battleship20153\BattleShip\obj\Debug\MainWindow.g.cs
+C:\Users\1430468\Source\Repos\Battleship20153\BattleShip\obj\Debug\App.g.cs
+C:\Users\1430468\Source\Repos\Battleship20153\BattleShip\obj\Debug\BattleShip_MarkupCompile.cache
+C:\Users\1430468\Source\Repos\Battleship20153\BattleShip\obj\Debug\BattleShip_MarkupCompile.lref
