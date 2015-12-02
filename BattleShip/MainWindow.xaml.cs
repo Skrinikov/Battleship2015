@@ -35,6 +35,7 @@ namespace BattleShip
         String[] numberPos;
         int[,] player = new int[10, 10];
         int[,] computer = new int[10, 10];
+        BattleshipGame game;
 
         public MainWindow()
         {
@@ -321,8 +322,9 @@ namespace BattleShip
             startBtn.Visibility = Visibility.Hidden;
             menuReset.IsEnabled = false;
             menuNewGame.IsEnabled = true;
-            //game = new BattleshipGame(mode,player);
+            game = new BattleshipGame(mode,player);
             //get computer board array
+                //I do not think you need that... If you do tell me.
         }
 
         private void pcBoardCanvas_Click(object sender, MouseButtonEventArgs e)
@@ -342,9 +344,12 @@ namespace BattleShip
                     }
 
                 // NEED DANIEIL'S PART TO KNOW IF HIT OR MISS FOR PLAYER
+                    //MoveByPlayer(pos)
                 // PC PLAYS
+                    //MoveByComputer()  returns a Point
 
                 //CHECK IF ANYONE WON
+                    //DidPlayerWin()  or DidComputerWin() exists in BattleshipGame          -Danieil
                 //IF WON
 
             }
