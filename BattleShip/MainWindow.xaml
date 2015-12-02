@@ -31,6 +31,14 @@
         <Style TargetType="Label">
             <Setter Property="FontFamily" Value="constantia"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style TargetType="MenuItem">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="constantia"/>
         </Style>
     </Window.Resources>
 
@@ -56,48 +64,41 @@
 
         <!-- Menu -->
         <DockPanel Grid.Row="0" Grid.ColumnSpan ="5">
-            <Menu DockPanel.Dock="Top" Background="#00000000" FontFamily="Constantia">
-                <MenuItem Header="Menu" Height="30" Width="60" Foreground="white" FontSize="15" BorderThickness="0">
-                    <MenuItem x:Name="menuNewGame" Header="New Game" Background="Black" BorderThickness="0" Click="newGame_Click" IsEnabled="false"/>
-                    <MenuItem x:Name="menuReset" Header="Reset" Background="Black" BorderThickness="0" Click="resetBtn_click" IsEnabled="false"/>
-                    <MenuItem x:Name="menuScore" Header="Score Board" Background="Black" BorderThickness="0" Click="menuScore_Click"/>
-                    <MenuItem Header="Exit" Background="Black" BorderThickness="0" Click="exit_Click"/>
+            <Menu DockPanel.Dock="Top" Background="#00000000">
+                <MenuItem Header="Menu" Height="30" Width="60" FontSize="15" >
+                    <MenuItem x:Name="menuNewGame" Header="New Game"  Click="newGame_Click" IsEnabled="false"/>
+                    <MenuItem x:Name="menuReset" Header="Reset" Click="resetBtn_click" IsEnabled="false"/>
+                    <MenuItem x:Name="menuScore" Header="Score Board" Click="menuScore_Click"/>
+                    <MenuItem Header="Exit" Click="exit_Click"/>
                 </MenuItem>
-                <MenuItem Header="Mode" Height="30" Width="60" Foreground="White" FontSize="15" BorderThickness="0">
-                    <MenuItem x:Name="menuEasy" Header="Easy" Tag="easyMode" Background="Black" BorderThickness="0" IsEnabled="False" Click="menuMode_Click"/>
-                    <MenuItem x:Name="menuNormal" Header="Normal" Tag="normalMode" Background="Black" BorderThickness="0" IsEnabled="False" Click="menuMode_Click"/>
-                    <MenuItem  x:Name="menuHard" Header="Hard" Tag="hardMode" Background="Black" BorderThickness="0" IsEnabled="False" Click="menuMode_Click"/>
+                <MenuItem Header="Mode" Height="30" Width="60" FontSize="15" >
+                    <MenuItem x:Name="menuEasy" Header="Easy" Tag="easyMode"  IsEnabled="False" Click="menuMode_Click"/>
+                    <MenuItem x:Name="menuNormal" Header="Normal" Tag="normalMode"  IsEnabled="False" Click="menuMode_Click"/>
+                    <MenuItem  x:Name="menuHard" Header="Hard" Tag="hardMode"  IsEnabled="False" Click="menuMode_Click"/>
                 </MenuItem>
                 <!-- <MenuItem Header="Language" Height="30" Width="80" Foreground="White" FontSize="15" BorderThickness="0">
                     <MenuItem Header="English" Background="Black" BorderThickness="0" IsEnabled="false"/>
                     <MenuItem Header="French" Background="Black" BorderThickness="0"/>
                 </MenuItem>-->
-                <MenuItem Header="How To Play" Height="30" Width="100" Foreground="White" FontSize="15" BorderThickness="0" Click="howToPlay_Click"/>
-                <MenuItem Header="Credits" Height="30" Width="70" Foreground="White" FontSize="15" BorderThickness="0" Click="credit_Click"/>
+                <MenuItem Header="How To Play" Height="30" Width="100" FontSize="15" Click="howToPlay_Click"/>
+                <MenuItem Header="Credits" Height="30" Width="70" FontSize="15"  Click="credit_Click"/>
             </Menu>
         </DockPanel>
 
         <!-- Game visuals-->
         <Label Style="{x:Null}" Grid.Row="1" Grid.ColumnSpan="5" BorderBrush="White" BorderThickness="2"/>
 
-        <Label x:Name="playerNameRecordLbl" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" FontWeight="Bold" 
-               FontSize="25" FontFamily="Constantia" Foreground="LightGoldenrodYellow">PlayerName:</Label>
+        <Label x:Name="playerNameRecordLbl" Grid.Row="1" Grid.Column="1" FontWeight="Bold" FontSize="25" >PlayerName:</Label>
 
-        <Label x:Name="playerWinRecordLbl" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" FontWeight="Bold" 
-               FontSize="25" FontFamily="Constantia" Foreground="LightGoldenrodYellow">Wins:</Label>
+        <Label x:Name="playerWinRecordLbl" Grid.Row="1" Grid.Column="2" FontWeight="Bold" FontSize="25" >Wins:</Label>
 
-        <Label x:Name="playerLossRecordLbl" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" FontWeight="Bold" 
-               FontSize="25" FontFamily="Constantia" Foreground="LightGoldenrodYellow">Loses:</Label>
+        <Label x:Name="playerLossRecordLbl" Grid.Row="1" Grid.Column="3" FontWeight="Bold" FontSize="25" >Loses:</Label>
 
-        <Label x:Name="playerNameLbl" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" FontSize="30" FontFamily="Constantia"
-               Foreground="LightGoldenrodYellow">•.• Player •.•</Label>
+        <Label x:Name="playerNameLbl" Grid.Column="1" Grid.Row="3" FontSize="30" >•.• Player •.•</Label>
 
-        <Label Grid.Column="3" Grid.Row="3" HorizontalAlignment="Center" Foreground="LightGoldenrodYellow"
-               FontSize="30" FontFamily="Constantia">•.• Computer •.•</Label>
+        <Label Grid.Column="3" Grid.Row="3" FontSize="30" >•.• Computer •.•</Label>
 
-        <Button x:Name="resetBtn" Grid.Column="2" Grid.Row="3" FontSize="20" Height="35" Width="200" 
-                Click="resetBtn_click">RESET
-        </Button>
+        <Button x:Name="resetBtn" Grid.Column="2" Grid.Row="3" FontSize="20" Height="35" Width="200" Click="resetBtn_click">RESET</Button>
 
         <!-- Player's game board-->
         <Canvas x:Name="playerBoardCanvas" Grid.Row="4" Grid.Column="1" MouseMove="playerCanvas_MouseMove" MouseLeftButtonDown="playerBoardCanvas_LeftClick" MouseRightButtonDown="playerBoardCanvas_RightClick">
@@ -192,10 +193,8 @@
                 <ColumnDefinition Width=".5*"/>
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="1" Grid.ColumnSpan="5" Foreground="White" FontSize="90" VerticalAlignment="Center" HorizontalAlignment="Center"
-                   FontFamily="constantia">• ◄ SpaceBattle ► •</Label>
-            <Label Grid.Row="2" Grid.Column="1" Height="40" Width="150" FontSize="25" VerticalAlignment="Top"
-                    HorizontalAlignment="Center" Background="#00000000" Foreground="White" >Player Name</Label>
+            <Label Grid.Row="1" Grid.ColumnSpan="5" FontSize="90">• ◄ SpaceBattle ► •</Label>
+            <Label Grid.Row="2" Grid.Column="1" Height="40" Width="150" FontSize="25" VerticalAlignment="Top" Background="#00000000">Player Name</Label>
             <TextBox x:Name="nameInputTxt" Grid.Row="2"  Grid.Column="1" Height="40" Width="300" FontSize="25" TextAlignment="Center"
                      Opacity="0.8" Background="#FF2D3034" BorderBrush="White" BorderThickness="2" Foreground="White" PreviewMouseDown="nameInput_click">Enter your name here</TextBox>
             <Label Grid.Row="2" Grid.Column="3" Height="40" Width="75" FontSize="25" VerticalAlignment="Top"
