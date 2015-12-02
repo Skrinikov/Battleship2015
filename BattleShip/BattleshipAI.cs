@@ -19,7 +19,7 @@ public class BattleshipAI
     public BattleshipAI()
 	{
         this.difficulty = 0;
-        
+        initializeBoards();
 
 	}
 
@@ -29,6 +29,7 @@ public class BattleshipAI
     {
 
         this.difficulty = difficulty;
+        initializeBoards();
 
     }
 
@@ -186,8 +187,6 @@ public class BattleshipAI
         bool hit = false;
         Point pos;
 
-       
-        if(Hard)
 
         
         for (int i = 0; i < 10 || hit == !true; i++)
@@ -247,6 +246,8 @@ public class BattleshipAI
 
         }
 
+        pos = new Point(5, 5);
+        return pos;
 
     }
 

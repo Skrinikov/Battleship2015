@@ -48,3 +48,9 @@ C:\Users\1430468\Source\Repos\Battleship20153\BattleShip\obj\Debug\MainWindow.g.
 C:\Users\1430468\Source\Repos\Battleship20153\BattleShip\obj\Debug\App.g.cs
 C:\Users\1430468\Source\Repos\Battleship20153\BattleShip\obj\Debug\BattleShip_MarkupCompile.cache
 C:\Users\1430468\Source\Repos\Battleship20153\BattleShip\obj\Debug\BattleShip_MarkupCompile.lref
+C:\Users\1430468\Source\Repos\Battleship20156\BattleShip\obj\Debug\BattleShip.exe
+C:\Users\1430468\Source\Repos\Battleship20156\BattleShip\obj\Debug\MainWindow.g.cs
+C:\Users\1430468\Source\Repos\Battleship20156\BattleShip\obj\Debug\App.g.cs
+C:\Users\1430468\Source\Repos\Battleship20156\BattleShip\obj\Debug\BattleShip_MarkupCompile.cache
+C:\Users\1430468\Source\Repos\Battleship20156\BattleShip\obj\Debug\BattleShip_MarkupCompile.lref
+C:\Users\1430468\Source\Repos\Battleship20156\BattleShip\obj\Debug\BattleShip.pdb

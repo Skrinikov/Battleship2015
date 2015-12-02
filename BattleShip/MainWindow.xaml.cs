@@ -325,6 +325,8 @@ namespace BattleShip
             game = new BattleshipGame(mode,player);
             //get computer board array
                 //I do not think you need that... If you do tell me.
+
+            game.MoveByPlayer(new Point(5,5));
         }
 
         private void pcBoardCanvas_Click(object sender, MouseButtonEventArgs e)
