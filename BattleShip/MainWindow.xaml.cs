@@ -4,6 +4,7 @@ using System.Media;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 /**
 * A version of  the Battleship game with a space theme.
@@ -28,7 +29,6 @@ namespace BattleShip
         bool canPlace = true;
         Point pos;
         String playerName = null;
-        //String playerWins = null;
         //String playerLosses = null;
         Image[] pieces;
         Image[] piecesFlipped;
@@ -345,7 +345,9 @@ namespace BattleShip
                     }
 
                 if (game.MoveByPlayer(pos))
-                    playerMove[moveCounter].Source = ;
+                    playerMove[moveCounter].Source = (BitmapImage)FindResource("hit");
+                else
+                    playerMove[moveCounter].Source = (BitmapImage)FindResource("miss");
                 // NEED DANIEIL'S PART TO KNOW IF HIT OR MISS FOR PLAYER
                 // PC PLAYS
 
