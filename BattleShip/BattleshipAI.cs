@@ -8,7 +8,6 @@ public class BattleshipAI
     private int[,] computerShipBoard;
     private int[,] computerHitsBoard;
     Point lastHit;
-    Point direction;
 
     Random r = new Random();
 
@@ -46,6 +45,7 @@ public class BattleshipAI
         int direction;
         int x, y;
         bool isLegalLocation = true;
+        bool firstPass = false;
 
         //1x4
         //1x3
@@ -58,7 +58,7 @@ public class BattleshipAI
         for (int i = 0; i < 7; i++)
         {
 
-            direction = r.Next(0, 1);
+            direction = r.Next(0, 2);
             isLegalLocation = true;
 
                 if (direction == 0)
@@ -80,8 +80,11 @@ public class BattleshipAI
 
                         for (int j = 0; j < boatSize; j++)
                         {
-                            computerShipBoard[x,y + j] = 1;
-                            boatSize--;
+                            if (boatSize != 1)
+                                computerShipBoard[x,y + j] = 1;
+                            else
+                                computerShipBoard[x, y + j] = 2;
+                            
                         }
 
                     }
@@ -109,15 +112,33 @@ public class BattleshipAI
 
                         for (int j = 0; j < boatSize; j++)
                         {
-                            computerShipBoard[x + j,y] = 1;
-                            boatSize--;
+                            if(boatSize != 1)
+                                computerShipBoard[x + j, y] = 1;
+                            else
+                                computerShipBoard[x + j, y] = 2;
+
                         }
 
                     }
                     else
+                    {
                         i--;
+                        continue;
+                    }
 
                 }//End of outer if else.
+
+                if (firstPass)
+                {
+                    firstPass = false;
+                }
+                else
+                {
+                    firstPass = true;
+                    boatSize--;
+                }
+
+
             
         }//End of for.
     }//End of Initialize boards.
