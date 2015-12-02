@@ -27,6 +27,8 @@
             <Setter Property="FontSize" Value="25"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
         </Style>
         <Style TargetType="Label">
             <Setter Property="FontFamily" Value="constantia"/>
@@ -197,8 +199,7 @@
             <Label Grid.Row="2" Grid.Column="1" Height="40" Width="150" FontSize="25" VerticalAlignment="Top" Background="#00000000">Player Name</Label>
             <TextBox x:Name="nameInputTxt" Grid.Row="2"  Grid.Column="1" Height="40" Width="300" FontSize="25" TextAlignment="Center"
                      Opacity="0.8" Background="#FF2D3034" BorderBrush="White" BorderThickness="2" Foreground="White" PreviewMouseDown="nameInput_click">Enter your name here</TextBox>
-            <Label Grid.Row="2" Grid.Column="3" Height="40" Width="75" FontSize="25" VerticalAlignment="Top"
-                    HorizontalAlignment="Center" Background="#00000000" Foreground="White" >Mode</Label>
+            <Label Grid.Row="2" Grid.Column="3" Height="40" Width="75" FontSize="25" VerticalAlignment="Top" Background="#00000000" >Mode</Label>
             <Button x:Name="easyModeBtn" Tag="easyMode" Grid.Row="2" Grid.Column="3" Height="50" Width="300" FontSize="25"
                     Click="welcomeModeBtn_click" IsEnabled="False" >Easy</Button>
             <Button x:Name="normalModeBtn" Tag="normalMode" Grid.Row="3" Grid.Column="3" Height="50" Width="300" FontSize="25"
@@ -231,35 +232,24 @@
                 <ColumnDefinition Width=".5*"/>
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="1" Grid.ColumnSpan="5" Foreground="White" HorizontalAlignment="Center"
-                   VerticalAlignment="Center" FontSize="70" FontFamily="constantia">◄ Credits ►</Label>
+            <Label Grid.Row="1" Grid.ColumnSpan="5" FontSize="70">◄ Credits ►</Label>
             <!-- Program author -->
-            <Label x:Name="authorLbl" Grid.Row="2" Grid.Column="1" Foreground="White" FontFamily="Constantia"
-                   FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="UltraBlack">Author</Label>
-            <Label Grid.Row="3" Grid.Column="1" Foreground="White" FontSize="30" FontFamily="Constantia"
-                   VerticalAlignment="Center" HorizontalAlignment="Center">Uen Yi (Cindy) Hung</Label>
-            <Label Grid.Row="4" Grid.Column="1" Foreground="White" FontSize="30" FontFamily="Constantia"
-                   VerticalAlignment="Center" HorizontalAlignment="Center">Claudio Pietrantonio</Label>
-            <Label Grid.Row="5" Grid.Column="1" Foreground="White" FontSize="30" FontFamily="Constantia"
-                   VerticalAlignment="Center" HorizontalAlignment="Center">Danieil Skrinikov</Label>
-            <Label Grid.Row="6" Grid.Column="1" Foreground="White" FontSize="20" FontFamily="Constantia"
-                   VerticalAlignment="Center" HorizontalAlignment="Center">Version: 29/11/2015</Label>
+            <Label Grid.Row="2" Grid.Column="1" FontSize="30" FontWeight="UltraBlack">Author</Label>
+            <Label Grid.Row="3" Grid.Column="1" FontSize="30" >Uen Yi (Cindy) Hung</Label>
+            <Label Grid.Row="4" Grid.Column="1" FontSize="30" >Claudio Pietrantonio</Label>
+            <Label Grid.Row="5" Grid.Column="1" FontSize="30" >Danieil Skrinikov</Label>
+            <Label Grid.Row="6" Grid.Column="1" FontSize="20" >Version: 29/11/2015</Label>
 
             <!-- Resources -->
-            <Label x:Name="imgCredit" Grid.Row="2" Grid.Column="3" Foreground="White" FontFamily="Constantia"
-                   FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="UltraBlack">Image Credits</Label>
-            <Label Grid.Row="3" Grid.Column="3" Foreground="White" FontSize="30" FontFamily="Constantia"
-                   VerticalAlignment="Center" HorizontalAlignment="Center">Ships: Mallacore (Ryan Begemann)</Label>
-            <Label Grid.Row="4" Grid.Column="3" Foreground="White" FontSize="30" FontFamily="Constantia"
-                   VerticalAlignment="Center" HorizontalAlignment="Center">Background: Google image</Label>
+            <Label x:Name="imgCredit" Grid.Row="2" Grid.Column="3" FontSize="30" FontWeight="UltraBlack">Image Credits</Label>
+            <Label Grid.Row="3" Grid.Column="3" FontSize="30" >Ships: Mallacore (Ryan Begemann)</Label>
+            <Label Grid.Row="4" Grid.Column="3" FontSize="30" >Background: Google image</Label>
 
-            <Button Grid.Row="6" Grid.Column="2" Height="35" Width="100" FontSize="15" 
-                    FontFamily="constantia" Click="creditOk_Click">OK</Button>
+            <Button Grid.Row="6" Grid.Column="2" Height="35" Width="100" FontSize="15" Click="creditOk_Click">OK</Button>
         </Grid>
 
         <!-- How to Play-->
-        <Grid x:Name="howToPlayGrid" Grid.ColumnSpan="5" HorizontalAlignment="Left" Height="590" Grid.RowSpan="5" 
-              VerticalAlignment="Bottom" Width="1250" Visibility="Hidden" Grid.Row="1">
+        <Grid x:Name="howToPlayGrid" Grid.ColumnSpan="5" Height="590" Grid.RowSpan="5" VerticalAlignment="Bottom" Width="1250" Visibility="Hidden" Grid.Row="1">
             <Grid.Background>
                 <ImageBrush ImageSource="Resources/bkg.jpg"/>
             </Grid.Background>
@@ -271,15 +261,12 @@
                 <RowDefinition Height=".5*"/>
             </Grid.RowDefinitions>
 
-            <Label x:Name="howToPlayLbl" Grid.Row="1" Foreground="White" FontFamily="constantia"
-                   FontSize="70" VerticalAlignment="Center" HorizontalAlignment="Center">◄ How To Play ►</Label>
-            <TextBlock x:Name="howToPlayTxtB" Grid.Row="2" Foreground="White" FontFamily="constantia" FontSize="20" FontWeight="ExtraBlack" VerticalAlignment="Center"
-                       HorizontalAlignment="Center">GOAL: Sink all of your ennemi's ships without hitting their space mines.<LineBreak/><LineBreak/><LineBreak/>
+            <Label x:Name="howToPlayLbl" Grid.Row="1" FontSize="70">◄ How To Play ►</Label>
+            <TextBlock x:Name="howToPlayTxtB" Grid.Row="2" FontSize="20" FontWeight="ExtraBlack" VerticalAlignment="Center">GOAL: Sink all of your ennemi's ships without hitting their space mines.<LineBreak/><LineBreak/><LineBreak/>
                        SETUP: Place your ships and mines onto your board strategically. <LineBreak/><LineBreak/><LineBreak/>
                        PLAY: Turn by turn, click on a square on the ennemi's board to strike. <LineBreak/><LineBreak/>
                        If you hit a ship, a red peg will show up at that spot otherwise a white peg will be shown.</TextBlock>
-            <Button Grid.Row="3" Height="35" Width="100" FontSize="15" 
-                    FontFamily="constantia" Click="howToPlayOk_Click">OK</Button>
+            <Button Grid.Row="3" Height="35" Width="100" FontSize="15" Click="howToPlayOk_Click">OK</Button>
         </Grid>
 
         <!-- Score Board-->
@@ -301,8 +288,7 @@
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
 
-            <Label x:Name="scoreBoardLbl" Grid.Row="1" Grid.Column="1" Foreground="White" FontFamily="constantia"
-                   FontSize="70" VerticalAlignment="Center" HorizontalAlignment="Center">◄ Score Board ►</Label>
+            <Label x:Name="scoreBoardLbl" Grid.Row="1" Grid.Column="1" FontSize="70">◄ Score Board ►</Label>
 
             <DockPanel Grid.Row="2" Grid.Column="1">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">

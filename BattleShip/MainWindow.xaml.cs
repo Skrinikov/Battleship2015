@@ -348,6 +348,8 @@ namespace BattleShip
                     playerMove[moveCounter].Source = (BitmapImage)FindResource("hit");
                 else
                     playerMove[moveCounter].Source = (BitmapImage)FindResource("miss");
+
+                moveCounter++;
                 // NEED DANIEIL'S PART TO KNOW IF HIT OR MISS FOR PLAYER
                 // PC PLAYS
 
