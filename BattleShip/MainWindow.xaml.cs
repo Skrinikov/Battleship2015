@@ -23,6 +23,7 @@ namespace BattleShip
         int b = 0;
         int counter = 0;
         int mode = 0;
+        int moveCounter = 0;
         BattleshipGame game;
         bool canPlace = true;
         Point pos;
@@ -32,6 +33,7 @@ namespace BattleShip
         Image[] pieces;
         Image[] piecesFlipped;
         Image[] set;
+        Image[] playerMove = new Image[100];
         String[] letterPos;
         String[] numberPos;
         int[,] player = new int[10, 10];
@@ -323,8 +325,7 @@ namespace BattleShip
             startBtn.Visibility = Visibility.Hidden;
             menuReset.IsEnabled = false;
             menuNewGame.IsEnabled = true;
-            //game = new BattleshipGame(mode,player);
-            //get computer board array
+            game = new BattleshipGame(mode,player);
         }
 
         private void pcBoardCanvas_Click(object sender, MouseButtonEventArgs e)
@@ -343,6 +344,8 @@ namespace BattleShip
                         pos.Y = (((int)pos.Y) / 40) * 40.0;
                     }
 
+                if (game.MoveByPlayer(pos))
+                    playerMove[moveCounter].Source = ;
                 // NEED DANIEIL'S PART TO KNOW IF HIT OR MISS FOR PLAYER
                 // PC PLAYS
 
