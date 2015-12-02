@@ -8,7 +8,6 @@ public class BattleshipAI
     private int[,] computerShipBoard;
     private int[,] computerHitsBoard;
     Point lastHit;
-    Point direction;
 
     Random r = new Random();
 
@@ -46,6 +45,7 @@ public class BattleshipAI
         int direction;
         int x, y;
         bool isLegalLocation = true;
+        bool firstPass = false;
 
         //1x4
         //1x3
@@ -58,7 +58,7 @@ public class BattleshipAI
         for (int i = 0; i < 7; i++)
         {
 
-            direction = r.Next(0, 1);
+            direction = r.Next(0, 2);
             isLegalLocation = true;
 
                 if (direction == 0)
@@ -80,8 +80,11 @@ public class BattleshipAI
 
                         for (int j = 0; j < boatSize; j++)
                         {
-                            computerShipBoard[x,y + j] = 1;
-                            boatSize--;
+                            if (boatSize != 1)
+                                computerShipBoard[x,y + j] = 1;
+                            else
+                                computerShipBoard[x, y + j] = 2;
+                            
                         }
 
                     }
@@ -109,15 +112,33 @@ public class BattleshipAI
 
                         for (int j = 0; j < boatSize; j++)
                         {
-                            computerShipBoard[x + j,y] = 1;
-                            boatSize--;
+                            if(boatSize != 1)
+                                computerShipBoard[x + j, y] = 1;
+                            else
+                                computerShipBoard[x + j, y] = 2;
+
                         }
 
                     }
                     else
+                    {
                         i--;
+                        continue;
+                    }
 
                 }//End of outer if else.
+
+                if (firstPass)
+                {
+                    firstPass = false;
+                }
+                else
+                {
+                    firstPass = true;
+                    boatSize--;
+                }
+
+
             
         }//End of for.
     }//End of Initialize boards.
@@ -188,58 +209,66 @@ public class BattleshipAI
         Point pos;
 
 
-        
-        for (int i = 0; i < 10 || hit == !true; i++)
+
+        int[] possibleValues = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+        for (int i = 0; i < 10; i++)
         {
 
-            for (int j = (i + 5) % 10; j < 10; j++)
+            int k = r.Next(0, 10);
+
+            if (possibleValues[k] != k)
+            {
+                i--;
+                continue;
+            }
+            else
+            {
+                possibleValues[k] = -1;
+            }
+
+            if (r.Next(0, 2) == 1)
             {
 
-                if (computerHitsBoard[i, j] == 0)
+                int j = k;
+
+                if (computerHitsBoard[k, j] == 0)
                 {
 
-                    pos = new Point(i, j);
-                    lastHit = new Point(i, j);
+                    pos = new Point(k, j);
+                    lastHit = new Point(k, j);
                     return pos;
+                }
+                j = (j + 5) % 10;
+                if (computerHitsBoard[k, j] == 0)
+                {
 
+                    pos = new Point(k, j);
+                    lastHit = new Point(k, j);
+                    return pos;
                 }
 
             }
-
-        }
-        //2nd pattern
-        for (int i = 3; i < 10 || hit == !true; i++)
-        {
-
-            for (int j = (i + 5) % 10; j < 10; j++)
+            else
             {
+                int j = k;
 
-                if (computerHitsBoard[i, j] == 0)
+                j = (j + 5) % 10;
+                if (computerHitsBoard[k, j] == 0)
                 {
 
-                    pos = new Point(i, j);
-                    lastHit = new Point(i, j);
+                    pos = new Point(k, j);
+                    lastHit = new Point(k, j);
                     return pos;
-
                 }
 
-            }
-
-        }
-        //Third Pattern.
-        for (int i = 1; i < 10 || hit == !true; i++)
-        {
-
-            for (int j = (i + 5) % 10; j < 10; j++)
-            {
-
-                if (computerHitsBoard[i, j] == 0)
+                j = (j + 5) % 10;
+                if (computerHitsBoard[k, j] == 0)
                 {
 
-                    pos = new Point(i, j);
-                    lastHit = new Point(i, j);
+                    pos = new Point(k, j);
+                    lastHit = new Point(k, j);
                     return pos;
-
                 }
 
             }
@@ -262,5 +291,76 @@ public class BattleshipAI
         return true;
 
     }
+
+   /* private void temp()
+    {
+
+        int[] possibleValues = { 0,1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+        for (int i = 0; i < 10; i++)
+        {
+
+            int k = r.Next(0, 10);
+
+            if (possibleValues[k] != k)
+            {
+                i--;
+                continue;
+            }
+            else
+            {
+                possibleValues[k] = -1;
+            }
+
+            if (r.Next(0, 2) == 1)
+            {
+
+                int j = k;
+
+                if (computerHitsBoard[k, j] == 0)
+                {
+
+                    pos = new Point(k, j);
+                    lastHit = new Point(k, j);
+                    return pos;
+                }
+                j = (j + 5) % 10;
+                if (computerHitsBoard[k, j] == 0)
+                {
+
+                    pos = new Point(k, j);
+                    lastHit = new Point(k, j);
+                    return pos;
+                }
+
+            }
+            else
+            {
+                int j = k;
+
+                j = (j + 5) % 10;
+                if (computerHitsBoard[k, j] == 0)
+                {
+
+                    pos = new Point(k, j);
+                    lastHit = new Point(k, j);
+                    return pos;
+                }
+
+                j = (j + 5) % 10;
+                if (computerHitsBoard[k, j] == 0)
+                {
+
+                    pos = new Point(k, j);
+                    lastHit = new Point(k, j);
+                    return pos;
+                }
+
+            }
+            
+        }
+
+
+    }*/
 
 }
