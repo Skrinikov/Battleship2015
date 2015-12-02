@@ -54,3 +54,4 @@ C:\Users\1430468\Source\Repos\Battleship20156\BattleShip\obj\Debug\App.g.cs
 C:\Users\1430468\Source\Repos\Battleship20156\BattleShip\obj\Debug\BattleShip_MarkupCompile.cache
 C:\Users\1430468\Source\Repos\Battleship20156\BattleShip\obj\Debug\BattleShip_MarkupCompile.lref
 C:\Users\1430468\Source\Repos\Battleship20156\BattleShip\obj\Debug\BattleShip.pdb
+C:\Users\Hung1_000\Documents\GitHub\Battleship2015\BattleShip\bin\Debug\BattleShip.exe.config
