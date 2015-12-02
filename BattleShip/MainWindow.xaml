@@ -9,8 +9,8 @@
         Title="Battle Ship" Height="650" Width="1250" ResizeMode="NoResize">
 
     <Window.Resources>
-        <BitmapImage x:Name="hit" x:Key="hit" UriSource="Resources/hit.png"/>
-        <BitmapImage x:Name="miss" x:Key="miss" UriSource="Resources/miss.png"/>
+        <Image x:Name="hit" x:Key="hitImg" Source="Resources/hit.png"/>
+        <Image x:Name="miss" x:Key="missImg" Source="Resources/miss.png"/>
         <Style TargetType="Button">
             <Setter Property="Background" Value="#FF2D3034"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -146,6 +146,10 @@
             <Canvas.Background>
                 <ImageBrush Stretch="Fill" ImageSource="Resources/pcgrid.png" AlignmentY="Top" AlignmentX="Center"/>
             </Canvas.Background>
+            <Image x:Name="hit" Height="40" Canvas.Left="40" Canvas.Top="44" Width="40" 
+                   Source="Resources/hit.png" Visibility="Hidden"/>
+            <Image x:Name="miss" Height="40" Canvas.Left="40" Canvas.Top="44" Width="40" 
+                   Source="Resources/miss.png" Visibility="Hidden"/>
         </Canvas>
 
         <!-- The ship yard -->

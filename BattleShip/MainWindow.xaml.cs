@@ -325,7 +325,7 @@ namespace BattleShip
             startBtn.Visibility = Visibility.Hidden;
             menuReset.IsEnabled = false;
             menuNewGame.IsEnabled = true;
-            game = new BattleshipGame(mode,player);
+            game = new BattleshipGame(mode, player);
         }
 
         private void pcBoardCanvas_Click(object sender, MouseButtonEventArgs e)
@@ -345,9 +345,13 @@ namespace BattleShip
                     }
 
                 if (game.MoveByPlayer(pos))
-                    playerMove[moveCounter].Source = (BitmapImage)FindResource("hit");
+                    playerMove[moveCounter].Source = hit.Source;
+                //playerMove[moveCounter].Source = new BitmapImage(new Uri("Resources/hit.png", UriKind.Relative));
+                // playerMove[moveCounter].Source = ((Image)this.FindResource("hitImg")).Source;
                 else
-                    playerMove[moveCounter].Source = (BitmapImage)FindResource("miss");
+                    playerMove[moveCounter].Source = miss.Source;
+                //  playerMove[moveCounter].Source = new BitmapImage(new Uri("Resources/miss.png", UriKind.Relative));
+                // playerMove[moveCounter].Source = ((Image)this.FindResource("missImg")).Source;
 
                 moveCounter++;
                 // NEED DANIEIL'S PART TO KNOW IF HIT OR MISS FOR PLAYER
@@ -376,7 +380,7 @@ namespace BattleShip
                         recordArray = record.Split(',');
                         scoreRecordTxtB.Text += String.Format("Player: {0,-20} Wins: {1,-5} Loses: {2,-5} \n", recordArray[0], recordArray[1], recordArray[2]);
                     }
-                } while (record != null);                
+                } while (record != null);
             }
 
         }
