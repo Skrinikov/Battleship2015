@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Media;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,7 +23,7 @@ namespace BattleShip
         int b = 0;
         int counter = 0;
         int mode = 0;
-        //BattleshipGame game;
+        BattleshipGame game;
         bool canPlace = true;
         Point pos;
         String playerName = null;
@@ -35,7 +36,6 @@ namespace BattleShip
         String[] numberPos;
         int[,] player = new int[10, 10];
         int[,] computer = new int[10, 10];
-        BattleshipGame game;
 
         public MainWindow()
         {
@@ -56,6 +56,7 @@ namespace BattleShip
                     player[i, j] = 0;
                     computer[i, j] = 0;
                 }
+            loadRecord();
         }
 
         //MENU ITEMS
@@ -111,7 +112,7 @@ namespace BattleShip
                 resetBtn_click(sender, e);
             }
             else
-                MessageBox.Show("Player name must be at least 3 characters long.\n\nLe nom du joueur doit contenir au minimum 3 caractères.", "Error", MessageBoxButton.OK);
+                MessageBox.Show("Player name must be at least 3 characters long.", "Error", MessageBoxButton.OK);
         }
 
         private void credit_Click(object sender, RoutedEventArgs e)
@@ -173,7 +174,7 @@ namespace BattleShip
                     mode = 2;
             }
             else
-                MessageBox.Show("Player name must be at least 3 characters long. \n\nLe nom du joueur doit contenir au minimum 3 caractères.", "Error", MessageBoxButton.OK);
+                MessageBox.Show("Player name must be at least 3 characters long.", "Error", MessageBoxButton.OK);
         }
 
         private void nameInput_click(object sender, MouseButtonEventArgs e)
@@ -322,11 +323,8 @@ namespace BattleShip
             startBtn.Visibility = Visibility.Hidden;
             menuReset.IsEnabled = false;
             menuNewGame.IsEnabled = true;
-            game = new BattleshipGame(mode,player);
+            //game = new BattleshipGame(mode,player);
             //get computer board array
-                //I do not think you need that... If you do tell me.
-
-            game.MoveByPlayer(new Point(5,5));
         }
 
         private void pcBoardCanvas_Click(object sender, MouseButtonEventArgs e)
@@ -346,16 +344,35 @@ namespace BattleShip
                     }
 
                 // NEED DANIEIL'S PART TO KNOW IF HIT OR MISS FOR PLAYER
-                    //MoveByPlayer(pos)
                 // PC PLAYS
-                    //MoveByComputer()  returns a Point
 
                 //CHECK IF ANYONE WON
-                    //DidPlayerWin()  or DidComputerWin() exists in BattleshipGame          -Danieil
                 //IF WON
 
             }
         }
-        
+
+        // OTHER
+        private void loadRecord()
+        {
+            String record;
+            String[] recordArray;
+            if (File.Exists("record.txt"))
+            {
+                StreamReader sr = new StreamReader("record.txt");
+
+                do
+                {
+                    record = sr.ReadLine();
+                    if (record != null && record.Split(',').Length == 3)
+                    {
+                        recordArray = record.Split(',');
+                        scoreRecordTxtB.Text += String.Format("Player: {0,-20} Wins: {1,-5} Loses: {2,-5} \n", recordArray[0], recordArray[1], recordArray[2]);
+                    }
+                } while (record != null);                
+            }
+
+        }
+
     } // End of partial class.
 } // THE END.
