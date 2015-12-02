@@ -209,58 +209,66 @@ public class BattleshipAI
         Point pos;
 
 
-        
-        for (int i = 0; i < 10 || hit == !true; i++)
+
+        int[] possibleValues = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+        for (int i = 0; i < 10; i++)
         {
 
-            for (int j = (i + 5) % 10; j < 10; j++)
+            int k = r.Next(0, 10);
+
+            if (possibleValues[k] != k)
+            {
+                i--;
+                continue;
+            }
+            else
+            {
+                possibleValues[k] = -1;
+            }
+
+            if (r.Next(0, 2) == 1)
             {
 
-                if (computerHitsBoard[i, j] == 0)
+                int j = k;
+
+                if (computerHitsBoard[k, j] == 0)
                 {
 
-                    pos = new Point(i, j);
-                    lastHit = new Point(i, j);
+                    pos = new Point(k, j);
+                    lastHit = new Point(k, j);
                     return pos;
+                }
+                j = (j + 5) % 10;
+                if (computerHitsBoard[k, j] == 0)
+                {
 
+                    pos = new Point(k, j);
+                    lastHit = new Point(k, j);
+                    return pos;
                 }
 
             }
-
-        }
-        //2nd pattern
-        for (int i = 3; i < 10 || hit == !true; i++)
-        {
-
-            for (int j = (i + 5) % 10; j < 10; j++)
+            else
             {
+                int j = k;
 
-                if (computerHitsBoard[i, j] == 0)
+                j = (j + 5) % 10;
+                if (computerHitsBoard[k, j] == 0)
                 {
 
-                    pos = new Point(i, j);
-                    lastHit = new Point(i, j);
+                    pos = new Point(k, j);
+                    lastHit = new Point(k, j);
                     return pos;
-
                 }
 
-            }
-
-        }
-        //Third Pattern.
-        for (int i = 1; i < 10 || hit == !true; i++)
-        {
-
-            for (int j = (i + 5) % 10; j < 10; j++)
-            {
-
-                if (computerHitsBoard[i, j] == 0)
+                j = (j + 5) % 10;
+                if (computerHitsBoard[k, j] == 0)
                 {
 
-                    pos = new Point(i, j);
-                    lastHit = new Point(i, j);
+                    pos = new Point(k, j);
+                    lastHit = new Point(k, j);
                     return pos;
-
                 }
 
             }
@@ -283,5 +291,76 @@ public class BattleshipAI
         return true;
 
     }
+
+   /* private void temp()
+    {
+
+        int[] possibleValues = { 0,1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+        for (int i = 0; i < 10; i++)
+        {
+
+            int k = r.Next(0, 10);
+
+            if (possibleValues[k] != k)
+            {
+                i--;
+                continue;
+            }
+            else
+            {
+                possibleValues[k] = -1;
+            }
+
+            if (r.Next(0, 2) == 1)
+            {
+
+                int j = k;
+
+                if (computerHitsBoard[k, j] == 0)
+                {
+
+                    pos = new Point(k, j);
+                    lastHit = new Point(k, j);
+                    return pos;
+                }
+                j = (j + 5) % 10;
+                if (computerHitsBoard[k, j] == 0)
+                {
+
+                    pos = new Point(k, j);
+                    lastHit = new Point(k, j);
+                    return pos;
+                }
+
+            }
+            else
+            {
+                int j = k;
+
+                j = (j + 5) % 10;
+                if (computerHitsBoard[k, j] == 0)
+                {
+
+                    pos = new Point(k, j);
+                    lastHit = new Point(k, j);
+                    return pos;
+                }
+
+                j = (j + 5) % 10;
+                if (computerHitsBoard[k, j] == 0)
+                {
+
+                    pos = new Point(k, j);
+                    lastHit = new Point(k, j);
+                    return pos;
+                }
+
+            }
+            
+        }
+
+
+    }*/
 
 }
