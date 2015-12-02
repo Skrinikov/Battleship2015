@@ -9,33 +9,29 @@
         Title="Battle Ship" Height="650" Width="1250" ResizeMode="NoResize">
 
     <Window.Resources>
-        <ResourceDictionary>
-            <Image x:Name="startPic" x:Key="startPic" Source="Resources/start2.gif"/>
-            <Image x:Name="defeatPic" x:Key="defeatPic" Source="Resources/defeat.gif"/>
-            <Image x:Name="viatoryPic" x:Key="victoryPic" Source="Resources/victory.gif"/>
-            <Style TargetType="Button">
-                <Setter Property="Background" Value="#FF2D3034"/>
-                <Setter Property="HorizontalAlignment" Value="Center"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="BorderThickness" Value="3"/>
-                <Setter Property="BorderBrush" Value="White"/>
-                <Setter Property="Foreground" Value="White"/>
-                <Setter Property="Opacity" Value="0.8"/>
-                <Setter Property="FontFamily" Value="constantia"/>
-            </Style>
-            <Style TargetType="TextBlock">
-                <Setter Property="TextWrapping" Value="Wrap"/>
-                <Setter Property="FontFamily" Value="constantia"/>
-                <Setter Property="FontSize" Value="25"/>
-                <Setter Property="Foreground" Value="White"/>
-                <Setter Property="TextAlignment" Value="Center"/>
-            </Style>
-            <Style TargetType="Label">
-                <Setter Property="FontFamily" Value="constantia"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-            </Style>
-
-        </ResourceDictionary>
+        <BitmapImage x:Name="hit" x:Key="hit" UriSource="Resources/hit.png"/>
+        <BitmapImage x:Name="miss" x:Key="miss" UriSource="Resources/miss.png"/>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#FF2D3034"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Opacity" Value="0.8"/>
+            <Setter Property="FontFamily" Value="constantia"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="FontFamily" Value="constantia"/>
+            <Setter Property="FontSize" Value="25"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="constantia"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
     </Window.Resources>
 
     <Grid Name ="mainGrid">
@@ -50,7 +46,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="3*"/>
             <RowDefinition Height=".5*"/>
             <RowDefinition Height="2*"/>
@@ -176,7 +172,7 @@
 
         <!-- Welcome page/grid-->
         <Grid x:Name="welcomeGrid" Grid.ColumnSpan="5" HorizontalAlignment="Left" Height="590" Grid.RowSpan="5" 
-              VerticalAlignment="Bottom" Width="1250" Visibility="Hidden" Grid.Row="1">
+              VerticalAlignment="Bottom" Width="1250" Visibility="Visible" Grid.Row="1">
             <Grid.Background>
                 <ImageBrush ImageSource="Resources/bkg.jpg"/>
             </Grid.Background>
