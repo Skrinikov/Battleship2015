@@ -1,0 +1,311 @@
+﻿<Window x:Class="BattleShip.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
+        xmlns:local="clr-namespace:BattleShip"
+        mc:Ignorable="d"
+        Title="Battle Ship" Height="650" Width="1250" ResizeMode="NoResize">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <Image x:Name="startPic" x:Key="startPic" Source="Resources/start2.gif"/>
+            <Image x:Name="defeatPic" x:Key="defeatPic" Source="Resources/defeat.gif"/>
+            <Image x:Name="viatoryPic" x:Key="victoryPic" Source="Resources/victory.gif"/>
+            <Style TargetType="Button">
+                <Setter Property="Background" Value="#FF2D3034"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="BorderThickness" Value="3"/>
+                <Setter Property="BorderBrush" Value="White"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Opacity" Value="0.8"/>
+                <Setter Property="FontFamily" Value="constantia"/>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <Grid Name ="mainGrid">
+        <Grid.Background>
+            <ImageBrush Stretch="Fill" ImageSource="Resources/bkg.jpg" AlignmentY="Top" AlignmentX="Center"/>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30px"/>
+            <ColumnDefinition Width="440px"/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="440px"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height=".5*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="440px"/>
+            <RowDefinition Height=".5*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Menu -->
+        <DockPanel Grid.Row="0" Grid.ColumnSpan ="5">
+            <Menu DockPanel.Dock="Top" Background="#00000000" FontFamily="Constantia">
+                <MenuItem Header="Menu" Height="30" Width="60" Foreground="white" FontSize="15" BorderThickness="0">
+                    <MenuItem x:Name="menuNewGame" Header="New Game" Background="Black" BorderThickness="0" Click="newGame_Click" IsEnabled="false"/>
+                    <MenuItem x:Name="menuReset" Header="Reset" Background="Black" BorderThickness="0" Click="resetBtn_click" IsEnabled="false"/>
+                    <MenuItem x:Name="menuScore" Header="Score Board" Background="Black" BorderThickness="0" Click="menuScore_Click"/>
+                    <MenuItem Header="Exit" Background="Black" BorderThickness="0" Click="exit_Click"/>
+                </MenuItem>
+                <MenuItem Header="Mode" Height="30" Width="60" Foreground="White" FontSize="15" BorderThickness="0">
+                    <MenuItem x:Name="menuEasy" Header="Easy" Tag="easyMode" Background="Black" BorderThickness="0" IsEnabled="False" Click="menuMode_Click"/>
+                    <MenuItem x:Name="menuNormal" Header="Normal" Tag="normalMode" Background="Black" BorderThickness="0" IsEnabled="False" Click="menuMode_Click"/>
+                    <MenuItem  x:Name="menuHard" Header="Hard" Tag="hardMode" Background="Black" BorderThickness="0" IsEnabled="False" Click="menuMode_Click"/>
+                </MenuItem>
+                <!-- <MenuItem Header="Language" Height="30" Width="80" Foreground="White" FontSize="15" BorderThickness="0">
+                    <MenuItem Header="English" Background="Black" BorderThickness="0" IsEnabled="false"/>
+                    <MenuItem Header="French" Background="Black" BorderThickness="0"/>
+                </MenuItem>-->
+                <MenuItem Header="How To Play" Height="30" Width="100" Foreground="White" FontSize="15" BorderThickness="0" Click="howToPlay_Click"/>
+                <MenuItem Header="Credits" Height="30" Width="70" Foreground="White" FontSize="15" BorderThickness="0" Click="credit_Click"/>
+            </Menu>
+        </DockPanel>
+
+        <!-- Game visuals-->
+        <Label Grid.Row="1" Grid.ColumnSpan="5" BorderBrush="White" BorderThickness="2"/>
+
+        <Label x:Name="playerNameRecordLbl" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" FontWeight="Bold" 
+               FontSize="25" FontFamily="Constantia" Foreground="LightGoldenrodYellow">PlayerName:</Label>
+
+        <Label x:Name="playerWinRecordLbl" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" FontWeight="Bold" 
+               FontSize="25" FontFamily="Constantia" Foreground="LightGoldenrodYellow">Wins:</Label>
+
+        <Label x:Name="playerLossRecordLbl" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" FontWeight="Bold" 
+               FontSize="25" FontFamily="Constantia" Foreground="LightGoldenrodYellow">Loses:</Label>
+
+        <Label x:Name="playerNameLbl" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" FontSize="30" FontFamily="Constantia"
+               Foreground="LightGoldenrodYellow">•.• Player •.•</Label>
+
+        <Label Grid.Column="3" Grid.Row="3" HorizontalAlignment="Center" Foreground="LightGoldenrodYellow"
+               FontSize="30" FontFamily="Constantia">•.• Computer •.•</Label>
+
+        <Button x:Name="resetBtn" Grid.Column="2" Grid.Row="3" FontSize="20" Height="35" Width="200" 
+                Click="resetBtn_click">RESET
+        </Button>
+
+        <!-- Player's game board-->
+        <Canvas x:Name="playerBoardCanvas" Grid.Row="4" Grid.Column="1" MouseMove="playerCanvas_MouseMove" MouseLeftButtonDown="playerBoardCanvas_LeftClick" MouseRightButtonDown="playerBoardCanvas_RightClick">
+            <Canvas.Background>
+                <ImageBrush Stretch="UniformToFill" ImageSource="Resources/grid.png" AlignmentY="Top" AlignmentX="Center"/>
+            </Canvas.Background>
+
+            <!-- horizontal images -->
+            <Image x:Name="piece1" Height="40" Canvas.Left="40" Canvas.Top="44" Width="160" 
+                   Source="Resources/ship1.png" Tag="normal" Visibility="Hidden"/>
+            <Image x:Name="piece2" Height="40" Canvas.Left="40" Canvas.Top="87" Width="120"
+                   Source="Resources/ship3.png" Tag="normal" Visibility="Hidden"/>
+            <Image x:Name="piece3" Height="40" Canvas.Left="40" Canvas.Top="118" Width="120"
+                   Source="Resources/ship3.png" Tag="normal" Visibility="Hidden"/>
+            <Image x:Name="piece4" Height="40" Canvas.Left="40" Canvas.Top="162" Width="80"
+                   Source="Resources/ship4.png" Tag="normal" Visibility="Hidden"/>
+            <Image x:Name="piece5" Height="40" Canvas.Left="40" Canvas.Top="202" Width="80"
+                   Source="Resources/ship4.png" Tag="normal" Visibility="Hidden"/>
+            <Image x:Name="piece6" Height="40" Canvas.Left="40" Canvas.Top="244" Width="40"
+                   Source="Resources/spacemine.png" Tag="normal" Visibility="Hidden"/>
+            <Image x:Name="piece7" Height="40" Canvas.Left="40" Canvas.Top="283" Width="40"
+                   Source="Resources/spacemine.png" Tag="normal" Visibility="Hidden"/>
+
+            <!-- vertical images -->
+            <Image x:Name="piece1f" Height="160" Canvas.Left="40" Canvas.Top="283" Width="40"
+                   Source="Resources/ship1flip.png" Tag="flip" Visibility="Hidden"/>
+            <Image x:Name="piece2f" Height="120" Canvas.Left="40" Canvas.Top="87" Width="40"
+                   Source="Resources/ship3flip.png" Tag="flip" Visibility="Hidden"/>
+            <Image x:Name="piece3f" Height="120" Canvas.Left="40" Canvas.Top="118" Width="40"
+                   Source="Resources/ship3flip.png" Tag="flip" Visibility="Hidden"/>
+            <Image x:Name="piece4f" Height="80" Canvas.Left="40" Canvas.Top="162" Width="40"
+                   Source="Resources/ship4flip.png" Tag="flip" Visibility="Hidden"/>
+            <Image x:Name="piece5f" Height="80" Canvas.Left="40" Canvas.Top="202" Width="40"
+                   Source="Resources/ship4flip.png" Tag="flip" Visibility="Hidden"/>
+            <Image x:Name="piece6f" Height="40" Canvas.Left="40" Canvas.Top="244" Width="40"
+                   Source="Resources/spacemineflip.png" Tag="flip" Visibility="Hidden"/>
+            <Image x:Name="piece7f" Height="40" Canvas.Left="40" Canvas.Top="283" Width="40"
+                   Source="Resources/spacemineflip.png" Tag="flip" Visibility="Hidden"/>
+        </Canvas>
+
+        <!-- Computer game board -->
+        <Canvas Name="pcBoardCanvas" Grid.Row="4" Grid.Column="3" IsEnabled="false" MouseLeftButtonDown="pcBoardCanvas_Click">
+            <Canvas.Background>
+                <ImageBrush Stretch="Fill" ImageSource="Resources/pcgrid.png" AlignmentY="Top" AlignmentX="Center"/>
+            </Canvas.Background>
+        </Canvas>
+
+        <!-- The ship yard -->
+        <Grid Name="shipYard" Grid.Row="4" Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Image x:Name="ship1" Tag="normal" Grid.Row="0" Source="Resources/ship1.png"/>
+            <Image x:Name="ship2" Tag="normal" Grid.Row="1" Source="Resources/ship3.png"/>
+            <Image x:Name="ship3" Tag="normal" Grid.Row="2" Source="Resources/ship3.png"/>
+            <Image x:Name="ship4" Tag="normal" Grid.Row="3" Source="Resources/ship4.png"/>
+            <Image x:Name="ship5" Tag="normal" Grid.Row="4" Source="Resources/ship4.png"/>
+            <Image x:Name="ship6" Tag="normal" Grid.Row="5" Source="Resources/spacemine.png"/>
+            <Image x:Name="ship7" Tag="normal" Grid.Row="6" Source="Resources/spacemine.png" />
+
+            <Button x:Name="startBtn" Grid.Row="0" Height="35"
+                FontSize="20" Visibility="Hidden" Click="startBtn_click" Width="200">START
+            </Button>
+        </Grid>
+
+        <!-- Welcome page/grid-->
+        <Grid x:Name="welcomeGrid" Grid.ColumnSpan="5" HorizontalAlignment="Left" Height="590" Grid.RowSpan="5" 
+              VerticalAlignment="Bottom" Width="1250" Visibility="Visible" Grid.Row="1">
+            <Grid.Background>
+                <ImageBrush ImageSource="Resources/bkg.jpg"/>
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height=".5*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height=".5*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=".5*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width=".5*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="1" Grid.ColumnSpan="5" Foreground="White" FontSize="90" VerticalAlignment="Center" HorizontalAlignment="Center"
+                   FontFamily="constantia">• ◄ SpaceBattle ► •</Label>
+            <Label Grid.Row="2" Grid.Column="1" Height="40" Width="150" FontSize="25" VerticalAlignment="Top"
+                    HorizontalAlignment="Center" Background="#00000000" Foreground="White" >Player Name</Label>
+            <TextBox x:Name="nameInputTxt" Grid.Row="2"  Grid.Column="1" Height="40" Width="300" FontSize="25" TextAlignment="Center"
+                     Opacity="0.8" Background="#FF2D3034" BorderBrush="White" BorderThickness="2" Foreground="White" PreviewMouseDown="nameInput_click">Enter your name here</TextBox>
+            <Label Grid.Row="2" Grid.Column="3" Height="40" Width="75" FontSize="25" VerticalAlignment="Top"
+                    HorizontalAlignment="Center" Background="#00000000" Foreground="White" >Mode</Label>
+            <Button x:Name="easyModeBtn" Tag="easyMode" Grid.Row="2" Grid.Column="3" Height="50" Width="300" FontSize="25"
+                    Click="welcomeModeBtn_click" IsEnabled="False" >Easy</Button>
+            <Button x:Name="normalModeBtn" Tag="normalMode" Grid.Row="3" Grid.Column="3" Height="50" Width="300" FontSize="25"
+                    Click="welcomeModeBtn_click" IsEnabled="False">Normal</Button>
+            <Button x:Name="hardModeBtn" Tag="hardMode" Grid.Row="4" Grid.Column="3" Height="50" Width="300" FontSize="25"
+                     Click="welcomeModeBtn_click" IsEnabled="False" >Hard</Button>
+        </Grid>
+
+        <!-- Credit page -->
+        <Grid x:Name="creditGrid" Grid.ColumnSpan="5" HorizontalAlignment="Left" Height="590" Grid.RowSpan="5" 
+              VerticalAlignment="Bottom" Width="1250" Visibility="Hidden" Grid.Row="1">
+            <Grid.Background>
+                <ImageBrush ImageSource="Resources/bkg.jpg"/>
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height=".5*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height=".5*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=".5*"/>
+                <ColumnDefinition Width="5.5*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="5.5*"/>
+                <ColumnDefinition Width=".5*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="1" Grid.ColumnSpan="5" Foreground="White" HorizontalAlignment="Center"
+                   VerticalAlignment="Center" FontSize="70" FontFamily="constantia">◄ Credits ►</Label>
+            <!-- Program author -->
+            <Label x:Name="authorLbl" Grid.Row="2" Grid.Column="1" Foreground="White" FontFamily="Constantia"
+                   FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="UltraBlack">Author</Label>
+            <Label Grid.Row="3" Grid.Column="1" Foreground="White" FontSize="30" FontFamily="Constantia"
+                   VerticalAlignment="Center" HorizontalAlignment="Center">Uen Yi (Cindy) Hung</Label>
+            <Label Grid.Row="4" Grid.Column="1" Foreground="White" FontSize="30" FontFamily="Constantia"
+                   VerticalAlignment="Center" HorizontalAlignment="Center">Claudio Pietrantonio</Label>
+            <Label Grid.Row="5" Grid.Column="1" Foreground="White" FontSize="30" FontFamily="Constantia"
+                   VerticalAlignment="Center" HorizontalAlignment="Center">Danieil Skrinikov</Label>
+            <Label Grid.Row="6" Grid.Column="1" Foreground="White" FontSize="20" FontFamily="Constantia"
+                   VerticalAlignment="Center" HorizontalAlignment="Center">Version: 29/11/2015</Label>
+
+            <!-- Resources -->
+            <Label x:Name="imgCredit" Grid.Row="2" Grid.Column="3" Foreground="White" FontFamily="Constantia"
+                   FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="UltraBlack">Image Credits</Label>
+            <Label Grid.Row="3" Grid.Column="3" Foreground="White" FontSize="30" FontFamily="Constantia"
+                   VerticalAlignment="Center" HorizontalAlignment="Center">Ships: Mallacore (Ryan Begemann)</Label>
+            <Label Grid.Row="4" Grid.Column="3" Foreground="White" FontSize="30" FontFamily="Constantia"
+                   VerticalAlignment="Center" HorizontalAlignment="Center">Background: Google image</Label>
+
+            <Button Grid.Row="6" Grid.Column="2" Height="35" Width="100" FontSize="15" 
+                    FontFamily="constantia" Click="creditOk_Click">OK</Button>
+        </Grid>
+
+        <!-- How to Play-->
+        <Grid x:Name="howToPlayGrid" Grid.ColumnSpan="5" HorizontalAlignment="Left" Height="590" Grid.RowSpan="5" 
+              VerticalAlignment="Bottom" Width="1250" Visibility="Hidden" Grid.Row="1">
+            <Grid.Background>
+                <ImageBrush ImageSource="Resources/bkg.jpg"/>
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height=".5*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="7*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height=".5*"/>
+            </Grid.RowDefinitions>
+
+            <Label x:Name="howToPlayLbl" Grid.Row="1" Foreground="White" FontFamily="constantia"
+                   FontSize="70" VerticalAlignment="Center" HorizontalAlignment="Center">◄ How To Play ►</Label>
+            <TextBlock x:Name="howToPlayTxtB" Grid.Row="2" Foreground="White" FontFamily="constantia" FontSize="20" FontWeight="ExtraBlack" VerticalAlignment="Center"
+                       HorizontalAlignment="Center">GOAL: Sink all of your ennemi's ships without hitting their space mines.<LineBreak/><LineBreak/><LineBreak/>
+                       SETUP: Place your ships and mines onto your board strategically. <LineBreak/><LineBreak/><LineBreak/>
+                       PLAY: Turn by turn, click on a square on the ennemi's board to strike. <LineBreak/><LineBreak/>
+                       If you hit a ship, a red peg will show up at that spot otherwise a white peg will be shown.</TextBlock>
+            <Button Grid.Row="3" Height="35" Width="100" FontSize="15" 
+                    FontFamily="constantia" Click="howToPlayOk_Click">OK</Button>
+        </Grid>
+
+        <!-- Score Board-->
+        <Grid x:Name="scoreBoardGrid" Grid.ColumnSpan="5" HorizontalAlignment="Left" Height="590" Grid.RowSpan="5" 
+              VerticalAlignment="Bottom" Width="1250" Visibility="Hidden" Grid.Row="1">
+            <Grid.Background>
+                <ImageBrush ImageSource="Resources/bkg.jpg"/>
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height=".5*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="7*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height=".5*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="0.5*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label x:Name="scoreBoardLbl" Grid.Row="1" Grid.Column="1" Foreground="White" FontFamily="constantia"
+                   FontSize="70" VerticalAlignment="Center" HorizontalAlignment="Center">◄ Score Board ►</Label>
+
+            <DockPanel Grid.Row="2" Grid.Column="1">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <TextBlock x:Name="scoreRecordTxtB" TextWrapping="Wrap" Foreground="White"/>
+                </ScrollViewer>
+            </DockPanel>
+
+            <Button x:Name="scoreOkBtn" Grid.Row="3" Grid.Column="1" Height="30" Width="100" 
+                    FontSize="15" FontFamily="constantia" Click="scoreOkBtn_Click">OK</Button>
+        </Grid>
+
+    </Grid>
+</Window>
