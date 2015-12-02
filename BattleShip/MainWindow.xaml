@@ -146,10 +146,6 @@
             <Canvas.Background>
                 <ImageBrush Stretch="Fill" ImageSource="Resources/pcgrid.png" AlignmentY="Top" AlignmentX="Center"/>
             </Canvas.Background>
-            <Image x:Name="hit" Height="40" Canvas.Left="40" Canvas.Top="44" Width="40" 
-                   Source="Resources/hit.png" Visibility="Hidden"/>
-            <Image x:Name="miss" Height="40" Canvas.Left="40" Canvas.Top="44" Width="40" 
-                   Source="Resources/miss.png" Visibility="Hidden"/>
         </Canvas>
 
         <!-- The ship yard -->

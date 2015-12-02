@@ -33,7 +33,7 @@ namespace BattleShip
         Image[] pieces;
         Image[] piecesFlipped;
         Image[] set;
-        Image[] playerMove = new Image[100];
+        Image[] moves = new Image[200];
         String[] letterPos;
         String[] numberPos;
         int[,] player = new int[10, 10];
@@ -75,6 +75,9 @@ namespace BattleShip
             pcBoardCanvas.IsEnabled = false;
             resetBtn.Visibility = Visibility.Visible;
             resetBtn_click(sender, e);
+            moveCounter = 0;
+            for (int i = 0; i < moves.Length; i++)
+                moves[i] = null;
         }
 
         private void menuMode_Click(object sender, RoutedEventArgs e)
@@ -240,7 +243,7 @@ namespace BattleShip
                 for (int i = 0; i < pieces[counter].Width / 40; i++)
                     for (int j = 0; j < pieces[counter].Height / 40; j++)
                     {
-                        if (player[a + j, b + i] == 1)
+                        if (player[a + j, b + i] > 0)
                         {
                             canPlace = false;
                             SystemSounds.Beep.Play();
@@ -342,24 +345,53 @@ namespace BattleShip
                         // Converting to number of "block" instead of using a range of pixels.
                         pos.X = (((int)pos.X) / 40) * 40.0;
                         pos.Y = (((int)pos.Y) / 40) * 40.0;
+
+
+                        // Prepare the image
+                        moves[moveCounter] = new Image();
+                        moves[moveCounter].Width = 40;
+                        moves[moveCounter].Height = 40;
+                        pcBoardCanvas.Children.Add(moves[moveCounter]);
+
+                        // There is a ship
+                        if (game.MoveByPlayer(pos))
+                            moves[moveCounter].Source = ((Image)this.FindResource("hitImg")).Source;
+                        else
+                            moves[moveCounter].Source = ((Image)this.FindResource("missImg")).Source;
+
+                        Canvas.SetTop(moves[moveCounter], pos.Y);
+                        Canvas.SetLeft(moves[moveCounter], pos.X);
+                        moveCounter++;
+
+
+                        // Computer's turn
+                        moves[moveCounter] = new Image();
+                        moves[moveCounter].Width = 40;
+                        moves[moveCounter].Height = 40;
+                        playerBoardCanvas.Children.Add(moves[moveCounter]);
+
+                        pos = game.MoveByComputer();
+                        if (player[(int)pos.Y, (int)pos.X] > 0)
+                            moves[moveCounter].Source = ((Image)this.FindResource("hitImg")).Source;
+                        else
+                            moves[moveCounter].Source = ((Image)this.FindResource("missImg")).Source;
+                        pos.X = (pos.X+1) * 40;
+                        pos.Y = (pos.Y+1) * 40;
+                        Canvas.SetTop(moves[moveCounter], pos.Y);
+                        Canvas.SetLeft(moves[moveCounter], pos.X);
+
+                        for (int i = 0; i < player.GetLength(0); i++)
+                            for (int j = 0; j < player.GetLength(1); j++)
+                            {
+                                if (j % 10 == 0)
+                                    Console.WriteLine();
+                                Console.Write(player[i, j]);
+                            }
+
+
+                        //CHECK IF ANYONE WON
+                        //IF WON
                     }
-
-                if (game.MoveByPlayer(pos))
-                    playerMove[moveCounter].Source = hit.Source;
-                //playerMove[moveCounter].Source = new BitmapImage(new Uri("Resources/hit.png", UriKind.Relative));
-                // playerMove[moveCounter].Source = ((Image)this.FindResource("hitImg")).Source;
-                else
-                    playerMove[moveCounter].Source = miss.Source;
-                //  playerMove[moveCounter].Source = new BitmapImage(new Uri("Resources/miss.png", UriKind.Relative));
-                // playerMove[moveCounter].Source = ((Image)this.FindResource("missImg")).Source;
-
-                moveCounter++;
-                // NEED DANIEIL'S PART TO KNOW IF HIT OR MISS FOR PLAYER
-                // PC PLAYS
-
-                //CHECK IF ANYONE WON
-                //IF WON
-
             }
         }
 
