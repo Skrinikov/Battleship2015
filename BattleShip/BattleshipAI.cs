@@ -207,7 +207,7 @@ public class BattleshipAI
 
         bool hit = false;
         Point pos;
-
+        int pattern = 1;
 
 
         int[] possibleValues = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
