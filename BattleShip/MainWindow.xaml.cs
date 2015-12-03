@@ -76,8 +76,8 @@ namespace BattleShip
             resetBtn.Visibility = Visibility.Visible;
             resetBtn_click(sender, e);
             moveCounter = 0;
-            for (int i = 0; i < moves.Length; i++)
-                moves[i] = null;
+            playerBoardCanvas.Children.RemoveRange(7,playerBoardCanvas.Children.Count-7);
+            pcBoardCanvas.Children.RemoveRange(0, pcBoardCanvas.Children.Count);
         }
 
         private void menuMode_Click(object sender, RoutedEventArgs e)
@@ -351,14 +351,13 @@ namespace BattleShip
                         moves[moveCounter] = new Image();
                         moves[moveCounter].Width = 40;
                         moves[moveCounter].Height = 40;
-                        pcBoardCanvas.Children.Add(moves[moveCounter]);
-
-                        // There is a ship
+                        
                         if (game.MoveByPlayer(pos))
                             moves[moveCounter].Source = ((Image)this.FindResource("hitImg")).Source;
                         else
                             moves[moveCounter].Source = ((Image)this.FindResource("missImg")).Source;
 
+                        pcBoardCanvas.Children.Add(moves[moveCounter]);
                         Canvas.SetTop(moves[moveCounter], pos.Y);
                         Canvas.SetLeft(moves[moveCounter], pos.X);
                         moveCounter++;
@@ -368,25 +367,21 @@ namespace BattleShip
                         moves[moveCounter] = new Image();
                         moves[moveCounter].Width = 40;
                         moves[moveCounter].Height = 40;
-                        playerBoardCanvas.Children.Add(moves[moveCounter]);
 
                         pos = game.MoveByComputer();
                         if (player[(int)pos.Y, (int)pos.X] > 0)
                             moves[moveCounter].Source = ((Image)this.FindResource("hitImg")).Source;
                         else
                             moves[moveCounter].Source = ((Image)this.FindResource("missImg")).Source;
+
+                        // Convert back to pixels
+                        playerBoardCanvas.Children.Add(moves[moveCounter]);
                         pos.X = (pos.X+1) * 40;
                         pos.Y = (pos.Y+1) * 40;
                         Canvas.SetTop(moves[moveCounter], pos.Y);
                         Canvas.SetLeft(moves[moveCounter], pos.X);
 
-                        for (int i = 0; i < player.GetLength(0); i++)
-                            for (int j = 0; j < player.GetLength(1); j++)
-                            {
-                                if (j % 10 == 0)
-                                    Console.WriteLine();
-                                Console.Write(player[i, j]);
-                            }
+                        
 
 
                         //CHECK IF ANYONE WON
