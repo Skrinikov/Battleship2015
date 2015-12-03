@@ -25,15 +25,17 @@ namespace BattleShip
         int counter = 0;
         int mode = 0;
         int moveCounter = 0;
+        int playerWins = 0;
+        int playerLoses = 0;
         BattleshipGame game;
         bool canPlace = true;
         Point pos;
         String playerName = null;
-        //String playerLosses = null;
+
         Image[] pieces;
         Image[] piecesFlipped;
         Image[] set;
-        Image[] playerMove = new Image[100];
+        Image[] moves = new Image[200];
         String[] letterPos;
         String[] numberPos;
         int[,] player = new int[10, 10];
@@ -75,6 +77,9 @@ namespace BattleShip
             pcBoardCanvas.IsEnabled = false;
             resetBtn.Visibility = Visibility.Visible;
             resetBtn_click(sender, e);
+            moveCounter = 0;
+            playerBoardCanvas.Children.RemoveRange(7, playerBoardCanvas.Children.Count - 7);
+            pcBoardCanvas.Children.RemoveRange(0, pcBoardCanvas.Children.Count);
         }
 
         private void menuMode_Click(object sender, RoutedEventArgs e)
@@ -86,8 +91,9 @@ namespace BattleShip
                 playerName = (playerName != null) ? playerName : nameInputTxt.Text;
                 playerNameLbl.Content = "•.• " + playerName + " •.•";
                 playerNameRecordLbl.Content = "Player: " + playerName;
-                //playerWinRecordLbl.Content = "Wins: " + playerWins;
-                //playerLossRecordLbl.Content = "Loses: " + playerLoses;
+                searchPlayer();
+                playerWinRecordLbl.Content = "Wins: " + playerWins;
+                playerLossRecordLbl.Content = "Loses: " + playerLoses;
 
                 if (((MenuItem)sender).Tag.Equals("easyMode"))
                 {
@@ -165,8 +171,10 @@ namespace BattleShip
                 playerName = nameInputTxt.Text;
                 playerNameLbl.Content = "•.• " + playerName + " •.•";
                 playerNameRecordLbl.Content = "Player: " + playerName;
-                //playerWinRecordLbl.Content = "Wins: " + playerWins;
-                //playerLossRecordLbl.Content = "Loses: " + playerLoses;
+                searchPlayer();
+                playerWinRecordLbl.Content = "Wins: " + playerWins;
+                playerLossRecordLbl.Content = "Loses: " + playerLoses;
+                ;
 
                 if (((Button)sender).Tag.Equals("easyMode"))
                     mode = 0;
@@ -240,7 +248,7 @@ namespace BattleShip
                 for (int i = 0; i < pieces[counter].Width / 40; i++)
                     for (int j = 0; j < pieces[counter].Height / 40; j++)
                     {
-                        if (player[a + j, b + i] == 1)
+                        if (player[a + j, b + i] > 0)
                         {
                             canPlace = false;
                             SystemSounds.Beep.Play();
@@ -325,7 +333,7 @@ namespace BattleShip
             startBtn.Visibility = Visibility.Hidden;
             menuReset.IsEnabled = false;
             menuNewGame.IsEnabled = true;
-            game = new BattleshipGame(mode,player);
+            game = new BattleshipGame(mode, player);
         }
 
         private void pcBoardCanvas_Click(object sender, MouseButtonEventArgs e)
@@ -342,18 +350,48 @@ namespace BattleShip
                         // Converting to number of "block" instead of using a range of pixels.
                         pos.X = (((int)pos.X) / 40) * 40.0;
                         pos.Y = (((int)pos.Y) / 40) * 40.0;
+
+
+                        // Prepare the image
+                        moves[moveCounter] = new Image();
+                        moves[moveCounter].Width = 40;
+                        moves[moveCounter].Height = 40;
+
+                        if (game.MoveByPlayer(pos))
+                            moves[moveCounter].Source = ((Image)this.FindResource("hitImg")).Source;
+                        else
+                            moves[moveCounter].Source = ((Image)this.FindResource("missImg")).Source;
+
+                        pcBoardCanvas.Children.Add(moves[moveCounter]);
+                        Canvas.SetTop(moves[moveCounter], pos.Y);
+                        Canvas.SetLeft(moves[moveCounter], pos.X);
+                        moveCounter++;
+
+
+                        // Computer's turn
+                        moves[moveCounter] = new Image();
+                        moves[moveCounter].Width = 40;
+                        moves[moveCounter].Height = 40;
+
+                        pos = game.MoveByComputer();
+                        if (player[(int)pos.Y, (int)pos.X] > 0)
+                            moves[moveCounter].Source = ((Image)this.FindResource("hitImg")).Source;
+                        else
+                            moves[moveCounter].Source = ((Image)this.FindResource("missImg")).Source;
+
+                        // Convert back to pixels
+                        playerBoardCanvas.Children.Add(moves[moveCounter]);
+                        pos.X = (pos.X + 1) * 40;
+                        pos.Y = (pos.Y + 1) * 40;
+                        Canvas.SetTop(moves[moveCounter], pos.Y);
+                        Canvas.SetLeft(moves[moveCounter], pos.X);
+
+
+
+
+                        //CHECK IF ANYONE WON
+                        //IF WON
                     }
-
-                if (game.MoveByPlayer(pos))
-                    playerMove[moveCounter].Source = (BitmapImage)FindResource("hit");
-                else
-                    playerMove[moveCounter].Source = (BitmapImage)FindResource("miss");
-                // NEED DANIEIL'S PART TO KNOW IF HIT OR MISS FOR PLAYER
-                // PC PLAYS
-
-                //CHECK IF ANYONE WON
-                //IF WON
-
             }
         }
 
@@ -374,9 +412,33 @@ namespace BattleShip
                         recordArray = record.Split(',');
                         scoreRecordTxtB.Text += String.Format("Player: {0,-20} Wins: {1,-5} Loses: {2,-5} \n", recordArray[0], recordArray[1], recordArray[2]);
                     }
-                } while (record != null);                
+                } while (record != null);
             }
+        }
 
+        private void searchPlayer()
+        {
+            String record;
+            String[] recordArray;
+            if (File.Exists("record.txt"))
+            {
+                StreamReader sr = new StreamReader("record.txt");
+
+                do
+                {
+                    record = sr.ReadLine();
+                    if (record != null && record.Split(',').Length == 3)
+                    {
+                        recordArray = record.Split(',');
+                        if (playerName.Equals(recordArray[0]))
+                        {
+                            playerWins = int.Parse(recordArray[1]);
+                            playerLoses = int.Parse(recordArray[2]);
+                            break;
+                        }
+                    }
+                } while (record != null);
+            }
         }
 
     } // End of partial class.
