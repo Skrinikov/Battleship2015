@@ -361,7 +361,7 @@ namespace BattleShip
                         {
                             if (game.MoveByPlayer(pos) == 1)
                                 moves[moveCounter].Source = ((Image)this.FindResource("hitImg")).Source;
-                            else if (game.MoveByPlayer(pos) == 0)
+                            else
                                 moves[moveCounter].Source = ((Image)this.FindResource("missImg")).Source;
 
                             pcBoardCanvas.Children.Add(moves[moveCounter]);
