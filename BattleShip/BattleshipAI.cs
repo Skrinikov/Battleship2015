@@ -211,73 +211,90 @@ public class BattleshipAI
 
 
         int[] possibleValues = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-
-        for (int i = 0; i < 10; i++)
+        if (pattern == 1)
         {
 
-            int k = r.Next(0, 10);
+            int[] possibleValues = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-            if (possibleValues[k] != k)
-            {
-                i--;
-                continue;
-            }
-            else
-            {
-                possibleValues[k] = -1;
-            }
-
-            if (r.Next(0, 2) == 1)
+            for (int i = 0; i < 10; i++)
             {
 
-                int j = k;
+                int k = r.Next(0, 10);
 
-                if (computerHitsBoard[k, j] == 0)
+                if (possibleValues[k] != k)
                 {
-
-                    pos = new Point(k, j);
-                    lastHit = new Point(k, j);
-                    return pos;
+                    i--;
+                    continue;
                 }
-                j = (j + 5) % 10;
-                if (computerHitsBoard[k, j] == 0)
+                else
                 {
-
-                    pos = new Point(k, j);
-                    lastHit = new Point(k, j);
-                    return pos;
+                    possibleValues[k] = -1;
                 }
 
-            }
-            else
-            {
-                int j = k;
-
-                j = (j + 5) % 10;
-                if (computerHitsBoard[k, j] == 0)
+                if (r.Next(0, 2) == 1)
                 {
 
-                    pos = new Point(k, j);
-                    lastHit = new Point(k, j);
-                    return pos;
-                }
+                    int j = k;
 
-                j = (j + 5) % 10;
-                if (computerHitsBoard[k, j] == 0)
+                    if (computerHitsBoard[k, j] == 0)
+                    {
+
+                        pos = new Point(k, j);
+                        lastHit = new Point(k, j);
+                        return pos;
+                    }
+                    j = (j + 5) % 10;
+                    if (computerHitsBoard[k, j] == 0)
+                    {
+
+                        pos = new Point(k, j);
+                        lastHit = new Point(k, j);
+                        return pos;
+                    }
+
+                }
+                else
                 {
+                    int j = k;
 
-                    pos = new Point(k, j);
-                    lastHit = new Point(k, j);
-                    return pos;
+                    j = (j + 5) % 10;
+                    if (computerHitsBoard[k, j] == 0)
+                    {
+
+                        pos = new Point(k, j);
+                        lastHit = new Point(k, j);
+                        return pos;
+                    }
+
+                    j = (j + 5) % 10;
+                    if (computerHitsBoard[k, j] == 0)
+                    {
+
+                        pos = new Point(k, j);
+                        lastHit = new Point(k, j);
+                        return pos;
+                    }
+
                 }
 
-            }
-
+            }//End of for
+            pattern++;
         }
+        else if (pattern == 2)
+        {
 
-        pos = new Point(5, 5);
-        return pos;
 
+            pattern++;
+        }
+        else if (pattern == 3)
+        {
+            pattern++;
+        }
+        else
+        {
+            pos = new Point(5, 5);
+            return pos;
+        }
     }
 
     private bool isPosLegal(int xy)

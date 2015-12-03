@@ -45,19 +45,19 @@ namespace BattleShip
             int y = (int)pos.X /40;
             int x = (int)pos.Y /40;
 
-            if (computerShipBoard[x,y] == -1)
+            if (computerShipBoard[x,y] < 0)
                 return -1;
 
             else if (computerShipBoard[x, y] > 0)
             {
                 playerHitsBoard[x, y] = 1;
                 computerShipBoard[x, y] *= -1;
-                return 0;
+                return 1;
             }
             else
             {
                 playerHitsBoard[x, y] = -1;
-                return 1;
+                return 0;
             }
 
         }
