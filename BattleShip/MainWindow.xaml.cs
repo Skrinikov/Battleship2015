@@ -357,7 +357,7 @@ namespace BattleShip
                         moves[moveCounter].Width = 40;
                         moves[moveCounter].Height = 40;
 
-                        if (game.MoveByPlayer(pos) > -1)
+                        if (game.MoveByPlayer(pos) != -1)
                         {
                             if (game.MoveByPlayer(pos) == 1)
                                 moves[moveCounter].Source = ((Image)this.FindResource("hitImg")).Source;
