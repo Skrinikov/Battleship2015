@@ -137,14 +137,25 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\hit.png">
+    <Resource Include="Resources\defeat.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\miss.png">
+    <Resource Include="Resources\start2.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\victory.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\hit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\miss.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
