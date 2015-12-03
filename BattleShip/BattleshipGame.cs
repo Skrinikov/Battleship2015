@@ -39,25 +39,22 @@ namespace BattleShip
 
         }
 
-        public int MoveByPlayer(Point pos)
+        public bool MoveByPlayer(Point pos)
         {
 
-            int x = (int)pos.X /40 -1;
-            int y = (int)pos.Y /40 -1;
-
-            if (computerShipBoard[x, y] == -1)
-                return -1;
+            int x = (int)pos.X /40;
+            int y = (int)pos.Y /40;
 
             if (computerShipBoard[x, y] > 0)
             {
                 playerHitsBoard[x, y] = 1;
                 computerShipBoard[x, y] *= -1;
-                return 1;
+                return true;
             }
             else
             {
                 playerHitsBoard[x, y] = -1;
-                return 0;
+                return false;
             }
 
         }
