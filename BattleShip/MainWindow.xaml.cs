@@ -25,11 +25,13 @@ namespace BattleShip
         int counter = 0;
         int mode = 0;
         int moveCounter = 0;
+        int playerWins = 0;
+        int playerLoses = 0;
         BattleshipGame game;
         bool canPlace = true;
         Point pos;
         String playerName = null;
-        //String playerLosses = null;
+
         Image[] pieces;
         Image[] piecesFlipped;
         Image[] set;
@@ -76,7 +78,7 @@ namespace BattleShip
             resetBtn.Visibility = Visibility.Visible;
             resetBtn_click(sender, e);
             moveCounter = 0;
-            playerBoardCanvas.Children.RemoveRange(7,playerBoardCanvas.Children.Count-7);
+            playerBoardCanvas.Children.RemoveRange(7, playerBoardCanvas.Children.Count - 7);
             pcBoardCanvas.Children.RemoveRange(0, pcBoardCanvas.Children.Count);
         }
 
@@ -89,8 +91,9 @@ namespace BattleShip
                 playerName = (playerName != null) ? playerName : nameInputTxt.Text;
                 playerNameLbl.Content = "•.• " + playerName + " •.•";
                 playerNameRecordLbl.Content = "Player: " + playerName;
-                //playerWinRecordLbl.Content = "Wins: " + playerWins;
-                //playerLossRecordLbl.Content = "Loses: " + playerLoses;
+                searchPlayer();
+                playerWinRecordLbl.Content = "Wins: " + playerWins;
+                playerLossRecordLbl.Content = "Loses: " + playerLoses;
 
                 if (((MenuItem)sender).Tag.Equals("easyMode"))
                 {
@@ -168,8 +171,10 @@ namespace BattleShip
                 playerName = nameInputTxt.Text;
                 playerNameLbl.Content = "•.• " + playerName + " •.•";
                 playerNameRecordLbl.Content = "Player: " + playerName;
-                //playerWinRecordLbl.Content = "Wins: " + playerWins;
-                //playerLossRecordLbl.Content = "Loses: " + playerLoses;
+                searchPlayer();
+                playerWinRecordLbl.Content = "Wins: " + playerWins;
+                playerLossRecordLbl.Content = "Loses: " + playerLoses;
+                ;
 
                 if (((Button)sender).Tag.Equals("easyMode"))
                     mode = 0;
@@ -351,7 +356,7 @@ namespace BattleShip
                         moves[moveCounter] = new Image();
                         moves[moveCounter].Width = 40;
                         moves[moveCounter].Height = 40;
-                        
+
                         if (game.MoveByPlayer(pos))
                             moves[moveCounter].Source = ((Image)this.FindResource("hitImg")).Source;
                         else
@@ -376,12 +381,12 @@ namespace BattleShip
 
                         // Convert back to pixels
                         playerBoardCanvas.Children.Add(moves[moveCounter]);
-                        pos.X = (pos.X+1) * 40;
-                        pos.Y = (pos.Y+1) * 40;
+                        pos.X = (pos.X + 1) * 40;
+                        pos.Y = (pos.Y + 1) * 40;
                         Canvas.SetTop(moves[moveCounter], pos.Y);
                         Canvas.SetLeft(moves[moveCounter], pos.X);
 
-                        
+
 
 
                         //CHECK IF ANYONE WON
@@ -409,7 +414,31 @@ namespace BattleShip
                     }
                 } while (record != null);
             }
+        }
 
+        private void searchPlayer()
+        {
+            String record;
+            String[] recordArray;
+            if (File.Exists("record.txt"))
+            {
+                StreamReader sr = new StreamReader("record.txt");
+
+                do
+                {
+                    record = sr.ReadLine();
+                    if (record != null && record.Split(',').Length == 3)
+                    {
+                        recordArray = record.Split(',');
+                        if (playerName.Equals(recordArray[0]))
+                        {
+                            playerWins = int.Parse(recordArray[1]);
+                            playerLoses = int.Parse(recordArray[2]);
+                            break;
+                        }
+                    }
+                } while (record != null);
+            }
         }
 
     } // End of partial class.
