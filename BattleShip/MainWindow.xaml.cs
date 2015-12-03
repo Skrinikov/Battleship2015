@@ -224,7 +224,7 @@ namespace BattleShip
             }
 
             // For programmer: making sure the numbers are right.
-            Console.WriteLine(pos.X + " " + pos.Y);
+            //Console.WriteLine(pos.X + " " + pos.Y);
         }
 
         private void moveImage(Image img)
@@ -279,6 +279,7 @@ namespace BattleShip
                         Console.WriteLine();
                     Console.Write(player[i, j]);
                 }
+            Console.WriteLine();
 
             if (counter >= pieces.Length)
             {
@@ -338,6 +339,7 @@ namespace BattleShip
 
         private void pcBoardCanvas_Click(object sender, MouseButtonEventArgs e)
         {
+            int result;
             if (counter >= pieces.Length)
             {
                 pos = e.GetPosition((Canvas)sender);
@@ -350,17 +352,18 @@ namespace BattleShip
                         // Converting to number of "block" instead of using a range of pixels.
                         pos.X = (((int)pos.X) / 40) * 40.0;
                         pos.Y = (((int)pos.Y) / 40) * 40.0;
-                        
-                        if (game.MoveByPlayer(pos) != -1)
+
+                        result = game.MoveByPlayer(pos);
+                        if (result != -1)
                         {
                             // Prepare the image
                             moves[moveCounter] = new Image();
                             moves[moveCounter].Width = 40;
                             moves[moveCounter].Height = 40;
 
-                            if (game.MoveByPlayer(pos) == 1)
+                            if (result == 1)
                                 moves[moveCounter].Source = ((Image)this.FindResource("hitImg")).Source;
-                            else if (game.MoveByPlayer(pos) == 0)
+                            else if (result == 0)
                                 moves[moveCounter].Source = ((Image)this.FindResource("missImg")).Source;
 
                             pcBoardCanvas.Children.Add(moves[moveCounter]);
@@ -368,7 +371,15 @@ namespace BattleShip
                             Canvas.SetLeft(moves[moveCounter], pos.X);
                             moveCounter++;
 
-                            
+                            for (int i = 0; i < player.GetLength(0); i++)
+                                for (int j = 0; j < player.GetLength(1); j++)
+                                {
+                                    if (j % 10 == 0)
+                                        Console.WriteLine();
+                                    Console.Write(player[i, j]);
+                                }
+                            Console.WriteLine();
+
                             // Computer's turn
                             moves[moveCounter] = new Image();
                             moves[moveCounter].Width = 40;
@@ -387,7 +398,6 @@ namespace BattleShip
                             Canvas.SetTop(moves[moveCounter], pos.Y);
                             Canvas.SetLeft(moves[moveCounter], pos.X);
                         }
-
 
 
                         //CHECK IF ANYONE WON
