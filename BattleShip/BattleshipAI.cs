@@ -5,6 +5,8 @@ public class BattleshipAI
 {
 
     private int difficulty;
+    private int timesLooped = 0;
+    private int pattern = 1;
     private int[,] computerShipBoard;
     private int[,] computerHitsBoard;
     Point lastHit;
@@ -207,23 +209,22 @@ public class BattleshipAI
 
         bool hit = false;
         Point pos;
-        int pattern = 1;
-
 
         
         if (pattern == 1)
         {
-
+            
             int[] possibleValues = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 10 && timesLooped < 20; i++)
             {
-
+                timesLooped++;
                 int k = r.Next(0, 10);
 
                 if (possibleValues[k] != k)
                 {
                     i--;
+                    timesLooped--;
                     continue;
                 }
                 else
@@ -282,17 +283,18 @@ public class BattleshipAI
         }//End of pattern == 1
         else if (pattern == 2)
         {
-
+            timesLooped = 0;
              int[] possibleValues = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-            for (int i = 0; i < 10; i++)
+             for (int i = 0; i < 10 && timesLooped < 20; i++)
             {
-
+                timesLooped++;
                 int k = r.Next(0, 10);
                 k = (k + 3) % 10;
                 if (possibleValues[k] != k)
                 {
                     i--;
+                    timesLooped--;
                     continue;
                 }
                 else
@@ -353,17 +355,18 @@ public class BattleshipAI
              
         else if (pattern == 3)
         {
-
+            timesLooped = 0;
             int[] possibleValues = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 10 && timesLooped < 20; i++)
             {
-
+                timesLooped++;
                 int k = r.Next(0, 10);
                 k = (k + 2) % 10;
                 if (possibleValues[k] != k)
                 {
                     i--;
+                    timesLooped--;
                     continue;
                 }
                 else
