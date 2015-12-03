@@ -210,7 +210,7 @@ public class BattleshipAI
         int pattern = 1;
 
 
-        int[] possibleValues = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        
         if (pattern == 1)
         {
 
@@ -279,22 +279,151 @@ public class BattleshipAI
 
             }//End of for
             pattern++;
-        }
+        }//End of pattern == 1
         else if (pattern == 2)
         {
 
+             int[] possibleValues = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+            for (int i = 0; i < 10; i++)
+            {
+
+                int k = r.Next(0, 10);
+                k = (k + 3) % 10;
+                if (possibleValues[k] != k)
+                {
+                    i--;
+                    continue;
+                }
+                else
+                {
+                    possibleValues[k] = -1;
+                }
+
+                if (r.Next(0, 2) == 1)
+                {
+
+                    int j = k;
+
+                    if (computerHitsBoard[k, j] == 0)
+                    {
+
+                        pos = new Point(k, j);
+                        lastHit = new Point(k, j);
+                        return pos;
+                    }
+                    j = (j + 5) % 10;
+                    if (computerHitsBoard[k, j] == 0)
+                    {
+
+                        pos = new Point(k, j);
+                        lastHit = new Point(k, j);
+                        return pos;
+                    }
+
+                }
+                else
+                {
+                    int j = k;
+
+                    j = (j + 5) % 10;
+                    if (computerHitsBoard[k, j] == 0)
+                    {
+
+                        pos = new Point(k, j);
+                        lastHit = new Point(k, j);
+                        return pos;
+                    }
+
+                    j = (j + 5) % 10;
+                    if (computerHitsBoard[k, j] == 0)
+                    {
+
+                        pos = new Point(k, j);
+                        lastHit = new Point(k, j);
+                        return pos;
+                    }
+
+                }
+
+            }//End of for    
+
+            pattern++;
+        }//End of pattern == 2
+             
+        else if (pattern == 3)
+        {
+
+            int[] possibleValues = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+            for (int i = 0; i < 10; i++)
+            {
+
+                int k = r.Next(0, 10);
+                k = (k + 2) % 10;
+                if (possibleValues[k] != k)
+                {
+                    i--;
+                    continue;
+                }
+                else
+                {
+                    possibleValues[k] = -1;
+                }
+
+                if (r.Next(0, 2) == 1)
+                {
+
+                    int j = k;
+
+                    if (computerHitsBoard[k, j] == 0)
+                    {
+
+                        pos = new Point(k, j);
+                        lastHit = new Point(k, j);
+                        return pos;
+                    }
+                    j = (j + 5) % 10;
+                    if (computerHitsBoard[k, j] == 0)
+                    {
+
+                        pos = new Point(k, j);
+                        lastHit = new Point(k, j);
+                        return pos;
+                    }
+
+                }
+                else
+                {
+                    int j = k;
+
+                    j = (j + 5) % 10;
+                    if (computerHitsBoard[k, j] == 0)
+                    {
+
+                        pos = new Point(k, j);
+                        lastHit = new Point(k, j);
+                        return pos;
+                    }
+
+                    j = (j + 5) % 10;
+                    if (computerHitsBoard[k, j] == 0)
+                    {
+
+                        pos = new Point(k, j);
+                        lastHit = new Point(k, j);
+                        return pos;
+                    }
+
+                }
+
+            }//End of for    
 
             pattern++;
         }
-        else if (pattern == 3)
-        {
-            pattern++;
-        }
-        else
-        {
             pos = new Point(5, 5);
             return pos;
-        }
+        
     }
 
     private bool isPosLegal(int xy)
