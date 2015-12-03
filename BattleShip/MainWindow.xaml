@@ -195,7 +195,7 @@
                 <ColumnDefinition Width=".5*"/>
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="1" Grid.ColumnSpan="5" FontSize="90">• ? SpaceBattle ? •</Label>
+            <Label Grid.Row="1" Grid.ColumnSpan="5" FontSize="90">• ◄ SpaceBattle ► •</Label>
             <Label Grid.Row="2" Grid.Column="1" Height="40" Width="150" FontSize="25" VerticalAlignment="Top" Background="#00000000">Player Name</Label>
             <TextBox x:Name="nameInputTxt" Grid.Row="2"  Grid.Column="1" Height="40" Width="300" FontSize="25" TextAlignment="Center"
                      Opacity="0.8" Background="#FF2D3034" BorderBrush="White" BorderThickness="2" Foreground="White" PreviewMouseDown="nameInput_click">Enter your name here</TextBox>
@@ -232,7 +232,7 @@
                 <ColumnDefinition Width=".5*"/>
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="1" Grid.ColumnSpan="5" FontSize="70">? Credits ?</Label>
+            <Label Grid.Row="1" Grid.ColumnSpan="5" FontSize="70">◄ Credits ►</Label>
             <!-- Program author -->
             <Label Grid.Row="2" Grid.Column="1" FontSize="30" FontWeight="UltraBlack">Author</Label>
             <Label Grid.Row="3" Grid.Column="1" FontSize="30" >Uen Yi (Cindy) Hung</Label>
@@ -261,7 +261,7 @@
                 <RowDefinition Height=".5*"/>
             </Grid.RowDefinitions>
 
-            <Label x:Name="howToPlayLbl" Grid.Row="1" FontSize="70">? How To Play ?</Label>
+            <Label x:Name="howToPlayLbl" Grid.Row="1" FontSize="70">◄ How To Play ►</Label>
             <TextBlock x:Name="howToPlayTxtB" Grid.Row="2" FontSize="20" FontWeight="ExtraBlack" VerticalAlignment="Center">GOAL: Sink all of your ennemi's ships without hitting their space mines.<LineBreak/><LineBreak/><LineBreak/>
                        SETUP: Place your ships and mines onto your board strategically. <LineBreak/><LineBreak/><LineBreak/>
                        PLAY: Turn by turn, click on a square on the ennemi's board to strike. <LineBreak/><LineBreak/>
@@ -288,7 +288,7 @@
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
 
-            <Label x:Name="scoreBoardLbl" Grid.Row="1" Grid.Column="1" FontSize="70">? Score Board ?</Label>
+            <Label x:Name="scoreBoardLbl" Grid.Row="1" Grid.Column="1" FontSize="70"> ◄ Score Board ►</Label>
 
             <DockPanel Grid.Row="2" Grid.Column="1">
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">

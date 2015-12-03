@@ -357,35 +357,37 @@ namespace BattleShip
                         moves[moveCounter].Width = 40;
                         moves[moveCounter].Height = 40;
 
-                        if (game.MoveByPlayer(pos))
-                            moves[moveCounter].Source = ((Image)this.FindResource("hitImg")).Source;
-                        else
-                            moves[moveCounter].Source = ((Image)this.FindResource("missImg")).Source;
+                        if (game.MoveByPlayer(pos) > -1)
+                        {
+                            if (game.MoveByPlayer(pos) == 1)
+                                moves[moveCounter].Source = ((Image)this.FindResource("hitImg")).Source;
+                            else if (game.MoveByPlayer(pos) == 0)
+                                moves[moveCounter].Source = ((Image)this.FindResource("missImg")).Source;
 
-                        pcBoardCanvas.Children.Add(moves[moveCounter]);
-                        Canvas.SetTop(moves[moveCounter], pos.Y);
-                        Canvas.SetLeft(moves[moveCounter], pos.X);
-                        moveCounter++;
+                            pcBoardCanvas.Children.Add(moves[moveCounter]);
+                            Canvas.SetTop(moves[moveCounter], pos.Y);
+                            Canvas.SetLeft(moves[moveCounter], pos.X);
+                            moveCounter++;
 
 
-                        // Computer's turn
-                        moves[moveCounter] = new Image();
-                        moves[moveCounter].Width = 40;
-                        moves[moveCounter].Height = 40;
+                            // Computer's turn
+                            moves[moveCounter] = new Image();
+                            moves[moveCounter].Width = 40;
+                            moves[moveCounter].Height = 40;
 
-                        pos = game.MoveByComputer();
-                        if (player[(int)pos.Y, (int)pos.X] > 0)
-                            moves[moveCounter].Source = ((Image)this.FindResource("hitImg")).Source;
-                        else
-                            moves[moveCounter].Source = ((Image)this.FindResource("missImg")).Source;
+                            pos = game.MoveByComputer();
+                            if (player[(int)pos.Y, (int)pos.X] > 0)
+                                moves[moveCounter].Source = ((Image)this.FindResource("hitImg")).Source;
+                            else
+                                moves[moveCounter].Source = ((Image)this.FindResource("missImg")).Source;
 
-                        // Convert back to pixels
-                        playerBoardCanvas.Children.Add(moves[moveCounter]);
-                        pos.X = (pos.X + 1) * 40;
-                        pos.Y = (pos.Y + 1) * 40;
-                        Canvas.SetTop(moves[moveCounter], pos.Y);
-                        Canvas.SetLeft(moves[moveCounter], pos.X);
-
+                            // Convert back to pixels
+                            playerBoardCanvas.Children.Add(moves[moveCounter]);
+                            pos.X = (pos.X + 1) * 40;
+                            pos.Y = (pos.Y + 1) * 40;
+                            Canvas.SetTop(moves[moveCounter], pos.Y);
+                            Canvas.SetLeft(moves[moveCounter], pos.X);
+                        }
 
 
 
