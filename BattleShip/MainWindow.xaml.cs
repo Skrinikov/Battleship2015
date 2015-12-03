@@ -284,7 +284,6 @@ namespace BattleShip
             {
                 startBtn.Visibility = Visibility.Visible;
                 playerBoardCanvas.IsEnabled = false;
-                pcBoardCanvas.IsEnabled = true;
             }
         }
 
@@ -331,6 +330,7 @@ namespace BattleShip
         {
             resetBtn.Visibility = Visibility.Hidden;
             startBtn.Visibility = Visibility.Hidden;
+            pcBoardCanvas.IsEnabled = true;
             menuReset.IsEnabled = false;
             menuNewGame.IsEnabled = true;
             game = new BattleshipGame(mode, player);
@@ -350,18 +350,17 @@ namespace BattleShip
                         // Converting to number of "block" instead of using a range of pixels.
                         pos.X = (((int)pos.X) / 40) * 40.0;
                         pos.Y = (((int)pos.Y) / 40) * 40.0;
-
-
-                        // Prepare the image
-                        moves[moveCounter] = new Image();
-                        moves[moveCounter].Width = 40;
-                        moves[moveCounter].Height = 40;
-
+                        
                         if (game.MoveByPlayer(pos) != -1)
                         {
+                            // Prepare the image
+                            moves[moveCounter] = new Image();
+                            moves[moveCounter].Width = 40;
+                            moves[moveCounter].Height = 40;
+
                             if (game.MoveByPlayer(pos) == 1)
                                 moves[moveCounter].Source = ((Image)this.FindResource("hitImg")).Source;
-                            else
+                            else if (game.MoveByPlayer(pos) == 0)
                                 moves[moveCounter].Source = ((Image)this.FindResource("missImg")).Source;
 
                             pcBoardCanvas.Children.Add(moves[moveCounter]);
@@ -369,7 +368,7 @@ namespace BattleShip
                             Canvas.SetLeft(moves[moveCounter], pos.X);
                             moveCounter++;
 
-
+                            
                             // Computer's turn
                             moves[moveCounter] = new Image();
                             moves[moveCounter].Width = 40;
