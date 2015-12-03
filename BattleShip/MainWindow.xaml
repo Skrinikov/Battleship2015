@@ -291,7 +291,7 @@
             <Label x:Name="scoreBoardLbl" Grid.Row="1" Grid.Column="1" FontSize="70">◄ Score Board ►</Label>
 
             <DockPanel Grid.Row="2" Grid.Column="1">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ScrollViewer VerticalScrollBarVisibility="Hidden" >
                     <TextBlock x:Name="scoreRecordTxtB"/>
                 </ScrollViewer>
             </DockPanel>
