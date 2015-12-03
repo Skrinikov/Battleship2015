@@ -42,8 +42,8 @@ namespace BattleShip
         public int MoveByPlayer(Point pos)
         {
 
-            int y = (int)pos.X /40;
-            int x = (int)pos.Y /40;
+            int y = (int)pos.X /40 -1;
+            int x = (int)pos.Y /40 -1;
 
             if (computerShipBoard[x,y] < 0)
                 return -1;
