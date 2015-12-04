@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.IO;
 using System.Media;
 using System.Text.RegularExpressions;
@@ -32,7 +33,7 @@ namespace BattleShip
         bool canPlace = true;
         Point pos;
         String playerName = null;
-
+        ArrayList list = new ArrayList();
         Image[] pieces;
         Image[] piecesFlipped;
         Image[] set;
@@ -126,7 +127,7 @@ namespace BattleShip
             if (pcBoardCanvas.Children.Count > 0)
             {
                 playerBoardCanvas.Children.RemoveRange(7, playerBoardCanvas.Children.Count - 7);
-                pcBoardCanvas.Children.RemoveRange(0, pcBoardCanvas.Children.Count); 
+                pcBoardCanvas.Children.RemoveRange(0, pcBoardCanvas.Children.Count);
             }
         }
 
@@ -176,12 +177,12 @@ namespace BattleShip
                 menuReset.IsEnabled = true;
                 resetBtn_click(sender, e);
 
-                    playerName = nameInputTxt.Text;
-                    playerNameLbl.Content = "•.• " + playerName + " •.•";
-                    playerNameRecordLbl.Content = "Player: " + playerName;
-                    searchPlayer();
-                    playerWinRecordLbl.Content = "Wins: " + playerWins;
-                    playerLossRecordLbl.Content = "Loses: " + playerLoses;                
+                playerName = nameInputTxt.Text;
+                playerNameLbl.Content = "•.• " + playerName + " •.•";
+                playerNameRecordLbl.Content = "Player: " + playerName;
+                searchPlayer();
+                playerWinRecordLbl.Content = "Wins: " + playerWins;
+                playerLossRecordLbl.Content = "Loses: " + playerLoses;
 
                 if (((Button)sender).Tag.Equals("easyMode"))
                 {
@@ -399,6 +400,7 @@ namespace BattleShip
                                 MessageBox.Show("Victory. You have destroyed all of your ennemie's spacecrafts", "You Won!", MessageBoxButton.OK);
                                 playerWins++;
                                 playerWinRecordLbl.Content = "Wins: " + playerWins;
+                                updateRecord();
                             }
                             else
                             {
@@ -448,6 +450,7 @@ namespace BattleShip
                                 MessageBox.Show("Defeat, all your spacecrafts has been destroyed.", "You Lost!", MessageBoxButton.OK);
                                 playerLoses++;
                                 playerLossRecordLbl.Content = "Losses: " + playerWins;
+                                updateRecord();
                             }
                         }
                     }
@@ -459,46 +462,67 @@ namespace BattleShip
         {
             String record;
             String[] recordArray;
+            scoreRecordTxtB.Text = "";
             if (File.Exists("record.txt"))
             {
                 StreamReader sr = new StreamReader("record.txt");
-
                 do
                 {
                     record = sr.ReadLine();
                     if (record != null && record.Split(',').Length == 3)
                     {
                         recordArray = record.Split(',');
+                        list.Add(record);
                         scoreRecordTxtB.Text += String.Format("Player: {0,-20} Wins: {1,-5} Loses: {2,-5} \n", recordArray[0], recordArray[1], recordArray[2]);
                     }
                 } while (record != null);
+                sr.Close();
             }
         }
 
         private void searchPlayer()
         {
-            String record;
             String[] recordArray;
-            if (File.Exists("record.txt"))
-            {
-                StreamReader sr = new StreamReader("record.txt");
+            bool playerExists = false;
 
-                do
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i].ToString().Substring(0, list[i].ToString().IndexOf(",")).Equals(playerName))
                 {
-                    record = sr.ReadLine();
-                    if (record != null && record.Split(',').Length == 3)
-                    {
-                        recordArray = record.Split(',');
-                        if (playerName.Equals(recordArray[0]))
-                        {
-                            playerWins = int.Parse(recordArray[1]);
-                            playerLoses = int.Parse(recordArray[2]);
-                            break;
-                        }
-                    }
-                } while (record != null);
+                    recordArray = list[i].ToString().Split(',');
+                    playerWins = int.Parse(recordArray[1]);
+                    playerLoses = int.Parse(recordArray[2]);
+                    playerExists = true;
+                    break;
+                }
             }
+            if (!playerExists)
+                list.Add(playerName + "," + playerWins + "," + playerLoses);
         }
 
+        private void updateRecord()
+        {
+            String[] recordArray;
+            StreamWriter writer;
+
+            if (!File.Exists("record.txt"))
+                File.Create("record.txt");
+
+            for (int i = 0; i < list.Count; i++)
+                if (list[i].ToString().Substring(0, list[i].ToString().IndexOf(",")).Equals(playerName))
+                {
+                    recordArray = list[i].ToString().Split(',');
+                    recordArray[1] = playerWins.ToString();
+                    recordArray[2] = playerLoses.ToString();
+                    list[i] = playerName + "," + recordArray[1] + "," + recordArray[2];
+                    break;
+                }
+
+            writer = new StreamWriter("record.txt");
+            for (int i = 0; i < list.Count; i++)
+                writer.WriteLine(list[i].ToString());
+            writer.Close();
+            loadRecord();
+        }
     } // End of partial class.
 } // THE END.
