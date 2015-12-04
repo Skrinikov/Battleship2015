@@ -252,6 +252,7 @@ public class BattleshipAI
                         lastHit = new Point(k, j);
                         return pos;
                     }
+                    timesLooped--;
 
                 }
                 else
@@ -275,6 +276,7 @@ public class BattleshipAI
                         lastHit = new Point(k, j);
                         return pos;
                     }
+                    timesLooped--;
 
                 }
 
@@ -290,7 +292,6 @@ public class BattleshipAI
             {
                 timesLooped++;
                 int k = r.Next(0, 10);
-                k = (k + 3) % 10;
                 if (possibleValues[k] != k)
                 {
                     i--;
@@ -307,19 +308,19 @@ public class BattleshipAI
 
                     int j = k;
 
-                    if (computerHitsBoard[k, j] == 0)
+                    if (computerHitsBoard[(k+3)%10, j] == 0)
                     {
 
-                        pos = new Point(k, j);
-                        lastHit = new Point(k, j);
+                        pos = new Point((k + 3) % 10, j);
+                        lastHit = new Point((k + 3) % 10, j);
                         return pos;
                     }
                     j = (j + 5) % 10;
-                    if (computerHitsBoard[k, j] == 0)
+                    if (computerHitsBoard[(k + 3) % 10, j] == 0)
                     {
 
-                        pos = new Point(k, j);
-                        lastHit = new Point(k, j);
+                        pos = new Point((k + 3) % 10, j);
+                        lastHit = new Point((k + 3) % 10, j);
                         return pos;
                     }
 
@@ -329,20 +330,20 @@ public class BattleshipAI
                     int j = k;
 
                     j = (j + 5) % 10;
-                    if (computerHitsBoard[k, j] == 0)
+                    if (computerHitsBoard[(k + 3) % 10, j] == 0)
                     {
 
-                        pos = new Point(k, j);
-                        lastHit = new Point(k, j);
+                        pos = new Point((k + 3) % 10, j);
+                        lastHit = new Point((k + 3) % 10, j);
                         return pos;
                     }
 
                     j = (j + 5) % 10;
-                    if (computerHitsBoard[k, j] == 0)
+                    if (computerHitsBoard[(k + 3) % 10, j] == 0)
                     {
 
-                        pos = new Point(k, j);
-                        lastHit = new Point(k, j);
+                        pos = new Point((k + 3) % 10, j);
+                        lastHit = new Point((k + 3) % 10, j);
                         return pos;
                     }
 
@@ -362,7 +363,6 @@ public class BattleshipAI
             {
                 timesLooped++;
                 int k = r.Next(0, 10);
-                k = (k + 2) % 10;
                 if (possibleValues[k] != k)
                 {
                     i--;
@@ -379,19 +379,19 @@ public class BattleshipAI
 
                     int j = k;
 
-                    if (computerHitsBoard[k, j] == 0)
+                    if (computerHitsBoard[(k+1)%10, j] == 0)
                     {
 
-                        pos = new Point(k, j);
-                        lastHit = new Point(k, j);
+                        pos = new Point((k + 1) % 10, j);
+                        lastHit = new Point((k + 1) % 10, j);
                         return pos;
                     }
                     j = (j + 5) % 10;
-                    if (computerHitsBoard[k, j] == 0)
+                    if (computerHitsBoard[(k + 1) % 10, j] == 0)
                     {
 
-                        pos = new Point(k, j);
-                        lastHit = new Point(k, j);
+                        pos = new Point((k + 1) % 10, j);
+                        lastHit = new Point((k + 1) % 10, j);
                         return pos;
                     }
 
@@ -401,20 +401,20 @@ public class BattleshipAI
                     int j = k;
 
                     j = (j + 5) % 10;
-                    if (computerHitsBoard[k, j] == 0)
+                    if (computerHitsBoard[(k + 1) % 10, j] == 0)
                     {
 
-                        pos = new Point(k, j);
-                        lastHit = new Point(k, j);
+                        pos = new Point((k + 1) % 10, j);
+                        lastHit = new Point((k + 1) % 10, j);
                         return pos;
                     }
 
                     j = (j + 5) % 10;
-                    if (computerHitsBoard[k, j] == 0)
+                    if (computerHitsBoard[(k + 1) % 10, j] == 0)
                     {
 
-                        pos = new Point(k, j);
-                        lastHit = new Point(k, j);
+                        pos = new Point((k + 1) % 10, j);
+                        lastHit = new Point((k + 1) % 10, j);
                         return pos;
                     }
 
