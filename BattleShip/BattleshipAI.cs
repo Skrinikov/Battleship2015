@@ -10,7 +10,8 @@ public class BattleshipAI
     private int computerMovesNumber = 0;
     private int[,] computerShipBoard;
     private int[,] computerHitsBoard;
-    Point lastHit;
+    private Point lastHit;
+    private Point direction;
 
     Random r = new Random();
 
@@ -213,9 +214,18 @@ public class BattleshipAI
     private Point Hard()
     {
 
-        bool hit = false;
         Point pos;
 
+
+        if (computerHitsBoard[(int)lastHit.X, (int)lastHit.Y] == 1)
+        {
+
+            Point temp = destroyerMode();
+
+            if (temp.X != -1 && temp.Y != -1)
+                return temp;
+        }
+            
         
         if (pattern == 1)
         {
@@ -447,6 +457,68 @@ public class BattleshipAI
         if (x > 9 || y > 9)
             return false;
         return true;
+
+    }
+
+    private Point destroyerMode()
+    {
+
+        try
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                direction = new Point(lastHit.X + i, lastHit.Y);
+
+                if(computerHitsBoard[(int)direction.X,(int)direction.Y] == 0)                
+                    return direction;
+
+            }
+        }
+        catch (IndexOutOfRangeException e)
+        {        }
+        try
+        {
+            for (int i = 0; i < 5; i++)
+            {
+
+
+                direction = new Point(lastHit.X - i, lastHit.Y);
+                if (computerHitsBoard[(int)direction.X, (int)direction.Y] == 0)
+                    return direction;
+
+            }
+        }
+        catch (IndexOutOfRangeException e)
+        {        }
+        try
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                direction = new Point(lastHit.X, lastHit.Y + i);
+
+                if (computerHitsBoard[(int)direction.X, (int)direction.Y] == 1)                    
+                    return direction;
+
+            }
+        }
+        catch (IndexOutOfRangeException e)
+        {       }
+        try
+        {
+            for (int i = 0; i < 5; i++)
+            {
+
+                direction = new Point(lastHit.X + i, lastHit.Y);
+
+                if (computerHitsBoard[(int)direction.X, (int)direction.Y] == 1)                   
+                    return direction;
+
+            }
+        }
+        catch (IndexOutOfRangeException e)
+        {        }
+
+        return new Point(-1,-1);
 
     }
 
