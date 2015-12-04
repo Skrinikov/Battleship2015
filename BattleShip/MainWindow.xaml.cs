@@ -371,37 +371,50 @@ namespace BattleShip
                             Canvas.SetLeft(moves[moveCounter], pos.X);
                             moveCounter++;
 
-                            for (int i = 0; i < player.GetLength(0); i++)
-                                for (int j = 0; j < player.GetLength(1); j++)
-                                {
-                                    if (j % 10 == 0)
-                                        Console.WriteLine();
-                                    Console.Write(player[i, j]);
-                                }
-                            Console.WriteLine();
-
-                            // Computer's turn
-                            moves[moveCounter] = new Image();
-                            moves[moveCounter].Width = 40;
-                            moves[moveCounter].Height = 40;
-
-                            pos = game.MoveByComputer();
-                            if (player[(int)pos.Y, (int)pos.X] > 0)
-                                moves[moveCounter].Source = ((Image)this.FindResource("hitImg")).Source;
+                            if (game.DidPlayerWin())
+                            {
+                                MessageBox.Show("Victory. You have destroyed all of your ennemie's spacecrafts", "You Won!", MessageBoxButton.OK);
+                                playerWins++;
+                                playerWinRecordLbl.Content = playerWins;
+                            }
                             else
-                                moves[moveCounter].Source = ((Image)this.FindResource("missImg")).Source;
+                            {
+                                // Computer's turn
+                                moves[moveCounter] = new Image();
+                                moves[moveCounter].Width = 40;
+                                moves[moveCounter].Height = 40;
 
-                            // Convert back to pixels
-                            playerBoardCanvas.Children.Add(moves[moveCounter]);
-                            pos.X = (pos.X + 1) * 40;
-                            pos.Y = (pos.Y + 1) * 40;
-                            Canvas.SetTop(moves[moveCounter], pos.Y);
-                            Canvas.SetLeft(moves[moveCounter], pos.X);
+                                pos = game.MoveByComputer();
+                                if (player[(int)pos.X, (int)pos.Y] > 0)
+                                    moves[moveCounter].Source = ((Image)this.FindResource("hitImg")).Source;
+                                else
+                                    moves[moveCounter].Source = ((Image)this.FindResource("missImg")).Source;
+
+                                // Convert back to pixels
+                                playerBoardCanvas.Children.Add(moves[moveCounter]);
+                                pos.X = (pos.X + 1) * 40;
+                                pos.Y = (pos.Y + 1) * 40;
+                                Canvas.SetTop(moves[moveCounter], pos.Y);
+                                Canvas.SetLeft(moves[moveCounter], pos.X);
+
+                                for (int i = 0; i < player.GetLength(0); i++)
+                                    for (int j = 0; j < player.GetLength(1); j++)
+                                    {
+                                        if (j % 10 == 0)
+                                            Console.WriteLine();
+                                        Console.Write(player[i, j]);
+                                    }
+                                Console.WriteLine();
+                            }
+
+
+                            if (game.DidComputerWin())
+                            {
+                                MessageBox.Show("Defeat, all your spacecrafts has been destroyed.", "You Lost!",MessageBoxButton.OK);
+                                playerLoses++;
+                                playerLossRecordLbl.Content = playerWins;
+                            }
                         }
-
-
-                        //CHECK IF ANYONE WON
-                        //IF WON
                     }
             }
         }
