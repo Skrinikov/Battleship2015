@@ -72,7 +72,7 @@ namespace BattleShip
             if (playerShipBoard[x, y] == 1)
             {
                 computerHitsBoard[x, y] = 1;
-                playerShipBoard[x, y] *= -1;
+                
             }
             else
             {
@@ -85,42 +85,22 @@ namespace BattleShip
 
         public bool DidPlayerWin()
         {
-
             for (int i = 0; i < 10; i++)
-            {
-
                 for (int j = 0; j < 10; j++)
-                {
-
-                    if (computerShipBoard[i, j] != -1)
+                    if (computerShipBoard[i, j] == 1)
                         return false;
 
-                }
-
-            }
-
             return true;
-
         }
 
         public bool DidComputerWin()
         {
-
             for (int i = 0; i < 10; i++)
-            {
-
                 for (int j = 0; j < 10; j++)
-                {
-
-                    if (playerShipBoard[i, j] != -1)
+                    if (playerShipBoard[i, j] == 1)
                         return false;
 
-                }
-
-            }
-
             return true;
-
         }
 
     }
