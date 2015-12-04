@@ -11,6 +11,7 @@
     <Window.Resources>
         <Image x:Name="hit" x:Key="hitImg" Source="Resources/hit.png"/>
         <Image x:Name="miss" x:Key="missImg" Source="Resources/miss.png"/>
+        <Image x:Name="miss" x:Key="mineImg" Source="Resources/mineHit.png"/>
         <Style TargetType="Button">
             <Setter Property="Background" Value="#FF2D3034"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>

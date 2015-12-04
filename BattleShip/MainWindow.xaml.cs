@@ -122,6 +122,12 @@ namespace BattleShip
             }
             else
                 MessageBox.Show("Player name must be at least 3 characters long.", "Error", MessageBoxButton.OK);
+
+            if (pcBoardCanvas.Children.Count > 0)
+            {
+                playerBoardCanvas.Children.RemoveRange(7, playerBoardCanvas.Children.Count - 7);
+                pcBoardCanvas.Children.RemoveRange(0, pcBoardCanvas.Children.Count); 
+            }
         }
 
         private void credit_Click(object sender, RoutedEventArgs e)
@@ -178,11 +184,26 @@ namespace BattleShip
                     playerLossRecordLbl.Content = "Loses: " + playerLoses;                
 
                 if (((Button)sender).Tag.Equals("easyMode"))
+                {
                     mode = 0;
+                    menuEasy.IsEnabled = false;
+                    menuNormal.IsEnabled = true;
+                    menuHard.IsEnabled = true;
+                }
                 else if (((Button)sender).Tag.Equals("normalMode"))
+                {
                     mode = 1;
+                    menuNormal.IsEnabled = false;
+                    menuEasy.IsEnabled = true;
+                    menuHard.IsEnabled = true;
+                }
                 else
+                {
                     mode = 2;
+                    menuNormal.IsEnabled = true;
+                    menuEasy.IsEnabled = true;
+                    menuHard.IsEnabled = false;
+                }
             }
             else
                 MessageBox.Show("Player name must be at least 3 characters long with no ','.", "Error", MessageBoxButton.OK);
@@ -388,10 +409,14 @@ namespace BattleShip
 
                                 pos = game.MoveByComputer();
 
-                                if (player[(int)pos.X, (int)pos.Y] > 0)
+                                if (player[(int)pos.X, (int)pos.Y] == 1)
                                 {
-                                    Console.WriteLine(player[(int)pos.X, (int)pos.Y]);
                                     moves[moveCounter].Source = ((Image)this.FindResource("hitImg")).Source;
+                                    player[(int)pos.X, (int)pos.Y] *= -1;
+                                }
+                                if (player[(int)pos.X, (int)pos.Y] == 2)
+                                {
+                                    moves[moveCounter].Source = ((Image)this.FindResource("mineImg")).Source;
                                     player[(int)pos.X, (int)pos.Y] *= -1;
                                 }
                                 else if (player[(int)pos.X, (int)pos.Y] == 0)
