@@ -164,19 +164,18 @@ namespace BattleShip
         // WELCOME PAGE/GRID
         private void welcomeModeBtn_click(object sender, RoutedEventArgs e)
         {
-            if (nameInputTxt.Text.Length > 2)
+            if (nameInputTxt.Text.Length > 2 && nameInputTxt.Text.IndexOf(",") == -1)
             {
                 welcomeGrid.Visibility = Visibility.Hidden;
                 menuReset.IsEnabled = true;
                 resetBtn_click(sender, e);
-                Regex.Match(nameInputTxt.Text,",");
-                playerName = nameInputTxt.Text;
-                playerNameLbl.Content = "•.• " + playerName + " •.•";
-                playerNameRecordLbl.Content = "Player: " + playerName;
-                searchPlayer();
-                playerWinRecordLbl.Content = "Wins: " + playerWins;
-                playerLossRecordLbl.Content = "Loses: " + playerLoses;
-                ;
+
+                    playerName = nameInputTxt.Text;
+                    playerNameLbl.Content = "•.• " + playerName + " •.•";
+                    playerNameRecordLbl.Content = "Player: " + playerName;
+                    searchPlayer();
+                    playerWinRecordLbl.Content = "Wins: " + playerWins;
+                    playerLossRecordLbl.Content = "Loses: " + playerLoses;                
 
                 if (((Button)sender).Tag.Equals("easyMode"))
                     mode = 0;
@@ -186,7 +185,7 @@ namespace BattleShip
                     mode = 2;
             }
             else
-                MessageBox.Show("Player name must be at least 3 characters long.", "Error", MessageBoxButton.OK);
+                MessageBox.Show("Player name must be at least 3 characters long with no ','.", "Error", MessageBoxButton.OK);
         }
 
         private void nameInput_click(object sender, MouseButtonEventArgs e)
