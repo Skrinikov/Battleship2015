@@ -354,6 +354,7 @@ namespace BattleShip
                         pos.Y = (((int)pos.Y) / 40) * 40.0;
 
                         result = game.MoveByPlayer(pos);
+
                         if (result != -1)
                         {
                             // Prepare the image
@@ -385,17 +386,25 @@ namespace BattleShip
                                 moves[moveCounter].Height = 40;
 
                                 pos = game.MoveByComputer();
+
                                 if (player[(int)pos.X, (int)pos.Y] > 0)
+                                {
+                                    Console.WriteLine(player[(int)pos.X, (int)pos.Y]);
                                     moves[moveCounter].Source = ((Image)this.FindResource("hitImg")).Source;
-                                else
+                                    player[(int)pos.X, (int)pos.Y] *= -1;
+                                }
+                                else if (player[(int)pos.X, (int)pos.Y] == 0)
+                                {
                                     moves[moveCounter].Source = ((Image)this.FindResource("missImg")).Source;
+                                    player[(int)pos.X, (int)pos.Y] = -1;
+                                }
 
                                 // Convert back to pixels
                                 playerBoardCanvas.Children.Add(moves[moveCounter]);
                                 pos.X = (pos.X + 1) * 40;
                                 pos.Y = (pos.Y + 1) * 40;
-                                Canvas.SetTop(moves[moveCounter], pos.Y);
-                                Canvas.SetLeft(moves[moveCounter], pos.X);
+                                Canvas.SetTop(moves[moveCounter], pos.X);
+                                Canvas.SetLeft(moves[moveCounter], pos.Y);
 
                                 for (int i = 0; i < player.GetLength(0); i++)
                                     for (int j = 0; j < player.GetLength(1); j++)
@@ -410,7 +419,7 @@ namespace BattleShip
 
                             if (game.DidComputerWin())
                             {
-                                MessageBox.Show("Defeat, all your spacecrafts has been destroyed.", "You Lost!",MessageBoxButton.OK);
+                                MessageBox.Show("Defeat, all your spacecrafts has been destroyed.", "You Lost!", MessageBoxButton.OK);
                                 playerLoses++;
                                 playerLossRecordLbl.Content = playerWins;
                             }
