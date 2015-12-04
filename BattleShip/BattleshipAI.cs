@@ -8,6 +8,7 @@ public class BattleshipAI
     private int timesLooped = 0;
     private int pattern = 1;
     private int computerMovesNumber = 0;
+    private int destoryDirection;
     private int[,] computerShipBoard;
     private int[,] computerHitsBoard;
     private Point lastHit;
@@ -258,6 +259,7 @@ public class BattleshipAI
 
                         pos = new Point(k, j);
                         lastHit = new Point(k, j);
+                        destoryDirection = 4;
                         return pos;
                     }
                     j = (j + 5) % 10;
@@ -266,6 +268,7 @@ public class BattleshipAI
 
                         pos = new Point(k, j);
                         lastHit = new Point(k, j);
+                        destoryDirection = 4;
                         return pos;
                     }
                     timesLooped--;
@@ -281,6 +284,7 @@ public class BattleshipAI
 
                         pos = new Point(k, j);
                         lastHit = new Point(k, j);
+                        destoryDirection = 4;
                         return pos;
                     }
 
@@ -290,6 +294,7 @@ public class BattleshipAI
 
                         pos = new Point(k, j);
                         lastHit = new Point(k, j);
+                        destoryDirection = 4;
                         return pos;
                     }
                     timesLooped--;
@@ -330,6 +335,7 @@ public class BattleshipAI
 
                         pos = new Point((k + 3) % 10, j);
                         lastHit = new Point((k + 3) % 10, j);
+                        destoryDirection = 4;
                         return pos;
                     }
                     j = (j + 5) % 10;
@@ -338,6 +344,7 @@ public class BattleshipAI
 
                         pos = new Point((k + 3) % 10, j);
                         lastHit = new Point((k + 3) % 10, j);
+                        destoryDirection = 4;
                         return pos;
                     }
 
@@ -352,6 +359,7 @@ public class BattleshipAI
 
                         pos = new Point((k + 3) % 10, j);
                         lastHit = new Point((k + 3) % 10, j);
+                        destoryDirection = 4;
                         return pos;
                     }
 
@@ -361,6 +369,7 @@ public class BattleshipAI
 
                         pos = new Point((k + 3) % 10, j);
                         lastHit = new Point((k + 3) % 10, j);
+                        destoryDirection = 4;
                         return pos;
                     }
 
@@ -403,6 +412,7 @@ public class BattleshipAI
 
                         pos = new Point((k + 1) % 10, j);
                         lastHit = new Point((k + 1) % 10, j);
+                        destoryDirection = 4;
                         return pos;
                     }
                     j = (j + 5) % 10;
@@ -411,6 +421,7 @@ public class BattleshipAI
 
                         pos = new Point((k + 1) % 10, j);
                         lastHit = new Point((k + 1) % 10, j);
+                        destoryDirection = 4;
                         return pos;
                     }
 
@@ -424,6 +435,7 @@ public class BattleshipAI
                     {
 
                         pos = new Point((k + 1) % 10, j);
+                        destoryDirection = 4;
                         lastHit = new Point((k + 1) % 10, j);
                         return pos;
                     }
@@ -434,6 +446,7 @@ public class BattleshipAI
 
                         pos = new Point((k + 1) % 10, j);
                         lastHit = new Point((k + 1) % 10, j);
+                        destoryDirection = 4;
                         return pos;
                     }
 
@@ -463,61 +476,125 @@ public class BattleshipAI
     private Point destroyerMode()
     {
 
-        try
+        if (destoryDirection == 4)
         {
-            for (int i = 0; i < 5; i++)
+            try
             {
-                direction = new Point(lastHit.X + i, lastHit.Y);
+                for (int i = 0; i < 5; i++)
+                {
 
-                if(computerHitsBoard[(int)direction.X,(int)direction.Y] == 0)                
-                    return direction;
+                    if (computerHitsBoard[(int)direction.X, (int)direction.Y] == -1)
+                    {
+                        destoryDirection--;
+                        break;
+                    }
+                    direction = new Point(lastHit.X + i, lastHit.Y);
 
+                    if (computerHitsBoard[(int)direction.X, (int)direction.Y] == 0)
+                        return direction;
+
+                }
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                destoryDirection--;
             }
         }
-        catch (IndexOutOfRangeException e)
-        {        }
-        try
+
+        if (destoryDirection == 3)
         {
-            for (int i = 0; i < 5; i++)
+            try
             {
+                for (int i = 1; i < 5; i++)
+                {
 
+                    if (computerHitsBoard[(int)lastHit.X - 1, (int)lastHit.Y] == 0)
+                    {
 
-                direction = new Point(lastHit.X - i, lastHit.Y);
-                if (computerHitsBoard[(int)direction.X, (int)direction.Y] == 0)
-                    return direction;
+                        direction = new Point(lastHit.X - 1, lastHit.Y);
+                        return direction;
 
+                    }
+
+                    if (computerHitsBoard[(int)direction.X, (int)direction.Y] == -1)
+                    {
+                        destoryDirection--;
+                        break;
+                    }
+
+                    direction = new Point(lastHit.X - i, lastHit.Y);
+                    if (computerHitsBoard[(int)direction.X, (int)direction.Y] == 0)
+                        return direction;
+
+                }
             }
+            catch (IndexOutOfRangeException e)
+            { destoryDirection--; }
         }
-        catch (IndexOutOfRangeException e)
-        {        }
-        try
+        if (destoryDirection == 2)
         {
-            for (int i = 0; i < 5; i++)
+            try
             {
-                direction = new Point(lastHit.X, lastHit.Y + i);
+                for (int i = 1; i < 5; i++)
+                {
 
-                if (computerHitsBoard[(int)direction.X, (int)direction.Y] == 1)                    
-                    return direction;
+                    if (computerHitsBoard[(int)lastHit.X, (int)lastHit.Y + 1] == 0)
+                    {
 
+                        direction = new Point(lastHit.X, lastHit.Y +1);
+                        return direction;
+
+                    }
+
+
+                    if (computerHitsBoard[(int)direction.X, (int)direction.Y] == -1)
+                    {
+                        destoryDirection--;
+                        break;
+                    }
+
+                    direction = new Point(lastHit.X, lastHit.Y + i);
+
+                    if (computerHitsBoard[(int)direction.X, (int)direction.Y] == 0)
+                        return direction;
+
+                }
             }
+            catch (IndexOutOfRangeException e)
+            { destoryDirection--; }
         }
-        catch (IndexOutOfRangeException e)
-        {       }
-        try
+        if (destoryDirection == 1)
         {
-            for (int i = 0; i < 5; i++)
+            try
             {
+                for (int i = 1; i < 5; i++)
+                {
 
-                direction = new Point(lastHit.X + i, lastHit.Y);
+                    if (computerHitsBoard[(int)lastHit.X, (int)lastHit.Y -1] == 0)
+                    {
 
-                if (computerHitsBoard[(int)direction.X, (int)direction.Y] == 1)                   
-                    return direction;
+                        direction = new Point(lastHit.X, lastHit.Y -1);
+                        return direction;
 
+                    }
+
+
+                    if (computerHitsBoard[(int)direction.X, (int)direction.Y] == -1)
+                    {
+                        destoryDirection--;
+                        break;
+                    }
+
+                    direction = new Point(lastHit.X + i, lastHit.Y);
+
+                    if (computerHitsBoard[(int)direction.X, (int)direction.Y] == 0)
+                        return direction;
+
+                }
             }
+            catch (IndexOutOfRangeException e)
+            { destoryDirection--; }
         }
-        catch (IndexOutOfRangeException e)
-        {        }
-
         return new Point(-1,-1);
 
     }
