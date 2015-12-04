@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Media;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -168,6 +169,7 @@ namespace BattleShip
                 welcomeGrid.Visibility = Visibility.Hidden;
                 menuReset.IsEnabled = true;
                 resetBtn_click(sender, e);
+                Regex.Match(nameInputTxt.Text,",");
                 playerName = nameInputTxt.Text;
                 playerNameLbl.Content = "•.• " + playerName + " •.•";
                 playerNameRecordLbl.Content = "Player: " + playerName;
@@ -376,7 +378,7 @@ namespace BattleShip
                             {
                                 MessageBox.Show("Victory. You have destroyed all of your ennemie's spacecrafts", "You Won!", MessageBoxButton.OK);
                                 playerWins++;
-                                playerWinRecordLbl.Content = playerWins;
+                                playerWinRecordLbl.Content = "Wins: " + playerWins;
                             }
                             else
                             {
@@ -421,7 +423,7 @@ namespace BattleShip
                             {
                                 MessageBox.Show("Defeat, all your spacecrafts has been destroyed.", "You Lost!", MessageBoxButton.OK);
                                 playerLoses++;
-                                playerLossRecordLbl.Content = playerWins;
+                                playerLossRecordLbl.Content = "Losses: " + playerWins;
                             }
                         }
                     }
