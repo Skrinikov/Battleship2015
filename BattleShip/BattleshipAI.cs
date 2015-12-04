@@ -7,6 +7,7 @@ public class BattleshipAI
     private int difficulty;
     private int timesLooped = 0;
     private int pattern = 1;
+    private int computerMovesNumber = 0;
     private int[,] computerShipBoard;
     private int[,] computerHitsBoard;
     Point lastHit;
@@ -164,6 +165,11 @@ public class BattleshipAI
     public Point MakeComputerMove()
     {
 
+        if (computerMovesNumber > 99)
+            throw new ArgumentOutOfRangeException("Maximum amount of moves reached.");
+
+        computerMovesNumber++;
+
         if (difficulty == 0)
             return Easy();
         else if (difficulty == 1)
@@ -282,6 +288,7 @@ public class BattleshipAI
 
             }//End of for
             pattern++;
+            Easy();
         }//End of pattern == 1
         else if (pattern == 2)
         {
@@ -352,6 +359,8 @@ public class BattleshipAI
             }//End of for    
 
             pattern++;
+            Easy();
+            
         }//End of pattern == 2
              
         else if (pattern == 3)
@@ -423,9 +432,9 @@ public class BattleshipAI
             }//End of for    
 
             pattern++;
+            
         }
-            pos = new Point(5, 5);
-            return pos;
+        return Easy();
         
     }
 
