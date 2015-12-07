@@ -69,7 +69,7 @@ namespace BattleShip
             int x = (int)pos.X;
             int y = (int)pos.Y;
 
-            if (playerShipBoard[x, y] == 1)
+            if (playerShipBoard[x, y] > 0)
             {
                 computerHitsBoard[x, y] = 1;
                 

@@ -11,8 +11,13 @@ public class BattleshipAI
     private int destoryDirection;
     private int[,] computerShipBoard;
     private int[,] computerHitsBoard;
+    private int[] directions;
+    private int tempHit;
     private Point lastHit;
     private Point direction;
+
+    private bool firstPattern = true;
+    private bool directionChosen = false;
 
     Random r = new Random();
 
@@ -221,7 +226,7 @@ public class BattleshipAI
         if (computerHitsBoard[(int)lastHit.X, (int)lastHit.Y] == 1)
         {
 
-            Point temp = destroyerMode();
+            Point temp = shipDestroyer();
 
             if (temp.X != -1 && temp.Y != -1)
                 return temp;
@@ -412,7 +417,6 @@ public class BattleshipAI
 
                         pos = new Point((k + 1) % 10, j);
                         lastHit = new Point((k + 1) % 10, j);
-                        destoryDirection = 4;
                         return pos;
                     }
                     j = (j + 5) % 10;
@@ -421,7 +425,6 @@ public class BattleshipAI
 
                         pos = new Point((k + 1) % 10, j);
                         lastHit = new Point((k + 1) % 10, j);
-                        destoryDirection = 4;
                         return pos;
                     }
 
@@ -435,7 +438,6 @@ public class BattleshipAI
                     {
 
                         pos = new Point((k + 1) % 10, j);
-                        destoryDirection = 4;
                         lastHit = new Point((k + 1) % 10, j);
                         return pos;
                     }
@@ -446,7 +448,6 @@ public class BattleshipAI
 
                         pos = new Point((k + 1) % 10, j);
                         lastHit = new Point((k + 1) % 10, j);
-                        destoryDirection = 4;
                         return pos;
                     }
 
@@ -473,201 +474,184 @@ public class BattleshipAI
 
     }
 
-    private Point destroyerMode()
+
+    private Point shipDestroyer()
     {
 
-        if (destoryDirection == 4)
+        int x;
+        int y;
+
+        if (firstPattern)
         {
-            try
-            {
-                for (int i = 0; i < 5; i++)
-                {
+            firstPattern = false;
 
-                    if (computerHitsBoard[(int)direction.X, (int)direction.Y] == -1)
-                    {
-                        destoryDirection--;
-                        break;
-                    }
-                    direction = new Point(lastHit.X + i, lastHit.Y);
+            directions = new int[4];
+            directions[0] = 0;
+            directions[1] = 1;
+            directions[2] = 2;
+            directions[3] = 3;
 
-                    if (computerHitsBoard[(int)direction.X, (int)direction.Y] == 0)
-                        return direction;
-
-                }
-            }
-            catch (IndexOutOfRangeException e)
-            {
-                destoryDirection--;
-            }
         }
 
-        if (destoryDirection == 3)
+        while (!directionChosen)
         {
-            try
+
+            tempHit = r.Next(0, 4);
+
+            //Checks if all values are -1. If so breaks from the loop in order to prevent infinite loop.
+            if (directions[0] == -1 && directions[1] == -1 && directions[2] == -1 && directions[3] == -1)
             {
-                for (int i = 1; i < 5; i++)
-                {
-
-                    if (computerHitsBoard[(int)lastHit.X - 1, (int)lastHit.Y] == 0)
-                    {
-
-                        direction = new Point(lastHit.X - 1, lastHit.Y);
-                        return direction;
-
-                    }
-
-                    if (computerHitsBoard[(int)direction.X, (int)direction.Y] == -1)
-                    {
-                        destoryDirection--;
-                        break;
-                    }
-
-                    direction = new Point(lastHit.X - i, lastHit.Y);
-                    if (computerHitsBoard[(int)direction.X, (int)direction.Y] == 0)
-                        return direction;
-
-                }
+                tempHit = -2;
+                break;
             }
-            catch (IndexOutOfRangeException e)
-            { destoryDirection--; }
+
+            if (directions[tempHit] != -1)
+            {
+                directionChosen = true;
+                tempHit = directions[tempHit];
+                directions[tempHit] = -1;
+            }
+
         }
-        if (destoryDirection == 2)
+
+        for (int i = 1; i < 11; i++)
         {
-            try
-            {
-                for (int i = 1; i < 5; i++)
+
+            x = (int)lastHit.X;
+            y = (int)lastHit.Y;
+
+            //Vertical UP
+            if (tempHit == 1) {
+
+                try
                 {
-
-                    if (computerHitsBoard[(int)lastHit.X, (int)lastHit.Y + 1] == 0)
+                    if (computerHitsBoard[x + i, y] == -1)
                     {
 
-                        direction = new Point(lastHit.X, lastHit.Y +1);
-                        return direction;
+                        directionChosen = false;
+                        return shipDestroyer();
 
                     }
-
-
-                    if (computerHitsBoard[(int)direction.X, (int)direction.Y] == -1)
+                    else if (computerHitsBoard[x + i, y] == 0)
                     {
-                        destoryDirection--;
-                        break;
+
+                        Point p = new Point(x + i, y);
+                        return p;
+
                     }
-
-                    direction = new Point(lastHit.X, lastHit.Y + i);
-
-                    if (computerHitsBoard[(int)direction.X, (int)direction.Y] == 0)
-                        return direction;
-
+                    else
+                        continue;
                 }
-            }
-            catch (IndexOutOfRangeException e)
-            { destoryDirection--; }
-        }
-        if (destoryDirection == 1)
-        {
-            try
-            {
-                for (int i = 1; i < 5; i++)
+                catch (IndexOutOfRangeException e)
                 {
-
-                    if (computerHitsBoard[(int)lastHit.X, (int)lastHit.Y -1] == 0)
-                    {
-
-                        direction = new Point(lastHit.X, lastHit.Y -1);
-                        return direction;
-
-                    }
-
-
-                    if (computerHitsBoard[(int)direction.X, (int)direction.Y] == -1)
-                    {
-                        destoryDirection--;
-                        break;
-                    }
-
-                    direction = new Point(lastHit.X + i, lastHit.Y);
-
-                    if (computerHitsBoard[(int)direction.X, (int)direction.Y] == 0)
-                        return direction;
-
+                    directionChosen = false;
+                    return shipDestroyer();
                 }
+            
             }
-            catch (IndexOutOfRangeException e)
-            { destoryDirection--; }
+            //Vertical down
+            else if (tempHit == 2)
+            {
+                try
+                {
+                    if (computerHitsBoard[x - i , y] == -1)
+                    {
+
+                        directionChosen = false;
+                        return shipDestroyer();
+
+                    }
+                    else if (computerHitsBoard[x - i, y] == 0)
+                    {
+
+                        Point p = new Point(x - i, y);
+                        return p;
+
+                    }
+                    else
+                        continue;
+                }
+                catch (IndexOutOfRangeException e)
+                {
+                    directionChosen = false;
+                    return shipDestroyer();
+                }
+            
+
+            }
+            //Horizontal Left
+            else if (tempHit == 0)
+            {
+                try
+                {
+                    if (computerHitsBoard[x, y + i ] == -1)
+                    {
+
+                        directionChosen = false;
+                        return shipDestroyer();
+
+                    }
+                    else if (computerHitsBoard[x, y + i] == 0)
+                    {
+
+                        Point p = new Point(x, y + i);
+                        return p;
+
+                    }
+                    else
+                        continue;
+                }
+                catch (IndexOutOfRangeException e)
+                {
+                    directionChosen = false;
+                    return shipDestroyer();
+                }
+            
+
+            }
+            //Horizontal right.
+            else if (tempHit == 3)
+            {
+
+                try
+                {
+                    if (computerHitsBoard[x, y - i ] == -1)
+                    {
+
+                        directionChosen = false;
+                        return shipDestroyer();
+
+                    }
+                    else if (computerHitsBoard[x, y - i] == 0)
+                    {
+
+                        Point p = new Point(x, y - i);
+                        return p;
+
+                    }
+                    else
+                        continue;
+                }
+                catch (IndexOutOfRangeException e)
+                {
+                    directionChosen = false;
+                    return shipDestroyer();
+                }
+
+            }
+            else
+            {
+
+                firstPattern = true;
+                
+            }
+                
+
+
         }
-        return new Point(-1,-1);
+        return new Point(-1, -1);
+
 
     }
-
-   /* private void temp()
-    {
-
-        int[] possibleValues = { 0,1, 2, 3, 4, 5, 6, 7, 8, 9 };
-
-        for (int i = 0; i < 10; i++)
-        {
-
-            int k = r.Next(0, 10);
-
-            if (possibleValues[k] != k)
-            {
-                i--;
-                continue;
-            }
-            else
-            {
-                possibleValues[k] = -1;
-            }
-
-            if (r.Next(0, 2) == 1)
-            {
-
-                int j = k;
-
-                if (computerHitsBoard[k, j] == 0)
-                {
-
-                    pos = new Point(k, j);
-                    lastHit = new Point(k, j);
-                    return pos;
-                }
-                j = (j + 5) % 10;
-                if (computerHitsBoard[k, j] == 0)
-                {
-
-                    pos = new Point(k, j);
-                    lastHit = new Point(k, j);
-                    return pos;
-                }
-
-            }
-            else
-            {
-                int j = k;
-
-                j = (j + 5) % 10;
-                if (computerHitsBoard[k, j] == 0)
-                {
-
-                    pos = new Point(k, j);
-                    lastHit = new Point(k, j);
-                    return pos;
-                }
-
-                j = (j + 5) % 10;
-                if (computerHitsBoard[k, j] == 0)
-                {
-
-                    pos = new Point(k, j);
-                    lastHit = new Point(k, j);
-                    return pos;
-                }
-
-            }
-            
-        }
-
-
-    }*/
 
 }
