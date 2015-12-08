@@ -1,6 +1,13 @@
 ﻿using System;
 using System.Windows;
 
+
+/**
+* A version of  the Battleship game with a space theme instance of AI.
+*
+* @author Danieil Skrinikov with a continuous code breaking by Uen Yi (Cindy) Hung
+* @Version 12/08/2015
+*/
 public class BattleshipAI
 {
 
@@ -493,7 +500,8 @@ public class BattleshipAI
 
     }
 
-    /** Once the hard Ai finds a position which hit a ship it will randomly look for the 4 directions for the ship. If a direction is found it will shoot in this direction until
+    /** Once the hard Ai finds a position which hit a ship it will randomly look for the 4 directions for the ship. If a direction is found it will shoot in this direction until all directions are not hit
+     *  or until the boat is destroyed.
      */
     private Point shipDestroyer(bool isBoatDestroyed)
     {
@@ -694,6 +702,5 @@ public class BattleshipAI
 
     }
 
-    private bool didComputerSunkAShip() { return false; }
 
 }

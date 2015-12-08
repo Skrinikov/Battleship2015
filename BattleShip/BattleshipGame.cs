@@ -5,8 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
+/**
+* A version of  the Battleship game with a space theme instance.
+*
+* @author Danieil Skrinikov with the help of Uen Yi (Cindy) Hung and Claudio Pietrantonio.
+* @Version 12/08/2015
+*/
 namespace BattleShip
 {
+   
     class BattleshipGame
     {
 
@@ -28,6 +35,13 @@ namespace BattleShip
 
         }
 
+        /** Two parameter constructor for a single AI game instance. 
+         * 
+         * @param difficulty
+         *          Is the Difficulty on which the game will be played.
+         * @param playerShipBoard
+         *          Is the board in which the player has set up his ships.
+         */
         public BattleshipGame(int difficulty, int[,] playerShipBoard)
         {
 
@@ -43,6 +57,18 @@ namespace BattleShip
 
         }
 
+        /// <summary>
+        ///     Everytime the player makes a move this method looks if the Position of the move corresponds to a position of a ship inside the computerShipBoard array.
+        ///     If it does corresponds to a ship tile. It will flip the ship tile to negative and assigns the lastShipHitByPlayer to the corresponding ship hit.
+        /// </summary>
+        /// <param name="pos">
+        ///     pos: It is the position that the player chose to make his move on.
+        /// </param>
+        /// <returns>
+        ///     returns 1  if it hit a boat,
+        ///     returns 0  if it did not hit a board.
+        ///     returns -1 if the position was already hit before.
+        /// </returns>
         public int MoveByPlayer(Point pos)
         {
 
@@ -66,7 +92,14 @@ namespace BattleShip
                 return -1;
 
         }
-
+        /// <summary>
+        ///     Calls the ai MakeComputerMove method. Using its return it then looks if the computer move corresponds to a ship tile inside the player ships array. 
+        ///         If it does: Flips the player ships array to negative and assigns a 1 into the corresponding position of the computerHitsArray.
+        ///         If it does: Assigns -1 to the corresponding positin in the computerHitsArray.
+        /// </summary>
+        /// <returns>
+        ///     The positiong in which the computer made its move.
+        /// </returns>
         public Point MoveByComputer()
         {
 
@@ -89,6 +122,13 @@ namespace BattleShip
 
         }
 
+        /// <summary>
+        ///     Looks if the player won.
+        /// </summary>
+        /// <returns>
+        ///     True if the player won.
+        ///     False if the player did not win yet.
+        /// </returns>
         public bool DidPlayerWin()
         {
             for (int i = 0; i < 10; i++)
@@ -99,6 +139,13 @@ namespace BattleShip
             return true;
         }
 
+        /// <summary>
+        ///     Looks if the Computer won.
+        /// </summary>
+        /// <returns>
+        ///     True if the Computer won.
+        ///     False if the Computer did not win yet.
+        /// </returns>
         public bool DidComputerWin()
         {
             for (int i = 0; i < 10; i++)
@@ -109,6 +156,13 @@ namespace BattleShip
             return true;
         }
 
+        /// <summary>
+        ///     Cheks if the player sunk a boat.
+        /// </summary>
+        /// <returns>
+        ///     True is the player sunk a boat.
+        ///     False if the player did not sink a boat.
+        /// </returns>
         public bool DidPlayerSinkABoat()
         {
 
@@ -131,6 +185,13 @@ namespace BattleShip
             return true;
         }
 
+        /// <summary>
+        ///     Cheks if the computer sunk a boat.
+        /// </summary>
+        /// <returns>
+        ///     True is the computer sunk a boat.
+        ///     False if the computer did not sink a boat.
+        /// </returns>
         private bool DidComputerSinkABoat()
         {
 
