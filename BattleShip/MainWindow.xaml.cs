@@ -11,8 +11,9 @@ using System.Windows.Media.Imaging;
 /**
 * A version of  the Battleship game with a space theme.
 *
-* @author Uen Yi (Cindy) Hung
-* @Version 30/11/2015
+* @author Uen Yi (Cindy) Hung 
+* @author Claudio Pietrantonio
+* @Version 08/12/2015
 */
 namespace BattleShip
 {
