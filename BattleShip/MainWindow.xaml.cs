@@ -515,6 +515,7 @@ namespace BattleShip
                                 MessageBox.Show("Victory. You have destroyed all of your ennemie's spacecrafts", "You Won!", MessageBoxButton.OK);
                                 playerWins++;
                                 playerWinRecordLbl.Content = "Wins: " + playerWins;
+                                pcBoardCanvas.IsEnabled = false;
                                 updateRecord();
                             }
                             else
@@ -566,6 +567,7 @@ namespace BattleShip
                                 playerLoses++;
                                 playerLossRecordLbl.Content = "Losses: " + playerLoses;
                                 updateRecord();
+                                pcBoardCanvas.IsEnabled = false;
                             }
                         }
                     }
