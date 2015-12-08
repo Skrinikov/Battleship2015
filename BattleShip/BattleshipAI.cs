@@ -177,7 +177,7 @@ public class BattleshipAI
      * Throws ArgumentOutOfRangeException
      *                      If the computer has made more than 99 turns.
      */
-    public Point MakeComputerMove()
+    public Point MakeComputerMove(bool isBoatDestroyed)
     {
 
         if (computerMovesNumber > 99)
@@ -186,11 +186,11 @@ public class BattleshipAI
         computerMovesNumber++;
 
         if (difficulty == 0)
-            return Easy();
+            return Easy(isBoatDestroyed);
         else if (difficulty == 1)
-            return Medium();
+            return Medium(isBoatDestroyed);
         else
-            return Hard();
+            return Hard(isBoatDestroyed);
 
 
     }
@@ -199,7 +199,7 @@ public class BattleshipAI
      * If it did already hit this position before it will call itself recursively until it finds an un used value. 
      *  
      */
-    private Point Easy()
+    private Point Easy(bool isBoatDestroyed)
     {
 
         int x = r.Next(0, 10);
@@ -211,7 +211,7 @@ public class BattleshipAI
         pos.Y = y;
 
         if (computerHitsBoard[x, y] != 0)
-            pos = Easy();
+            pos = Easy(isBoatDestroyed);
 
         return pos;
 
@@ -220,13 +220,13 @@ public class BattleshipAI
 
     /** Medium AI. Half the time calls the hard AI method half the time calls the medium method.
      */
-    private Point Medium()
+    private Point Medium(bool isBoatDestroyed)
     {
 
         if (r.Next(0, 2) == 1)
-            return Hard();
+            return Hard(isBoatDestroyed);
         else
-            return Easy();
+            return Easy(isBoatDestroyed);
 
     }
 
@@ -236,7 +236,7 @@ public class BattleshipAI
      *  If everything misses. It will look randomly for a sqaure to destroy.
      * 
      */
-    private Point Hard()
+    private Point Hard(bool isBoatDestroyed)
     {
 
         Point pos;
@@ -245,7 +245,7 @@ public class BattleshipAI
         if (computerHitsBoard[(int)lastHit.X, (int)lastHit.Y] == 1)
         {
 
-            Point temp = shipDestroyer();
+            Point temp = shipDestroyer(isBoatDestroyed);
 
             if (temp.X != -1 && temp.Y != -1)
                 return temp;
@@ -327,7 +327,7 @@ public class BattleshipAI
 
             }//End of for
             pattern++;
-            Easy();
+            Easy(isBoatDestroyed);
         }//End of pattern == 1
         else if (pattern == 2)
         {
@@ -402,7 +402,7 @@ public class BattleshipAI
             }//End of for    
 
             pattern++;
-            Easy();
+            Easy(isBoatDestroyed);
 
         }//End of pattern == 2
 
@@ -477,7 +477,7 @@ public class BattleshipAI
             pattern++;
 
         }
-        return Easy();
+        return Easy(isBoatDestroyed);
 
     }
 
@@ -495,7 +495,7 @@ public class BattleshipAI
 
     /** Once the hard Ai finds a position which hit a ship it will randomly look for the 4 directions for the ship. If a direction is found it will shoot in this direction until
      */
-    private Point shipDestroyer()
+    private Point shipDestroyer(bool isBoatDestroyed)
     {
 
         int x;
@@ -540,6 +540,9 @@ public class BattleshipAI
             x = (int)lastHit.X;
             y = (int)lastHit.Y;
 
+            if (isBoatDestroyed)
+                break;
+
             //Vertical UP
             if (tempHit == 1)
             {
@@ -550,7 +553,7 @@ public class BattleshipAI
                     {
 
                         directionChosen = false;
-                        return shipDestroyer();
+                        return shipDestroyer(isBoatDestroyed);
 
                     }
                     else if (computerHitsBoard[x + i, y] == 0)
@@ -566,7 +569,7 @@ public class BattleshipAI
                 catch (IndexOutOfRangeException e)
                 {
                     directionChosen = false;
-                    return shipDestroyer();
+                    return shipDestroyer(isBoatDestroyed);
                 }
 
             }
@@ -579,7 +582,7 @@ public class BattleshipAI
                     {
 
                         directionChosen = false;
-                        return shipDestroyer();
+                        return shipDestroyer(isBoatDestroyed);
 
                     }
                     else if (computerHitsBoard[x - i, y] == 0)
@@ -595,7 +598,7 @@ public class BattleshipAI
                 catch (IndexOutOfRangeException e)
                 {
                     directionChosen = false;
-                    return shipDestroyer();
+                    return shipDestroyer(isBoatDestroyed);
                 }
 
 
@@ -609,7 +612,7 @@ public class BattleshipAI
                     {
 
                         directionChosen = false;
-                        return shipDestroyer();
+                        return shipDestroyer(isBoatDestroyed);
 
                     }
                     else if (computerHitsBoard[x, y + i] == 0)
@@ -625,7 +628,7 @@ public class BattleshipAI
                 catch (IndexOutOfRangeException e)
                 {
                     directionChosen = false;
-                    return shipDestroyer();
+                    return shipDestroyer(isBoatDestroyed);
                 }
 
 
@@ -640,7 +643,7 @@ public class BattleshipAI
                     {
 
                         directionChosen = false;
-                        return shipDestroyer();
+                        return shipDestroyer(isBoatDestroyed);
 
                     }
                     else if (computerHitsBoard[x, y - i] == 0)
@@ -656,7 +659,7 @@ public class BattleshipAI
                 catch (IndexOutOfRangeException e)
                 {
                     directionChosen = false;
-                    return shipDestroyer();
+                    return shipDestroyer(isBoatDestroyed);
                 }
 
             }

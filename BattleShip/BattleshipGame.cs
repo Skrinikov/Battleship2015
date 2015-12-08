@@ -16,7 +16,9 @@ namespace BattleShip
         private int[,] computerHitsBoard;
         private int[,] computerShipBoard;
         private int[] computerShips = { 7, 6, 5, 4, 3 };
+        private int[] playerShips = { 7, 6, 5, 4, 3 };
         private int lastShipHitByPlayer;
+        private int lastShipHitByComputer;
         BattleshipAI ai;
 
         public BattleshipGame()
@@ -68,7 +70,7 @@ namespace BattleShip
         public Point MoveByComputer()
         {
 
-            Point pos = ai.MakeComputerMove();
+            Point pos = ai.MakeComputerMove(DidComputerSinkABoat());
             int x = (int)pos.X;
             int y = (int)pos.Y;
 
@@ -124,6 +126,27 @@ namespace BattleShip
 
             return true;
         }
+
+        private bool DidComputerSinkABoat()
+        {
+
+            for (int i = 0; i < 5; i++)
+                if (playerShips[i] == lastShipHitByComputer * -1)
+                    return false;
+
+            for (int i = 0; i < 10; i++)
+                for (int j = 0; j < 10; j++)
+                    if (playerShipBoard[i, j] == lastShipHitByComputer)
+                        return false;
+
+            for (int i = 0; i < 5; i++)
+                if (playerShips[i] == lastShipHitByComputer)
+                    playerShips[i] *= -1;
+
+            return true;
+        }
+
+
 
     }
 }
