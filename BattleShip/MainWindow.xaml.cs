@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.IO;
 using System.Media;
 using System.Text.RegularExpressions;
@@ -32,7 +33,8 @@ namespace BattleShip
         bool canPlace = true;
         Point pos;
         String playerName = null;
-
+        ArrayList list = new ArrayList();
+        int[] shipSize;
         Image[] pieces;
         Image[] piecesFlipped;
         Image[] set;
@@ -48,6 +50,9 @@ namespace BattleShip
             initializers();
         }
 
+        /// <summary>
+        /// Initializes the arrays to use and loads the records.
+        /// </summary>
         public void initializers()
         {
             pieces = new Image[7] { piece1, piece2, piece3, piece4, piece5, piece6, piece7 };
@@ -55,6 +60,7 @@ namespace BattleShip
             set = new Image[7] { ship1, ship2, ship3, ship4, ship5, ship6, ship7 };
             letterPos = new String[10] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
             numberPos = new String[10] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
+            shipSize = new int[7] { 7, 6, 5, 4, 3, 1, 1 };
             for (int i = 0; i < player.GetLength(0); i++)
                 for (int j = 0; j < player.GetLength(1); j++)
                 {
@@ -65,11 +71,21 @@ namespace BattleShip
         }
 
         //MENU ITEMS
+        /// <summary>
+        /// Closes the program when user clicks on the menu item 'Exit'.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void exit_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
 
+        /// <summary>
+        /// Generates a new game when user clicks on the menu item 'New Game'.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void newGame_Click(object sender, RoutedEventArgs e)
         {
             menuNewGame.IsEnabled = false;
@@ -83,6 +99,12 @@ namespace BattleShip
             pcBoardCanvas.Children.RemoveRange(0, pcBoardCanvas.Children.Count);
         }
 
+        /// <summary>
+        /// Starts a game of the level clicked on in the menu bar, if user entered a name with at least 3 characters.
+        /// Turn off visibility of the welcome page items and adjust the labels.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void menuMode_Click(object sender, RoutedEventArgs e)
         {
             if (nameInputTxt.Text.Length > 2)
@@ -122,8 +144,20 @@ namespace BattleShip
             }
             else
                 MessageBox.Show("Player name must be at least 3 characters long.", "Error", MessageBoxButton.OK);
+
+            if (pcBoardCanvas.Children.Count > 0)
+            {
+                playerBoardCanvas.Children.RemoveRange(7, playerBoardCanvas.Children.Count - 7);
+                pcBoardCanvas.Children.RemoveRange(0, pcBoardCanvas.Children.Count);
+            }
         }
 
+        /// <summary>
+        /// Turn the credit panel's visibility to 'true' and the other panel's visibility to 'false'
+        /// when the menu item 'Credit' is clicked. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void credit_Click(object sender, RoutedEventArgs e)
         {
             creditGrid.Visibility = Visibility.Visible;
@@ -131,11 +165,22 @@ namespace BattleShip
             scoreBoardGrid.Visibility = Visibility.Hidden;
         }
 
+        /// <summary>
+        /// Turn the credit panel's visibility to 'false' when the 'OK' button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void creditOk_Click(object sender, RoutedEventArgs e)
         {
             creditGrid.Visibility = Visibility.Hidden;
         }
 
+        /// <summary>
+        /// Turn the 'how to play' panel's visibility to 'true' and the other panels' visibility to 'false'
+        /// when the menu item 'How to Play' is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void howToPlay_Click(object sender, RoutedEventArgs e)
         {
             howToPlayGrid.Visibility = Visibility.Visible;
@@ -143,11 +188,22 @@ namespace BattleShip
             scoreBoardGrid.Visibility = Visibility.Hidden;
         }
 
+        /// <summary>
+        /// Turn the 'how to play' panel's visibility to 'false' when the 'OK' button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void howToPlayOk_Click(object sender, RoutedEventArgs e)
         {
             howToPlayGrid.Visibility = Visibility.Hidden;
         }
 
+        /// <summary>
+        /// Turn the score panel's visibility to 'true' and all the other panel's visibility to 'false'
+        /// when the menu item 'Score' is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void menuScore_Click(object sender, RoutedEventArgs e)
         {
             scoreBoardGrid.Visibility = Visibility.Visible;
@@ -156,39 +212,69 @@ namespace BattleShip
 
         }
 
+        /// <summary>
+        /// Turn the score panel's visibility to 'false' when the 'ok' button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void scoreOkBtn_Click(object sender, RoutedEventArgs e)
         {
             scoreBoardGrid.Visibility = Visibility.Hidden;
         }
 
         // WELCOME PAGE/GRID
+        /// <summary>
+        ///  Generate a game of the level clicked on if the player name is more than 2 cahracters.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void welcomeModeBtn_click(object sender, RoutedEventArgs e)
         {
-            if (nameInputTxt.Text.Length > 2)
+            if (nameInputTxt.Text.Length > 2 && nameInputTxt.Text.IndexOf(",") == -1)
             {
                 welcomeGrid.Visibility = Visibility.Hidden;
                 menuReset.IsEnabled = true;
                 resetBtn_click(sender, e);
-                Regex.Match(nameInputTxt.Text,",");
+
                 playerName = nameInputTxt.Text;
                 playerNameLbl.Content = "•.• " + playerName + " •.•";
                 playerNameRecordLbl.Content = "Player: " + playerName;
                 searchPlayer();
                 playerWinRecordLbl.Content = "Wins: " + playerWins;
                 playerLossRecordLbl.Content = "Loses: " + playerLoses;
-                ;
 
                 if (((Button)sender).Tag.Equals("easyMode"))
+                {
                     mode = 0;
+                    menuEasy.IsEnabled = false;
+                    menuNormal.IsEnabled = true;
+                    menuHard.IsEnabled = true;
+                }
                 else if (((Button)sender).Tag.Equals("normalMode"))
+                {
                     mode = 1;
+                    menuNormal.IsEnabled = false;
+                    menuEasy.IsEnabled = true;
+                    menuHard.IsEnabled = true;
+                }
                 else
+                {
                     mode = 2;
+                    menuNormal.IsEnabled = true;
+                    menuEasy.IsEnabled = true;
+                    menuHard.IsEnabled = false;
+                }
             }
             else
-                MessageBox.Show("Player name must be at least 3 characters long.", "Error", MessageBoxButton.OK);
+                MessageBox.Show("Player name must be at least 3 characters long with no ','.", "Error", MessageBoxButton.OK);
         }
 
+        /// <summary>
+        /// Clear the inputbox so the user can input a player name and enable the game mode
+        /// menu items and buttons.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void nameInput_click(object sender, MouseButtonEventArgs e)
         {
             nameInputTxt.Text = "";
@@ -201,6 +287,12 @@ namespace BattleShip
         }
 
         // GAME VISUAL
+        /// <summary>
+        /// Keep track of the mouse position, to have the ship image follow this position, follow the mouse cursor
+        /// while taking in consideration the boundaries of the canvas and ship size and ship direction.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void playerCanvas_MouseMove(object sender, MouseEventArgs e)
         {
             pos = Mouse.GetPosition((Canvas)sender);
@@ -229,6 +321,11 @@ namespace BattleShip
             //Console.WriteLine(pos.X + " " + pos.Y);
         }
 
+        /// <summary>
+        /// Turn the visibility of the ship to place to 'true' and the visibility of that same ship in the ship yard
+        /// to 'false'. Set the image's location to the location of the mouse cursor.
+        /// </summary>
+        /// <param name="img"></param>
         private void moveImage(Image img)
         {
             img.Visibility = Visibility.Visible;
@@ -237,6 +334,14 @@ namespace BattleShip
             Canvas.SetLeft(img, pos.X);
         }
 
+        /// <summary>
+        /// Look is player still has piece to place, if yes, check if the position is taken,
+        /// if it is taken, play a sound for invalid move. If the position is not taken, change
+        /// the player boat array data to the appropriate nubmers at the appropriate positions.
+        /// If player has no more boats to put, the start button will be visible.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void playerBoardCanvas_LeftClick(object sender, MouseButtonEventArgs e)
         {
             // If player can still play pieces.
@@ -264,10 +369,10 @@ namespace BattleShip
                     for (int i = 0; i < pieces[counter].Width / 40; i++)
                         for (int j = 0; j < pieces[counter].Height / 40; j++)
                         {
-                            if (counter > 4)
-                                player[a + j, b + i] = 2;
-                            else
-                                player[a + j, b + i] = 1;
+                            //if (counter > 4)
+                            player[a + j, b + i] = shipSize[counter];
+                            //else
+                            // player[a + j, b + i] = 1;
                         }
                     counter++;
                 }
@@ -290,6 +395,12 @@ namespace BattleShip
             }
         }
 
+        /// <summary>
+        /// Changes the current ship image to place to its' opposite equivalent (horizontal, vertical) that is stored at the same array position
+        /// int another array.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void playerBoardCanvas_RightClick(object sender, MouseButtonEventArgs e)
         {
             Image temp;
@@ -303,6 +414,13 @@ namespace BattleShip
             }
         }
 
+        /// <summary>
+        /// Turn all ship image on the player canvas to 'false' and all ship image in the shipyard grid to 'true'.
+        /// Turn the visibility or isenabled to false for the 'start' button and the computer's canvas. Returns all
+        /// data of the player's ship to 0s.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void resetBtn_click(object sender, RoutedEventArgs e)
         {
             startBtn.Visibility = Visibility.Hidden;
@@ -329,6 +447,14 @@ namespace BattleShip
                 }
         }
 
+        /// <summary>
+        /// Generate the computer's ship board array to start the game.
+        /// Turn visibility to hidden for the 'reset' and 'start' button.
+        /// Enable the computer canvas and the 'New Game' menu item, and disable the 'reset'
+        /// menu item.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void startBtn_click(object sender, RoutedEventArgs e)
         {
             resetBtn.Visibility = Visibility.Hidden;
@@ -339,6 +465,14 @@ namespace BattleShip
             game = new BattleshipGame(mode, player);
         }
 
+        /// <summary>
+        /// Determine the player cliked on a valid place then
+        /// show an image that will represent a hit or miss a boat. 
+        /// Check for winner, computer plays, check for winner. If there a 
+        /// winner, show a message box and update the scores.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pcBoardCanvas_Click(object sender, MouseButtonEventArgs e)
         {
             int result;
@@ -379,6 +513,7 @@ namespace BattleShip
                                 MessageBox.Show("Victory. You have destroyed all of your ennemie's spacecrafts", "You Won!", MessageBoxButton.OK);
                                 playerWins++;
                                 playerWinRecordLbl.Content = "Wins: " + playerWins;
+                                updateRecord();
                             }
                             else
                             {
@@ -389,10 +524,14 @@ namespace BattleShip
 
                                 pos = game.MoveByComputer();
 
-                                if (player[(int)pos.X, (int)pos.Y] > 0)
+                                if (player[(int)pos.X, (int)pos.Y] == 1)
                                 {
-                                    Console.WriteLine(player[(int)pos.X, (int)pos.Y]);
                                     moves[moveCounter].Source = ((Image)this.FindResource("hitImg")).Source;
+                                    player[(int)pos.X, (int)pos.Y] *= -1;
+                                }
+                                if (player[(int)pos.X, (int)pos.Y] == 2)
+                                {
+                                    moves[moveCounter].Source = ((Image)this.FindResource("mineImg")).Source;
                                     player[(int)pos.X, (int)pos.Y] *= -1;
                                 }
                                 else if (player[(int)pos.X, (int)pos.Y] == 0)
@@ -423,7 +562,8 @@ namespace BattleShip
                             {
                                 MessageBox.Show("Defeat, all your spacecrafts has been destroyed.", "You Lost!", MessageBoxButton.OK);
                                 playerLoses++;
-                                playerLossRecordLbl.Content = "Losses: " + playerWins;
+                                playerLossRecordLbl.Content = "Losses: " + playerLoses;
+                                updateRecord();
                             }
                         }
                     }
@@ -431,50 +571,80 @@ namespace BattleShip
         }
 
         // OTHER
+        /// <summary>
+        /// Load the record.txt file.
+        /// </summary>
         private void loadRecord()
         {
             String record;
             String[] recordArray;
+            scoreRecordTxtB.Text = "";
             if (File.Exists("record.txt"))
             {
                 StreamReader sr = new StreamReader("record.txt");
-
                 do
                 {
                     record = sr.ReadLine();
                     if (record != null && record.Split(',').Length == 3)
                     {
                         recordArray = record.Split(',');
+                        list.Add(record);
                         scoreRecordTxtB.Text += String.Format("Player: {0,-20} Wins: {1,-5} Loses: {2,-5} \n", recordArray[0], recordArray[1], recordArray[2]);
                     }
                 } while (record != null);
+                sr.Close();
             }
         }
 
+        /// <summary>
+        /// Check if current player is an existant player, if not create a record for them.
+        /// </summary>
         private void searchPlayer()
         {
-            String record;
             String[] recordArray;
-            if (File.Exists("record.txt"))
-            {
-                StreamReader sr = new StreamReader("record.txt");
+            bool playerExists = false;
 
-                do
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i].ToString().Substring(0, list[i].ToString().IndexOf(",")).Equals(playerName))
                 {
-                    record = sr.ReadLine();
-                    if (record != null && record.Split(',').Length == 3)
-                    {
-                        recordArray = record.Split(',');
-                        if (playerName.Equals(recordArray[0]))
-                        {
-                            playerWins = int.Parse(recordArray[1]);
-                            playerLoses = int.Parse(recordArray[2]);
-                            break;
-                        }
-                    }
-                } while (record != null);
+                    recordArray = list[i].ToString().Split(',');
+                    playerWins = int.Parse(recordArray[1]);
+                    playerLoses = int.Parse(recordArray[2]);
+                    playerExists = true;
+                    break;
+                }
             }
+            if (!playerExists)
+                list.Add(playerName + "," + playerWins + "," + playerLoses);
         }
 
+        /// <summary>
+        /// Updates the score board and the record.txt file.
+        /// </summary>
+        private void updateRecord()
+        {
+            String[] recordArray;
+            StreamWriter writer;
+
+            if (!File.Exists("record.txt"))
+                File.Create("record.txt");
+
+            for (int i = 0; i < list.Count; i++)
+                if (list[i].ToString().Substring(0, list[i].ToString().IndexOf(",")).Equals(playerName))
+                {
+                    recordArray = list[i].ToString().Split(',');
+                    recordArray[1] = playerWins.ToString();
+                    recordArray[2] = playerLoses.ToString();
+                    list[i] = playerName + "," + recordArray[1] + "," + recordArray[2];
+                    break;
+                }
+
+            writer = new StreamWriter("record.txt");
+            for (int i = 0; i < list.Count; i++)
+                writer.WriteLine(list[i].ToString());
+            writer.Close();
+            loadRecord();
+        }
     } // End of partial class.
 } // THE END.

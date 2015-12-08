@@ -11,6 +11,7 @@
     <Window.Resources>
         <Image x:Name="hit" x:Key="hitImg" Source="Resources/hit.png"/>
         <Image x:Name="miss" x:Key="missImg" Source="Resources/miss.png"/>
+        <Image x:Name="mine" x:Key="mineImg" Source="Resources/mineHit.png"/>
         <Style TargetType="Button">
             <Setter Property="Background" Value="#FF2D3034"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -265,7 +266,7 @@
             <TextBlock x:Name="howToPlayTxtB" Grid.Row="2" FontSize="20" FontWeight="ExtraBlack" VerticalAlignment="Center">GOAL: Sink all of your ennemi's ships without hitting their space mines.<LineBreak/><LineBreak/><LineBreak/>
                        SETUP: Place your ships and mines onto your board strategically. <LineBreak/><LineBreak/><LineBreak/>
                        PLAY: Turn by turn, click on a square on the ennemi's board to strike. <LineBreak/><LineBreak/>
-                       If you hit a ship, a red peg will show up at that spot otherwise a white peg will be shown.</TextBlock>
+                       If you hit a ship, a red bullet hole will show up at that spot otherwise a white bullet hole will be shown.</TextBlock>
             <Button Grid.Row="3" Height="35" Width="100" FontSize="15" Click="howToPlayOk_Click">OK</Button>
         </Grid>
 
