@@ -34,6 +34,7 @@ namespace BattleShip
         Point pos;
         String playerName = null;
         ArrayList list = new ArrayList();
+        int[] shipSize;
         Image[] pieces;
         Image[] piecesFlipped;
         Image[] set;
@@ -49,6 +50,9 @@ namespace BattleShip
             initializers();
         }
 
+        /// <summary>
+        /// Initializes the arrays to use and loads the records.
+        /// </summary>
         public void initializers()
         {
             pieces = new Image[7] { piece1, piece2, piece3, piece4, piece5, piece6, piece7 };
@@ -56,6 +60,7 @@ namespace BattleShip
             set = new Image[7] { ship1, ship2, ship3, ship4, ship5, ship6, ship7 };
             letterPos = new String[10] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
             numberPos = new String[10] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
+            shipSize = new int[7] { 4, 3, 3, 2, 2, 1, 1 };
             for (int i = 0; i < player.GetLength(0); i++)
                 for (int j = 0; j < player.GetLength(1); j++)
                 {
@@ -66,11 +71,21 @@ namespace BattleShip
         }
 
         //MENU ITEMS
+        /// <summary>
+        /// Closes the program when user clicks on the menu item 'Exit'.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void exit_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
 
+        /// <summary>
+        /// Generates a new game when user clicks on the menu item 'New Game'.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void newGame_Click(object sender, RoutedEventArgs e)
         {
             menuNewGame.IsEnabled = false;
@@ -84,6 +99,12 @@ namespace BattleShip
             pcBoardCanvas.Children.RemoveRange(0, pcBoardCanvas.Children.Count);
         }
 
+        /// <summary>
+        /// Starts a game of the level clicked on in the menu bar, if user entered a name with at least 3 characters.
+        /// Turn off visibility of the welcome page items and adjust the labels.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void menuMode_Click(object sender, RoutedEventArgs e)
         {
             if (nameInputTxt.Text.Length > 2)
@@ -131,6 +152,12 @@ namespace BattleShip
             }
         }
 
+        /// <summary>
+        /// Turn the credit panel's visibility to 'true' and the other panel's visibility to 'false'
+        /// when the menu item 'Credit' is clicked. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void credit_Click(object sender, RoutedEventArgs e)
         {
             creditGrid.Visibility = Visibility.Visible;
@@ -138,11 +165,22 @@ namespace BattleShip
             scoreBoardGrid.Visibility = Visibility.Hidden;
         }
 
+        /// <summary>
+        /// Turn the credit panel's visibility to 'false' when the 'OK' button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void creditOk_Click(object sender, RoutedEventArgs e)
         {
             creditGrid.Visibility = Visibility.Hidden;
         }
 
+        /// <summary>
+        /// Turn the 'how to play' panel's visibility to 'true' and the other panels' visibility to 'false'
+        /// when the menu item 'How to Play' is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void howToPlay_Click(object sender, RoutedEventArgs e)
         {
             howToPlayGrid.Visibility = Visibility.Visible;
@@ -150,11 +188,22 @@ namespace BattleShip
             scoreBoardGrid.Visibility = Visibility.Hidden;
         }
 
+        /// <summary>
+        /// Turn the 'how to play' panel's visibility to 'false' when the 'OK' button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void howToPlayOk_Click(object sender, RoutedEventArgs e)
         {
             howToPlayGrid.Visibility = Visibility.Hidden;
         }
 
+        /// <summary>
+        /// Turn the score panel's visibility to 'true' and all the other panel's visibility to 'false'
+        /// when the menu item 'Score' is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void menuScore_Click(object sender, RoutedEventArgs e)
         {
             scoreBoardGrid.Visibility = Visibility.Visible;
@@ -163,12 +212,22 @@ namespace BattleShip
 
         }
 
+        /// <summary>
+        /// Turn the score panel's visibility to 'false' when the 'ok' button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void scoreOkBtn_Click(object sender, RoutedEventArgs e)
         {
             scoreBoardGrid.Visibility = Visibility.Hidden;
         }
 
         // WELCOME PAGE/GRID
+        /// <summary>
+        ///  Generate a game of the level clicked on if the player name is more than 2 cahracters.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void welcomeModeBtn_click(object sender, RoutedEventArgs e)
         {
             if (nameInputTxt.Text.Length > 2 && nameInputTxt.Text.IndexOf(",") == -1)
@@ -285,10 +344,10 @@ namespace BattleShip
                     for (int i = 0; i < pieces[counter].Width / 40; i++)
                         for (int j = 0; j < pieces[counter].Height / 40; j++)
                         {
-                            if (counter > 4)
-                                player[a + j, b + i] = 2;
-                            else
-                                player[a + j, b + i] = 1;
+                            //if (counter > 4)
+                                player[a + j, b + i] = shipSize[counter];
+                            //else
+                               // player[a + j, b + i] = 1;
                         }
                     counter++;
                 }
