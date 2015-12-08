@@ -81,3 +81,4 @@ C:\Users\Hung1_000\Documents\GitHub\Battleship2015\BattleShip\obj\Debug\BattleSh
 C:\Users\Hung1_000\Documents\GitHub\Battleship2015\BattleShip\obj\Debug\BattleShip.csproj.GenerateResource.Cache
 C:\Users\Hung1_000\Documents\GitHub\Battleship2015\BattleShip\obj\Debug\BattleShip.exe
 C:\Users\Hung1_000\Documents\GitHub\Battleship2015\BattleShip\obj\Debug\BattleShip.pdb
+C:\Users\Hung1_000\Documents\GitHub\Battleship2015\BattleShip\obj\Debug\BattleShip.csprojResolveAssemblyReference.cache
