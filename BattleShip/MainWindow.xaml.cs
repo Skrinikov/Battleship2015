@@ -508,6 +508,8 @@ namespace BattleShip
                             Canvas.SetLeft(moves[moveCounter], pos.X);
                             moveCounter++;
 
+                            if (game.DidPlayerSinkABoat())
+                                MessageBox.Show("Woho! Awesome, you sunk a boat.");
                             if (game.DidPlayerWin())
                             {
                                 MessageBox.Show("Victory. You have destroyed all of your ennemie's spacecrafts", "You Won!", MessageBoxButton.OK);
@@ -524,12 +526,12 @@ namespace BattleShip
 
                                 pos = game.MoveByComputer();
 
-                                if (player[(int)pos.X, (int)pos.Y] == 1)
+                                if (player[(int)pos.X, (int)pos.Y] > 1)
                                 {
                                     moves[moveCounter].Source = ((Image)this.FindResource("hitImg")).Source;
                                     player[(int)pos.X, (int)pos.Y] *= -1;
                                 }
-                                if (player[(int)pos.X, (int)pos.Y] == 2)
+                                if (player[(int)pos.X, (int)pos.Y] == 1)
                                 {
                                     moves[moveCounter].Source = ((Image)this.FindResource("mineImg")).Source;
                                     player[(int)pos.X, (int)pos.Y] *= -1;
