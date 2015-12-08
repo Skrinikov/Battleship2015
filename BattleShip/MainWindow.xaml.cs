@@ -60,7 +60,7 @@ namespace BattleShip
             set = new Image[7] { ship1, ship2, ship3, ship4, ship5, ship6, ship7 };
             letterPos = new String[10] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
             numberPos = new String[10] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
-            shipSize = new int[7] { 4, 3, 3, 2, 2, 1, 1 };
+            shipSize = new int[7] { 7, 6, 5, 4, 3, 1, 1 };
             for (int i = 0; i < player.GetLength(0); i++)
                 for (int j = 0; j < player.GetLength(1); j++)
                 {
@@ -345,9 +345,9 @@ namespace BattleShip
                         for (int j = 0; j < pieces[counter].Height / 40; j++)
                         {
                             //if (counter > 4)
-                                player[a + j, b + i] = shipSize[counter];
+                            player[a + j, b + i] = shipSize[counter];
                             //else
-                               // player[a + j, b + i] = 1;
+                            // player[a + j, b + i] = 1;
                         }
                     counter++;
                 }
