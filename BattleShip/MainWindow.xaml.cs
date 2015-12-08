@@ -562,7 +562,7 @@ namespace BattleShip
                             {
                                 MessageBox.Show("Defeat, all your spacecrafts has been destroyed.", "You Lost!", MessageBoxButton.OK);
                                 playerLoses++;
-                                playerLossRecordLbl.Content = "Losses: " + playerWins;
+                                playerLossRecordLbl.Content = "Losses: " + playerLoses;
                                 updateRecord();
                             }
                         }
