@@ -606,19 +606,22 @@ namespace BattleShip
             String[] recordArray;
             bool playerExists = false;
 
-            for (int i = 0; i < list.Count; i++)
+            if (File.Exists("record.txt"))
             {
-                if (list[i].ToString().Substring(0, list[i].ToString().IndexOf(",")).Equals(playerName))
+                for (int i = 0; i < list.Count; i++)
                 {
-                    recordArray = list[i].ToString().Split(',');
-                    playerWins = int.Parse(recordArray[1]);
-                    playerLoses = int.Parse(recordArray[2]);
-                    playerExists = true;
-                    break;
+                    if (list[i].ToString().Substring(0, list[i].ToString().IndexOf(",")).Equals(playerName))
+                    {
+                        recordArray = list[i].ToString().Split(',');
+                        playerWins = int.Parse(recordArray[1]);
+                        playerLoses = int.Parse(recordArray[2]);
+                        playerExists = true;
+                        break;
+                    }
                 }
+                if (!playerExists)
+                    list.Add(playerName + "," + playerWins + "," + playerLoses);
             }
-            if (!playerExists)
-                list.Add(playerName + "," + playerWins + "," + playerLoses);
         }
 
         /// <summary>
