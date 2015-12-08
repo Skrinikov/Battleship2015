@@ -26,11 +26,11 @@ public class BattleshipAI
      * 
      */
     public BattleshipAI()
-	{
+    {
         this.difficulty = 0;
         initializeBoards();
 
-	}
+    }
 
     /* Overloaded difficulty constructor. Sets the difficulty to what the player wanted to have.
      */
@@ -42,20 +42,22 @@ public class BattleshipAI
 
     }
 
-    /** Randomly assigns the ships through the board. 
+    /** Randomly puts 5 ships and 2 decoys on the computer ship board which will be used for each game instance. 
+     *  After this method is executed the computerShipBoard is guaranteed to have 14 '1' and 2 '2' which represent ships and decoys.
      * 
      */
     private void initializeBoards()
     {
 
 
-        computerShipBoard = new int[10,10];
-        computerHitsBoard = new int[10,10];
+        computerShipBoard = new int[10, 10];
+        computerHitsBoard = new int[10, 10];
         int boatSize = 4;
         int direction;
         int x, y;
         bool isLegalLocation = true;
         bool firstPass = false;
+        int[] computerShips = { 7, 6, 5, 4, 3 };
 
         //1x4
         //1x3
@@ -71,85 +73,85 @@ public class BattleshipAI
             direction = r.Next(0, 2);
             isLegalLocation = true;
 
-                if (direction == 0)
+            if (direction == 0)
+            {
+                x = r.Next(0, 9);
+                y = r.Next(0, 9 - boatSize);
+
+                for (int j = 0; j < boatSize; j++)
                 {
-                    x = r.Next(0, 9);
-                    y = r.Next(0, 9 - boatSize);
+
+                    if (computerShipBoard[x, y + j] != 0)
+                    {
+                        isLegalLocation = false;
+                        break;
+                    }
+                }
+                if (isLegalLocation)
+                {
 
                     for (int j = 0; j < boatSize; j++)
                     {
+                        if (boatSize != 1)
+                            computerShipBoard[x, y + j] = computerShips[i];
+                        else
+                            computerShipBoard[x, y + j] = 1;
 
-                        if (computerShipBoard[x,y + j] != 0)
-                        {
-                            isLegalLocation = false;
-                            break;
-                        }
                     }
-                    if (isLegalLocation)
+
+                }
+                else
+                    i--;
+
+            }
+            else
+            {
+
+                x = r.Next(0, 9 - boatSize);
+                y = r.Next(0, 9);
+
+                for (int j = 0; j < boatSize; j++)
+                {
+
+                    if (computerShipBoard[x + j, y] != 0)
                     {
+                        isLegalLocation = false;
+                        break;
+                    }
+                }
+                if (isLegalLocation)
+                {
 
-                        for (int j = 0; j < boatSize; j++)
-                        {
-                            if (boatSize != 1)
-                                computerShipBoard[x,y + j] = 1;
-                            else
-                                computerShipBoard[x, y + j] = 2;
-                            
-                        }
+                    for (int j = 0; j < boatSize; j++)
+                    {
+                        if (boatSize != 1)
+                            computerShipBoard[x + j, y] = computerShips[i];
+                        else
+                            computerShipBoard[x + j, y] = 1;
 
                     }
-                    else
-                        i--;
 
                 }
                 else
                 {
-
-                    x = r.Next(0, 9 - boatSize);
-                    y = r.Next(0, 9);
-
-                    for (int j = 0; j < boatSize; j++)
-                    {
-
-                        if (computerShipBoard[x+j,y] != 0)
-                        {
-                            isLegalLocation = false;
-                            break;
-                        }
-                    }
-                    if (isLegalLocation)
-                    {
-
-                        for (int j = 0; j < boatSize; j++)
-                        {
-                            if(boatSize != 1)
-                                computerShipBoard[x + j, y] = 1;
-                            else
-                                computerShipBoard[x + j, y] = 2;
-
-                        }
-
-                    }
-                    else
-                    {
-                        i--;
-                        continue;
-                    }
-
-                }//End of outer if else.
-
-                if (firstPass)
-                {
-                    firstPass = false;
-                }
-                else
-                {
-                    firstPass = true;
-                    boatSize--;
+                    i--;
+                    continue;
                 }
 
+            }//End of outer if else.
 
-            
+            if (firstPass)
+            {
+                firstPass = false;
+            }
+            else
+            {
+                firstPass = true;
+                boatSize--;
+            }
+
+
+
         }//End of for.
     }//End of Initialize boards.
 
@@ -168,7 +170,13 @@ public class BattleshipAI
     {
         return computerHitsBoard;
     }
-
+    /* This method is the hub between different difficulties. When called will check for the difficulty of the current AI instance and then redirect to it accordinly.
+     * This methodalso checks the amount of turns the computer has already played. If the computer played has played more than a 100 turns there will be no free squares for the easy AI
+     * to make it's move. Therefore it will create an infinite recursion which will result in a stack overflow. This method prevents that.
+     * 
+     * Throws ArgumentOutOfRangeException
+     *                      If the computer has made more than 99 turns.
+     */
     public Point MakeComputerMove()
     {
 
@@ -187,7 +195,10 @@ public class BattleshipAI
 
     }
 
-
+    /*  Easy AI. Will Randomly select a coordinate and then look if the computer has already hit that position before. 
+     * If it did already hit this position before it will call itself recursively until it finds an un used value. 
+     *  
+     */
     private Point Easy()
     {
 
@@ -195,7 +206,7 @@ public class BattleshipAI
         int y = r.Next(0, 10);
 
 
-        Point pos = new Point(x,y);
+        Point pos = new Point(x, y);
         pos.X = x;
         pos.Y = y;
 
@@ -204,9 +215,11 @@ public class BattleshipAI
 
         return pos;
 
-        
+
     }
 
+    /** Medium AI. Half the time calls the hard AI method half the time calls the medium method.
+     */
     private Point Medium()
     {
 
@@ -217,6 +230,12 @@ public class BattleshipAI
 
     }
 
+
+    /** Hard AI. First checks if the last position that the computer shot at hit a boat. If it did. Calls the shipDestroyer method. If the shipDestroyer method returns a vaslue Hard ai will return the value.
+     *  If the hard ai returns a Point(-1,-1) it will continue to do its pattern. The hard AI has 3 different patterns. He will first complete the central pattern randomly then will go for it's second pattern and so forth.
+     *  If everything misses. It will look randomly for a sqaure to destroy.
+     * 
+     */
     private Point Hard()
     {
 
@@ -231,11 +250,11 @@ public class BattleshipAI
             if (temp.X != -1 && temp.Y != -1)
                 return temp;
         }
-            
-        
+
+
         if (pattern == 1)
         {
-            
+
             int[] possibleValues = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
             for (int i = 0; i < 10 && timesLooped < 20; i++)
@@ -313,9 +332,9 @@ public class BattleshipAI
         else if (pattern == 2)
         {
             timesLooped = 0;
-             int[] possibleValues = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            int[] possibleValues = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-             for (int i = 0; i < 10 && timesLooped < 20; i++)
+            for (int i = 0; i < 10 && timesLooped < 20; i++)
             {
                 timesLooped++;
                 int k = r.Next(0, 10);
@@ -335,7 +354,7 @@ public class BattleshipAI
 
                     int j = k;
 
-                    if (computerHitsBoard[(k+3)%10, j] == 0)
+                    if (computerHitsBoard[(k + 3) % 10, j] == 0)
                     {
 
                         pos = new Point((k + 3) % 10, j);
@@ -384,9 +403,9 @@ public class BattleshipAI
 
             pattern++;
             Easy();
-            
+
         }//End of pattern == 2
-             
+
         else if (pattern == 3)
         {
             timesLooped = 0;
@@ -412,7 +431,7 @@ public class BattleshipAI
 
                     int j = k;
 
-                    if (computerHitsBoard[(k+1)%10, j] == 0)
+                    if (computerHitsBoard[(k + 1) % 10, j] == 0)
                     {
 
                         pos = new Point((k + 1) % 10, j);
@@ -456,10 +475,10 @@ public class BattleshipAI
             }//End of for    
 
             pattern++;
-            
+
         }
         return Easy();
-        
+
     }
 
     private bool isPosLegal(int xy)
@@ -474,7 +493,8 @@ public class BattleshipAI
 
     }
 
-
+    /** Once the hard Ai finds a position which hit a ship it will randomly look for the 4 directions for the ship. If a direction is found it will shoot in this direction until
+     */
     private Point shipDestroyer()
     {
 
@@ -521,7 +541,8 @@ public class BattleshipAI
             y = (int)lastHit.Y;
 
             //Vertical UP
-            if (tempHit == 1) {
+            if (tempHit == 1)
+            {
 
                 try
                 {
@@ -547,14 +568,14 @@ public class BattleshipAI
                     directionChosen = false;
                     return shipDestroyer();
                 }
-            
+
             }
             //Vertical down
             else if (tempHit == 2)
             {
                 try
                 {
-                    if (computerHitsBoard[x - i , y] == -1)
+                    if (computerHitsBoard[x - i, y] == -1)
                     {
 
                         directionChosen = false;
@@ -576,7 +597,7 @@ public class BattleshipAI
                     directionChosen = false;
                     return shipDestroyer();
                 }
-            
+
 
             }
             //Horizontal Left
@@ -584,7 +605,7 @@ public class BattleshipAI
             {
                 try
                 {
-                    if (computerHitsBoard[x, y + i ] == -1)
+                    if (computerHitsBoard[x, y + i] == -1)
                     {
 
                         directionChosen = false;
@@ -606,7 +627,7 @@ public class BattleshipAI
                     directionChosen = false;
                     return shipDestroyer();
                 }
-            
+
 
             }
             //Horizontal right.
@@ -615,7 +636,7 @@ public class BattleshipAI
 
                 try
                 {
-                    if (computerHitsBoard[x, y - i ] == -1)
+                    if (computerHitsBoard[x, y - i] == -1)
                     {
 
                         directionChosen = false;
@@ -643,9 +664,9 @@ public class BattleshipAI
             {
 
                 firstPattern = true;
-                
+
             }
-                
+
 
 
         }
@@ -653,5 +674,7 @@ public class BattleshipAI
 
 
     }
+
+    private bool didComputerSunkAShip() { return false; }
 
 }

@@ -15,6 +15,8 @@ namespace BattleShip
         private int[,] playerHitsBoard;
         private int[,] computerHitsBoard;
         private int[,] computerShipBoard;
+        private int[] computerShips = { 7, 6, 5, 4, 3 };
+        private int lastShipHitByPlayer;
         BattleshipAI ai;
 
         public BattleshipGame()
@@ -42,12 +44,13 @@ namespace BattleShip
         public int MoveByPlayer(Point pos)
         {
 
-            int y = (int)pos.X /40 -1;
-            int x = (int)pos.Y /40 -1;
+            int y = (int)pos.X / 40 - 1;
+            int x = (int)pos.Y / 40 - 1;
 
             if (computerShipBoard[x, y] > 0)
             {
                 playerHitsBoard[x, y] = 1;
+                lastShipHitByPlayer = computerShipBoard[x, y];
                 computerShipBoard[x, y] *= -1;
                 return 1;
             }
@@ -72,7 +75,7 @@ namespace BattleShip
             if (playerShipBoard[x, y] > 0)
             {
                 computerHitsBoard[x, y] = 1;
-                
+
             }
             else
             {
@@ -87,7 +90,7 @@ namespace BattleShip
         {
             for (int i = 0; i < 10; i++)
                 for (int j = 0; j < 10; j++)
-                    if (computerShipBoard[i, j] == 1)
+                    if (computerShipBoard[i, j] > 1)
                         return false;
 
             return true;
@@ -97,8 +100,27 @@ namespace BattleShip
         {
             for (int i = 0; i < 10; i++)
                 for (int j = 0; j < 10; j++)
-                    if (playerShipBoard[i, j] == 1)
+                    if (playerShipBoard[i, j] > 0)
                         return false;
+
+            return true;
+        }
+
+        public bool DidPlayerSinkABoat()
+        {
+
+            for (int i = 0; i < 5; i++)
+                if (computerShips[i] == lastShipHitByPlayer * -1)
+                    return false;
+
+            for (int i = 0; i < 10; i++)
+                for (int j = 0; j < 10; j++)
+                    if (computerShipBoard[i, j] == lastShipHitByPlayer)
+                        return false;
+
+            for (int i = 0; i < computerShips.Length; i++)
+                if (computerShips[i] == lastShipHitByPlayer)
+                    computerShips[i] *= -1;
 
             return true;
         }
