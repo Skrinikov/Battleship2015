@@ -76,6 +76,7 @@ namespace BattleShip
 
             if (playerShipBoard[x, y] > 0)
             {
+                lastShipHitByComputer = playerShipBoard[x, y];
                 computerHitsBoard[x, y] = 1;
 
             }
@@ -102,7 +103,7 @@ namespace BattleShip
         {
             for (int i = 0; i < 10; i++)
                 for (int j = 0; j < 10; j++)
-                    if (playerShipBoard[i, j] > 0)
+                    if (playerShipBoard[i, j] > 1)
                         return false;
 
             return true;
