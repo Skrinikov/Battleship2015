@@ -269,6 +269,12 @@ namespace BattleShip
                 MessageBox.Show("Player name must be at least 3 characters long with no ','.", "Error", MessageBoxButton.OK);
         }
 
+        /// <summary>
+        /// Clear the inputbox so the user can input a player name and enable the game mode
+        /// menu items and buttons.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void nameInput_click(object sender, MouseButtonEventArgs e)
         {
             nameInputTxt.Text = "";
@@ -281,6 +287,12 @@ namespace BattleShip
         }
 
         // GAME VISUAL
+        /// <summary>
+        /// Keep track of the mouse position, to have the ship image follow this position, follow the mouse cursor
+        /// while taking in consideration the boundaries of the canvas and ship size and ship direction.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void playerCanvas_MouseMove(object sender, MouseEventArgs e)
         {
             pos = Mouse.GetPosition((Canvas)sender);
@@ -309,6 +321,11 @@ namespace BattleShip
             //Console.WriteLine(pos.X + " " + pos.Y);
         }
 
+        /// <summary>
+        /// Turn the visibility of the ship to place to 'true' and the visibility of that same ship in the ship yard
+        /// to 'false'. Set the image's location to the location of the mouse cursor.
+        /// </summary>
+        /// <param name="img"></param>
         private void moveImage(Image img)
         {
             img.Visibility = Visibility.Visible;
@@ -317,6 +334,14 @@ namespace BattleShip
             Canvas.SetLeft(img, pos.X);
         }
 
+        /// <summary>
+        /// Look is player still has piece to place, if yes, check if the position is taken,
+        /// if it is taken, play a sound for invalid move. If the position is not taken, change
+        /// the player boat array data to the appropriate nubmers at the appropriate positions.
+        /// If player has no more boats to put, the start button will be visible.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void playerBoardCanvas_LeftClick(object sender, MouseButtonEventArgs e)
         {
             // If player can still play pieces.
@@ -370,6 +395,12 @@ namespace BattleShip
             }
         }
 
+        /// <summary>
+        /// Changes the current ship image to place to its' opposite equivalent (horizontal, vertical) that is stored at the same array position
+        /// int another array.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void playerBoardCanvas_RightClick(object sender, MouseButtonEventArgs e)
         {
             Image temp;
@@ -383,6 +414,13 @@ namespace BattleShip
             }
         }
 
+        /// <summary>
+        /// Turn all ship image on the player canvas to 'false' and all ship image in the shipyard grid to 'true'.
+        /// Turn the visibility or isenabled to false for the 'start' button and the computer's canvas. Returns all
+        /// data of the player's ship to 0s.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void resetBtn_click(object sender, RoutedEventArgs e)
         {
             startBtn.Visibility = Visibility.Hidden;
@@ -409,6 +447,14 @@ namespace BattleShip
                 }
         }
 
+        /// <summary>
+        /// Generate the computer's ship board array to start the game.
+        /// Turn visibility to hidden for the 'reset' and 'start' button.
+        /// Enable the computer canvas and the 'New Game' menu item, and disable the 'reset'
+        /// menu item.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void startBtn_click(object sender, RoutedEventArgs e)
         {
             resetBtn.Visibility = Visibility.Hidden;
@@ -419,6 +465,14 @@ namespace BattleShip
             game = new BattleshipGame(mode, player);
         }
 
+        /// <summary>
+        /// Determine the player cliked on a valid place then
+        /// show an image that will represent a hit or miss a boat. 
+        /// Check for winner, computer plays, check for winner. If there a 
+        /// winner, show a message box and update the scores.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pcBoardCanvas_Click(object sender, MouseButtonEventArgs e)
         {
             int result;
@@ -517,6 +571,9 @@ namespace BattleShip
         }
 
         // OTHER
+        /// <summary>
+        /// Load the record.txt file.
+        /// </summary>
         private void loadRecord()
         {
             String record;
@@ -539,6 +596,9 @@ namespace BattleShip
             }
         }
 
+        /// <summary>
+        /// Check if current player is an existant player, if not create a record for them.
+        /// </summary>
         private void searchPlayer()
         {
             String[] recordArray;
@@ -559,6 +619,9 @@ namespace BattleShip
                 list.Add(playerName + "," + playerWins + "," + playerLoses);
         }
 
+        /// <summary>
+        /// Updates the score board and the record.txt file.
+        /// </summary>
         private void updateRecord()
         {
             String[] recordArray;
