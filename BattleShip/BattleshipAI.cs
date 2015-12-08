@@ -501,6 +501,18 @@ public class BattleshipAI
         int x;
         int y;
 
+
+        Console.WriteLine("pc");
+        for (int i = 0; i < 10; i++)
+            for (int j = 0; j < 10; j++)
+            {
+                if (j % 10 == 0)
+                    Console.WriteLine();
+                Console.Write(computerHitsBoard[i, j]);
+            }
+        Console.WriteLine();
+
+
         if (firstPattern)
         {
             firstPattern = false;
@@ -541,7 +553,10 @@ public class BattleshipAI
             y = (int)lastHit.Y;
 
             if (isBoatDestroyed)
+            {
+                firstPattern = true;
                 break;
+            }
 
             //Vertical UP
             if (tempHit == 1)
@@ -673,6 +688,7 @@ public class BattleshipAI
 
 
         }
+
         return new Point(-1, -1);
 
 
