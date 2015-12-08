@@ -112,6 +112,9 @@ namespace BattleShip
         public bool DidPlayerSinkABoat()
         {
 
+            if (lastShipHitByPlayer == 1)
+                return false;
+
             for (int i = 0; i < 5; i++)
                 if (computerShips[i] == lastShipHitByPlayer * -1)
                     return false;
