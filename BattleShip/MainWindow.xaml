@@ -239,7 +239,7 @@
             <Label Grid.Row="3" Grid.Column="1" FontSize="30" >Uen Yi (Cindy) Hung</Label>
             <Label Grid.Row="4" Grid.Column="1" FontSize="30" >Claudio Pietrantonio</Label>
             <Label Grid.Row="5" Grid.Column="1" FontSize="30" >Danieil Skrinikov</Label>
-            <Label Grid.Row="6" Grid.Column="1" FontSize="20" >Version: 29/11/2015</Label>
+            <Label Grid.Row="6" Grid.Column="1" FontSize="20" >Version: 08/12/2015</Label>
 
             <!-- Resources -->
             <Label x:Name="imgCredit" Grid.Row="2" Grid.Column="3" FontSize="30" FontWeight="UltraBlack">Image Credits</Label>

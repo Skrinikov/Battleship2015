@@ -11,8 +11,9 @@ using System.Windows.Media.Imaging;
 /**
 * A version of  the Battleship game with a space theme.
 *
-* @author Uen Yi (Cindy) Hung
-* @Version 30/11/2015
+* @author Uen Yi (Cindy) Hung 
+* @author Claudio Pietrantonio
+* @Version 08/12/2015
 */
 namespace BattleShip
 {
@@ -515,6 +516,7 @@ namespace BattleShip
                                 MessageBox.Show("Victory. You have destroyed all of your ennemie's spacecrafts", "You Won!", MessageBoxButton.OK);
                                 playerWins++;
                                 playerWinRecordLbl.Content = "Wins: " + playerWins;
+                                pcBoardCanvas.IsEnabled = false;
                                 updateRecord();
                             }
                             else
@@ -566,6 +568,7 @@ namespace BattleShip
                                 playerLoses++;
                                 playerLossRecordLbl.Content = "Losses: " + playerLoses;
                                 updateRecord();
+                                pcBoardCanvas.IsEnabled = false;
                             }
                         }
                     }
@@ -606,19 +609,22 @@ namespace BattleShip
             String[] recordArray;
             bool playerExists = false;
 
-            for (int i = 0; i < list.Count; i++)
+            if (File.Exists("record.txt"))
             {
-                if (list[i].ToString().Substring(0, list[i].ToString().IndexOf(",")).Equals(playerName))
+                for (int i = 0; i < list.Count; i++)
                 {
-                    recordArray = list[i].ToString().Split(',');
-                    playerWins = int.Parse(recordArray[1]);
-                    playerLoses = int.Parse(recordArray[2]);
-                    playerExists = true;
-                    break;
+                    if (list[i].ToString().Substring(0, list[i].ToString().IndexOf(",")).Equals(playerName))
+                    {
+                        recordArray = list[i].ToString().Split(',');
+                        playerWins = int.Parse(recordArray[1]);
+                        playerLoses = int.Parse(recordArray[2]);
+                        playerExists = true;
+                        break;
+                    }
                 }
+                if (!playerExists)
+                    list.Add(playerName + "," + playerWins + "," + playerLoses);
             }
-            if (!playerExists)
-                list.Add(playerName + "," + playerWins + "," + playerLoses);
         }
 
         /// <summary>
